@@ -2,11 +2,11 @@
 
 ## Overview
 
-    This project is a web-based project management software designed to streamline task management, collaboration, and project organization for [Target User Group]. It aims to enhance the efficiency and effectiveness of project-related activities by providing a user-friendly platform for seamless communication, task tracking, and data analysis.
+This project is a web-based project management software designed to streamline task management, collaboration, and project organization for [Target User Group]. It aims to enhance the efficiency and effectiveness of project-related activities by providing a user-friendly platform for seamless communication, task tracking, and data analysis.
 
 ## Motivation
 
-    The motivation behind this project is to address the challenges faced by [Target User Group] when manually managing tasks, discussing work, and creating spreadsheets or writing on paper. The software seeks to replace traditional project management methods with a digital solution that is intuitive, scalable, and tailored to the specific needs of [Target User Group].
+The motivation behind this project is to address the challenges faced by [Target User Group] when manually managing tasks, discussing work, and creating spreadsheets or writing on paper. The software seeks to replace traditional project management methods with a digital solution that is intuitive, scalable, and tailored to the specific needs of [Target User Group].
 
 ## Features
 
