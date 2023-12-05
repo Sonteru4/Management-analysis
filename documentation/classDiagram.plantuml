@@ -1,0 +1,61 @@
+@startuml TeamManagementSoftware
+
+class ProjectManagementSystem {
+  + authenticateUser(username: String, password: String): User
+}
+
+class User {
+  - userId: String
+  - username: String
+  - password: String
+  - firstName: String
+  - lastName: String
+  + login(): 
+  - loginStatus:boolean
+  + createProject(projectDetails: ProjectDetails): Project
+}
+
+class ProjectDetails {
+  - projectId: String
+  - projectName: String
+  - projectDescription: String
+  - createdtDate: Date
+  - endDate: Date
+  - projectMembers:User[]
+}
+
+class Project {
+  - projectId: String
+  - projectName: String
+  - projectDescription: String
+  - createdDate: Date
+  - endDate: Date
+  + addTask(taskDetails: TaskDetails): Task
+  + deleteTask(taskId:String)
+  + updateTaskDetails(taskDetails:TaskDetails)
+}
+
+class TaskDetails {
+  - taskId: String
+  - taskName: String
+  - taskDescription: String
+  - assignedUser: User
+  - assignedDate: Date  
+}
+
+class Task {
+  - taskId: String
+  - taskName: String
+  - taskStatus : boolean
+  - taskDescription: String
+  - assignedUser: User
+  - startDate: Date
+  - endDate: Date
+  + updateTaskStatus(newStatus: String): void
+}
+
+ProjectManagementSystem --|> User : +authenticateUser(username: String, password: String): User
+User --|> Project : +createProject(projectDetails: ProjectDetails): Project
+User --|> Task : +addTask(taskDetails: TaskDetails): Task
+
+@enduml
