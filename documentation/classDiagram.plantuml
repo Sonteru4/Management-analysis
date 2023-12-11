@@ -10,9 +10,14 @@ class User {
   - password: String
   - firstName: String
   - lastName: String
+  - role: UserRole
+  - projects: Set<Project>
+  - tasks: Set<Task>
   + login(): 
   - loginStatus:boolean
   + createProject(projectDetails: ProjectDetails): Project
+  + addTaskToProject(project: Project, taskDetails: TaskDetails): Task
+  + updateTaskStatus(task: Task, newStatus: String): void
 }
 
 class ProjectDetails {
@@ -29,9 +34,11 @@ class Project {
   - projectName: String
   - projectDescription: String
   - createdDate: Date
+  - projectManager: User
+  - tasks: Set<Task>
   - endDate: Date
   + addTask(taskDetails: TaskDetails): Task
-  + deleteTask(taskId:String)
+  + deleteTask(taskId:Task)
   + updateTaskDetails(taskDetails:TaskDetails)
 }
 
@@ -40,13 +47,14 @@ class TaskDetails {
   - taskName: String
   - taskDescription: String
   - assignedUser: User
-  - assignedDate: Date  
+  - assignedDate: Date 
+  - deadLine:Date 
 }
 
 class Task {
   - taskId: String
   - taskName: String
-  - taskStatus : boolean
+  - taskStatus : TaskStatusEnum
   - taskDescription: String
   - assignedUser: User
   - startDate: Date
