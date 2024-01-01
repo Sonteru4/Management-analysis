@@ -1,0 +1,67 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* input:focus[type=password] {
+  outline: none;
+  outline-color: transparent;
+} */
+input:focus{
+  outline-color: #012B39;
+}
+div:focus-within{
+  outline-color: #012B39;
+}
+
+select::after{
+  outline-color: red;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  /* background: rgba(1, 48, 64, 0.884); */
+  background-color: rgb(240, 240, 240);
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #012B39;
+  transition: 1s ease-in;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #012B39;
+}
+::-webkit-scrollbar-track {
+  background: #ededed00;
+  border: 0px none #ffffff;
+  border-radius: 55px;
+}
+::-webkit-scrollbar-track:hover {
+  /* background: #00ffee; */
+}
+::-webkit-scrollbar-track:active {
+  /* background: #333333; */
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
