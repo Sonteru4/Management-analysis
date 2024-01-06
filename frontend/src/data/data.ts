@@ -211,6 +211,60 @@ export const sampleMedia=[
 ]
 
 
+export const taskComments=[
+  {
+    "senderName":"Tania Vazquez",
+    "messageContent":"This is the first messagge regarding the task",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"George Tom",
+    "messageContent":"This is the second message to this task chatThis is the second message to this task chat",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"Tania Vazquez",
+    "messageContent":"This is the first messagge regarding the task",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"George Tom",
+    "messageContent":"This is the second message to this task chatThis is the second message to this task chat",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"Tania Vazquez",
+    "messageContent":"This is the first messagge regarding the task",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"George Tom",
+    "messageContent":"This is the second message to this task chat",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"Tania Vazquez",
+    "messageContent":"This is the first messagge regarding the taskThis is the second message to this task chat",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"George Tom",
+    "messageContent":"This is the second message to this task chat",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"Tania Vazquez",
+    "messageContent":"This is the first messagge regarding the task This is the first messagge regarding the task This is the first messagge regarding the task This is the first messagge regarding the task This is the first messagge regarding the task",
+    "timestamp":new Date().getTime()
+  },
+  {
+    "senderName":"George Tom",
+    "messageContent":"This is the second message to this task chat",
+    "timestamp":new Date().getTime()
+  },
+  
+]
+
 
 
 

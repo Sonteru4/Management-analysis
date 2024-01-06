@@ -1,11 +1,19 @@
-import { CalendarMonth,DonutLarge, Person } from "@mui/icons-material";
-import React from "react";
+import { Add, CalendarMonth,CheckBox,DonutLarge, Person } from "@mui/icons-material";
+import React, { useState } from "react";
 import { colors } from "../Constants";
 import 'react-circular-progressbar/dist/styles.css';
 import CircularGraph from "../common/CircularGraph";
+import { Tooltip } from "@mui/material";
+import AddNewTaskModal from "../modals/AddNewTaskModal";
 
 
 function ProjectPageProjectInfo() {
+
+  const [addTaskModal,setAddTaskModal]=useState<Boolean>(false)
+
+  const addTaskModalOnClose = () =>{
+    setAddTaskModal(false)
+  }
   
   return (
     <>
@@ -24,7 +32,7 @@ function ProjectPageProjectInfo() {
           more recently with desktop publishing software like Aldus PageMaker
           including versions of Lorem Ipsum.
         </div>
-        <div className="flex flex-row gap-5 py-5 ">
+        <div className="flex flex-row gap-5 py-5 relative">
           <div className="flex flex-col">
             <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
               Project Manager
@@ -54,6 +62,40 @@ function ProjectPageProjectInfo() {
               <div className="p-2 font-semibold">In Progres</div>
             </div>
           </div>
+
+          {/* Project Manager Privileges */}
+          <div className="flex flex-col">
+            <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
+            View
+            </div>
+            <Tooltip title={"View All Tasks"} arrow placement="bottom">
+            <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
+              <CheckBox sx={{ fontSize: 12, color: colors.C11 }} />
+              <div className="p-2 font-semibold">All Tasks</div>
+            </div>
+            </Tooltip>
+          </div>
+
+          <div className="flex flex-col">
+            <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
+            Add
+            </div>
+            <Tooltip title={"Add New Task"} arrow placement="bottom">
+            <button 
+            onClick={()=>setAddTaskModal(true)}
+            className="bg-C11 text-C55 flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer ">
+              <Add sx={{ fontSize: 12, color: colors.C55 }} />
+              <div className="p-2 font-semibold">New Task</div>
+            </button>
+            </Tooltip>
+          </div>
+
+          {/* AddTaskModal Active */}
+          {addTaskModal&&
+          <AddNewTaskModal 
+          addTaskModalOnClose={addTaskModalOnClose()}
+          />
+          }
 
       </div>
        

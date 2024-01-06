@@ -18,7 +18,7 @@ code {
   outline: none;
   outline-color: transparent;
 } */
-input:focus{
+input:focus,textarea:focus{
   outline-color: #012B39;
 }
 div:focus-within{
