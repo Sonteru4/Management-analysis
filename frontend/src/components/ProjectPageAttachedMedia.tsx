@@ -14,7 +14,7 @@ function ProjectPageAttachedMedia() {
         <div className='flex mt-2 flex-wrap flex-row gap-5 py-2  px-1 max-w-[90%] overflow-y-auto max-h-[300px]'>
             {
                 sampleMedia.map((node:any)=>(
-                    <div className='flex flex-row p-2 pr-4 justify-center items-center rounded-[4px] bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer'>
+                    <div className='flex flex-row p-2 pr-4 justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'>
                         <div className=''>
                             {node.type==="docx"?
                             <Description/>:

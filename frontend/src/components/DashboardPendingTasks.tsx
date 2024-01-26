@@ -9,11 +9,23 @@ function DashboardPendingTasks() {
   return (
     <>
       <div className="w-1/2 ">
-        <div className="flex flex-row  gap-2 py-1">
-          <div>
-            <PendingActions sx={{ fontSize: 25 }} />
+      <div className="flex flex-row items-center justify-between gap-2 py-1">
+          <div className="flex flex-row ">
+          <PendingActions sx={{ fontSize: 25 }} />
+          <div className="font-bold text-[18px] ml-2">My Tasks</div> 
           </div>
-          <div className="font-bold text-[18px]">Pending Tasks</div>
+          <div className="flex flex-row gap-1 px-1">
+            <Tooltip title="High Priority" arrow placement="left">
+              <div className="w-[15px] h-[15px] rounded-full bg-highPriority"></div>
+            </Tooltip>
+            <Tooltip title="Medium Priority" arrow placement="top">
+              <div className="w-[15px] h-[15px] rounded-full bg-mediumPriority"></div>
+            </Tooltip>
+            <Tooltip title="Low Priority" arrow placement="right">
+              <div className="w-[15px] h-[15px] rounded-full bg-lowPriority"></div>
+
+            </Tooltip>
+          </div>
         </div>
         <div className="p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]">
           {dummyTasks?.map((node: any) => (

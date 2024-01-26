@@ -5,15 +5,18 @@ import {
   EmojiEvents,
   Info,
   LabelImportant,
+  Edit,
 } from "@mui/icons-material";
 import React from "react";
 import { colors } from "../Constants";
+import { Tooltip } from "@mui/material";
 
-function TaskPageTaskInfo() {
+function TaskPageTaskInfo(props:any) {
+    const {setEditTaskModal}=props
     const priority = "high"
   return (
     <>
-      <div className=" flex flex-row items-center">
+      <div className="flex flex-row items-center ">
         <div className="flex flex-col ">
           <div className="flex flex-col w-fit">
             <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
@@ -36,7 +39,7 @@ function TaskPageTaskInfo() {
             and more recently with desktop publishing software like Aldus
             PageMaker including versions of Lorem Ipsum.
           </div>
-          <div className="flex flex-row gap-5 py-5 flex-wrap ">
+          <div className="flex flex-row flex-wrap gap-5 py-5 ">
 
             {/* Task ID  */}
             <div className="flex flex-col">
@@ -122,6 +125,20 @@ function TaskPageTaskInfo() {
                 <DonutLarge sx={{ fontSize: 15, color: colors.C11 }} />
                 <div className="p-2 font-semibold ">Assigned</div>
               </div>
+            </div>
+
+            {/* Edit Task Assigner Privilege  */}
+            <div className="flex flex-col">
+              <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
+              Edit
+              </div>
+              
+              <button
+               onClick={()=>setEditTaskModal(true)}
+               className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
+                <Edit sx={{ fontSize: 15, color: colors.C11 }} />
+                <div className="p-2 font-semibold ">Edit Task</div>
+              </button>
             </div>
           </div>
         </div>

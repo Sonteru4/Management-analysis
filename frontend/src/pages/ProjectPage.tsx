@@ -1,6 +1,6 @@
 import { AccountCircle, Logout } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { colors } from "../Constants";
 import Logo from "../common/Logo";
 import ProjectPageProjectInfo from "../components/ProjectPageProjectInfo";
@@ -8,34 +8,33 @@ import { Link } from "react-router-dom";
 import ProjectPageMyTasks from "../components/ProjectPageMyTasks";
 import ProjectPageProjectMembers from "../components/ProjectPageProjectMembers";
 import ProjectPageAttachedMedia from "../components/ProjectPageAttachedMedia";
+import AddNewTaskModal from "../modals/AddNewTaskModal";
+import ViewAllTaskModal from "../modals/ViewAllTaskModal";
+import Sidebar from "../components/Sidebar";
+import UserProfileModal from "../modals/UserProfileModal";
+import OverallPerformaceModal from "../modals/OverallPerformaceModal";
+import { performanceData } from "../data/data";
 
 function ProjectPage() {
+  const [addTaskModal,setAddTaskModal]=useState<Boolean>(false)
+  const [viewAllTaskModal,setViewAllTaskModal] = useState<Boolean>(false)
+  const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
+  const [overallPerformaceModal,setOverallPerformanceModal]=useState<Boolean>(false)
+
+
   return (
-    <div className="flex flex-row h-[100vh] text-C11">
-      <div className="bg-C44 w-[60px] pt-2 flex flex-col">
-        <div className="flex-1">
-          <Tooltip title="Dashboard" placement="right" arrow>
-            <Link to="/dashboard">
-              <div className="justify-center flex py-2 cursor-pointer">
-                <Logo size={"0.5"} color={colors.C11} />
-              </div>
-            </Link>
-          </Tooltip>
-          <Tooltip title="Profile" placement="right" arrow>
-            <div className="justify-center flex py-2 cursor-pointer">
-              <AccountCircle sx={{ fontSize: 30, color: colors.C11 }} />
-            </div>
-          </Tooltip>
-        </div>
-        <Tooltip title="Logout" placement="right" arrow>
-          <div className="justify-center flex py-4 cursor-pointer">
-            <Logout sx={{ fontSize: 20, color: colors.C11 }} />
-          </div>
-        </Tooltip>
-      </div>
-      <div className="bg-C55 p-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
+    <div className="flex flex-row h-[100vh] text-C11 relative">
+     <Sidebar 
+      setUserProfileModal={setUserProfileModal}
+      />
+      <div className=" bg-C55 p-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
         {/* Project Info */}
-        <ProjectPageProjectInfo />
+        <ProjectPageProjectInfo 
+        setAddTaskModal={setAddTaskModal}
+        setViewAllTaskModal = {setViewAllTaskModal} 
+        setOverallPerformanceModal={setOverallPerformanceModal}
+
+        />
         <div className=" flex flex-row justify-between pt-10 gap-[200px]">
           {/* my Taks tasks */}
           <ProjectPageMyTasks/>
@@ -44,7 +43,7 @@ function ProjectPage() {
           <ProjectPageProjectMembers/>
 
         </div>
-        <div className=" flex flex-row items-start gap-3 mt-10">
+        <div className="flex flex-row items-start gap-3 mt-10 ">
         <div className="w-[60%] ">
           {/* Attached Media */}
           <ProjectPageAttachedMedia/>
@@ -54,6 +53,38 @@ function ProjectPage() {
         </div>
         </div>
       </div>
+
+    {/*--- Active Modals ----*/}
+     { 
+    //  Add New Task to project modal
+     addTaskModal?
+     <AddNewTaskModal 
+     setAddTaskModal={setAddTaskModal}
+     />:null
+     }
+     {
+      // View all tasks of the project modal 
+      viewAllTaskModal?
+      <ViewAllTaskModal 
+      setViewAllTaskModal = {setViewAllTaskModal} 
+      />:null
+     }
+     {
+      // Show user profile modal
+      userProfileModal?
+      <UserProfileModal
+      setUserProfileModal={setUserProfileModal}
+      />:null
+     }
+      {
+          // Overall Performance project modal
+          overallPerformaceModal?
+          <OverallPerformaceModal
+          data = {performanceData[1]}
+          setOverallPerformanceModal={setOverallPerformanceModal}
+          />:null
+        }
+ 
     </div>
   );
 }

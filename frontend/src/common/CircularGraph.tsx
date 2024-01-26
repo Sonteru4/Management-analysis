@@ -1,11 +1,15 @@
 import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import ProgressProvider from "./ProgressProvider";
+import { Tooltip } from "@mui/material";
 
 function CircularGraph(props: any) {
-  const { percentage, color, trackColor } = props;
+  const { percentage, color, trackColor ,setOverallPerformanceModal} = props;
   return (
-    <div className="p-2 pr-10 flex justify-center flex-col gap-2 ">
+    <Tooltip title="View Overall Performace" arrow placement="bottom">
+          <div className="flex flex-col justify-center gap-2 p-2 cursor-pointer "
+    onClick={()=>setOverallPerformanceModal(true)}
+    >
       {/* Progress bar */}
       <div className="max-w-[200px] max-h-[200px] border-dashed  rounded-full text-center items-center flex justify-center text-[50px] font-extrabold">
         <ProgressProvider valueStart={0} valueEnd={percentage}>
@@ -25,8 +29,11 @@ function CircularGraph(props: any) {
           )}
         </ProgressProvider>
       </div>
-      <div className="text-center font-bold">Overall Performance</div>
+      {/* <div className="font-bold text-center">Overall Performance</div> */}
     </div>
+
+    </Tooltip>
+
   );
 }
 

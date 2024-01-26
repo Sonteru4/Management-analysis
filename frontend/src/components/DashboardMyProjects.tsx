@@ -4,17 +4,18 @@ import { colors } from '../Constants'
 import { dummyProjects } from '../data/data'
 import { Tooltip } from '@mui/material'
 
-function DashboardMyProjects() {
+function DashboardMyProjects(props:any) {
+  const{setCreateNewProjectModal}=props
   return (
     <>
      <div className="flex flex-col mt-20 ">
-            <div className="flex flex-row  gap-2 py-2">
+            <div className="flex flex-row gap-2 py-2">
               <div>
                 <Folder sx={{ fontSize: 25, color: colors.C11 }} />
               </div>
               <div className="font-bold text-[18px] ">Manage My Projects</div>
             </div>
-              <div className=" flex flex-wrap py-2 gap-5 items-center">
+              <div className="flex flex-wrap items-center gap-5 py-2 ">
                 {
                     dummyProjects.map((node:any)=>(
                     <Tooltip title={"View Project"} placement='top-end' arrow>
@@ -32,6 +33,7 @@ function DashboardMyProjects() {
                 }
                 <Tooltip title={"Create New Project"} arrow placement="right">
                     <button 
+                    onClick={()=>setCreateNewProjectModal(true)}
                     className='w-[40px] h-[40px] rounded-full bg-[#dcdbdb] flex justify-center items-center opacity-50 hover:bg-C11 hover:opacity-100 transition duration-[0.5s] hover:scale-1'>
                         <AddRounded sx={{fontSize:30,color:colors.C55}} />
                     </button>

@@ -266,6 +266,21 @@ export const taskComments=[
 ]
 
 
+export const  performanceData=[
+  {
+    "type":"personal",
+    "name":"John Doe",
+    "performanceValue":85,
+  }
+  ,
+  {
+    "type":"Project",
+    "name":"John Doe",
+    "performanceValue":85,
+  }
+]
+
+
 
 
 
