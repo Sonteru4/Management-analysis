@@ -13,7 +13,7 @@ function Sidebar(props:any) {
     <Tooltip title="Dashboard" placement="right" arrow>
     <Link to="/dashboard">
         <div className="flex justify-center py-2 cursor-pointer">
-          <Logo size={"0.5"} color={colors} />
+          <Logo size={"0.5"} color={colors.C11} />
         </div>
       </Link>
     </Tooltip>

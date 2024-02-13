@@ -15,6 +15,7 @@ import OverallPerformaceModal from "../modals/OverallPerformaceModal";
 import { performanceData } from "../data/data";
 import Sidebar from "../components/Sidebar";
 import UserProfileModal from "../modals/UserProfileModal";
+import Loader from "../common/Loader";
 
 function Dashboard() {
   document.title = "TMS • Dashboard";
@@ -77,6 +78,8 @@ function Dashboard() {
           setUserProfileModal={setUserProfileModal}
           />:null
         }
+
+        
 
         
       </div>

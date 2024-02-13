@@ -17,11 +17,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
-          <Route path="/forgot-password" element={<ForgotPassword/>}/>
+          <Route path="/forgot-password" element={<ForgotPassword />}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/project-page" element={<ProjectPage/>}/>
           <Route path="/task-page" element={<TaskPage/>}/>
-
         </Routes>
       </BrowserRouter>
     </>

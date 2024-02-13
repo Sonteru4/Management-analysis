@@ -11,7 +11,7 @@ function DashboardCompletedTasks() {
      <div className="flex flex-row items-center justify-between gap-2 py-1">
           <div className="flex flex-row ">
           <TaskAlt sx={{fontSize:25, color:colors.C11}}/>
-          <div className="font-bold text-[18px] ml-2">My Tasks</div> 
+          <div className="font-bold text-[18px] ml-2">Completed Tasks</div> 
           </div>
           <div className="flex flex-row gap-1 px-1">
             <Tooltip title="High Priority" arrow placement="left">

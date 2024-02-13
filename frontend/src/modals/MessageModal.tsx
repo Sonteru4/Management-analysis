@@ -12,9 +12,11 @@ function MessageModal(props:any) {
         <div className='my-1 text-[14px]'>
           <p>{content}</p>
         </div>
+        {buttonText&&
         <div className='flex justify-end mt-2'>
           <button className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[14px] py-2 px-5`} onClick={onClose}>{buttonText}</button>
         </div>
+        }
       </div>
     </div>
     </>

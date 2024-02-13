@@ -3,6 +3,7 @@ import {
   CalendarMonth,
   CheckBox,
   DonutLarge,
+  Edit,
   Person,
   Tune,
 } from "@mui/icons-material";
@@ -87,17 +88,36 @@ function ProjectPageProjectInfo(props: any) {
               </Tooltip>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col ">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
                 Add
               </div>
+              <div className="flex flex-row gap-2">
               <Tooltip title={"Add New Task"} arrow placement="bottom">
                 <button
                   onClick={() => setAddTaskModal(true)}
                   className="bg-C11 text-C55 flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer "
                 >
                   <Add sx={{ fontSize: 12, color: colors.C55 }} />
-                  <div className="p-2 font-semibold">New Task</div>
+                  <div className="p-2 font-semibold">Task</div>
+                </button>
+              </Tooltip>
+
+              </div>
+
+            </div>
+
+            <div className="flex flex-col">
+              <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
+                Edit
+              </div>
+              <Tooltip title={"Edit Project Info"} arrow placement="bottom">
+                <button
+                  onClick={() => {}}
+                  className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 "
+                >
+                  <Edit sx={{ fontSize: 12, color: colors.C11 }} />
+                  <div className="p-2 font-semibold">Info</div>
                 </button>
               </Tooltip>
             </div>

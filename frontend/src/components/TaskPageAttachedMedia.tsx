@@ -2,6 +2,7 @@ import { AttachFile, AudioFile, Description, FilePresent, InsertDriveFile, Inser
 import React from 'react'
 import { colors } from '../Constants'
 import { sampleMedia } from '../data/data'
+import { Tooltip } from '@mui/material'
 
 function TaskPageAttachedMedia(props:any) {
     const{setViewMediaModal}=props
@@ -15,6 +16,8 @@ function TaskPageAttachedMedia(props:any) {
         <div className='flex mt-2 flex-wrap flex-row gap-5 py-2  px-1 max-w-[90%] overflow-y-auto max-h-[300px]'>
             {
                 sampleMedia.map((node:any)=>(
+                    <Tooltip title="View" placement='top'>
+
                     <button 
                     onClick={()=>setViewMediaModal(true)}
                     className='flex flex-row p-2 pr-4 justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'>
@@ -34,6 +37,7 @@ function TaskPageAttachedMedia(props:any) {
                         </div>
                         <div className=' text-[10px] max-w-[90%] break-words'>{node.fileName}</div>
                     </button>
+                    </Tooltip>
                 ))
 
             }

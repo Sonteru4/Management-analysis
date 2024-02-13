@@ -14,12 +14,14 @@ import Sidebar from "../components/Sidebar";
 import UserProfileModal from "../modals/UserProfileModal";
 import OverallPerformaceModal from "../modals/OverallPerformaceModal";
 import { performanceData } from "../data/data";
+import RemoveMemberConfirmationModal from "../modals/RemoveMemberConfirmationModal";
 
 function ProjectPage() {
   const [addTaskModal,setAddTaskModal]=useState<Boolean>(false)
   const [viewAllTaskModal,setViewAllTaskModal] = useState<Boolean>(false)
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
   const [overallPerformaceModal,setOverallPerformanceModal]=useState<Boolean>(false)
+  const [removeMemberModal,setRemoveMemberModal] = useState<Boolean>(false)
 
 
   return (
@@ -40,7 +42,9 @@ function ProjectPage() {
           <ProjectPageMyTasks/>
 
           {/* Project Members */}
-          <ProjectPageProjectMembers/>
+          <ProjectPageProjectMembers
+            setRemoveMemberModal={setRemoveMemberModal}
+          />
 
         </div>
         <div className="flex flex-row items-start gap-3 mt-10 ">
@@ -84,6 +88,15 @@ function ProjectPage() {
           setOverallPerformanceModal={setOverallPerformanceModal}
           />:null
         }
+      {
+        // Remove Memeber Confirmation Modal
+        removeMemberModal?
+        <RemoveMemberConfirmationModal
+        setRemoveMemberModal={setRemoveMemberModal}
+        />
+        :null
+      }
+
  
     </div>
   );

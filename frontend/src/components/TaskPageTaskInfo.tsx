@@ -6,13 +6,14 @@ import {
   Info,
   LabelImportant,
   Edit,
+  Delete,
 } from "@mui/icons-material";
 import React from "react";
 import { colors } from "../Constants";
 import { Tooltip } from "@mui/material";
 
 function TaskPageTaskInfo(props:any) {
-    const {setEditTaskModal}=props
+    const {setEditTaskModal,setDeleteTaskModal}=props
     const priority = "high"
   return (
     <>
@@ -138,6 +139,20 @@ function TaskPageTaskInfo(props:any) {
                className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
                 <Edit sx={{ fontSize: 15, color: colors.C11 }} />
                 <div className="p-2 font-semibold ">Edit Task</div>
+              </button>
+            </div>
+
+            {/* Delete Task Assigner Privilege  */}
+            <div className="flex flex-col">
+              <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
+              Delete
+              </div>
+              
+              <button
+               onClick={()=>setDeleteTaskModal(true)}
+               className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
+                <Delete sx={{ fontSize: 15, color: colors.C11 }} />
+                <div className="p-2 font-semibold ">Delete Task</div>
               </button>
             </div>
           </div>

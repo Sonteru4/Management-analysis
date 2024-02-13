@@ -11,12 +11,13 @@ import Sidebar from "../components/Sidebar";
 import UserProfileModal from "../modals/UserProfileModal";
 import EditTaskModal from "../modals/EditTaskModal";
 import ViewMediaModal from "../modals/ViewMediaModal";
+import DeleteTaskConfirmationModal from "../modals/DeleteTaskConfirmationModal";
 
 function TaskPage() {
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
   const [editTaskModal,setEditTaskModal]=useState<Boolean>(false)
   const [viewMediaModal,setViewMediaModal]=useState<Boolean>(false)
-
+  const [deleteTaskModal,setDeleteTaskModal]=useState<Boolean>(false)
 
 
   return (
@@ -29,6 +30,7 @@ function TaskPage() {
           {/* Task Info */}
           <div className="flex flex-col  max-w-[60%]   h-fit">
             <TaskPageTaskInfo 
+            setDeleteTaskModal={setDeleteTaskModal}
             setEditTaskModal={setEditTaskModal}
 
             />
@@ -66,6 +68,12 @@ function TaskPage() {
           data={"datae"}
           setViewMediaModal={setViewMediaModal}
 
+          />:null
+        }
+        {
+          deleteTaskModal?
+          <DeleteTaskConfirmationModal
+          setDeleteTaskModal={setDeleteTaskModal}
           />:null
         }
       </div>
