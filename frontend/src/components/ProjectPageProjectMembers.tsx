@@ -5,7 +5,7 @@ import { colors } from '../Constants'
 import { Tooltip } from '@mui/material'
 
 function ProjectPageProjectMembers(props:any) {
-  const {setRemoveMemberModal}=props
+  const {setRemoveMemberModal,setViewMemberModal,setAddMemberModal}=props
   return (
     <>
     <div className="w-1/2 ">
@@ -18,17 +18,17 @@ function ProjectPageProjectMembers(props:any) {
           </div>
           <Tooltip title={"Add New Member"} arrow placement="left">
                 <button
-                  onClick={() => {}}
+                  onClick={() => setAddMemberModal(true)}
                   className=" text-C55 flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer "
                 >
                   <PersonAddAlt1 sx={{ fontSize: 18, color: colors.C11 }}/>
                 </button>
-              </Tooltip>
+            </Tooltip>
           
         </div>
         <div className="p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]">
           {projectMembers?.map((node: any) => (
-            <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
+            <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44  transition-all ">
               <div
                 className={`min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-center items-center bg-C11 p-1 rounded-[4px] group-hover:rounded-l-[4px] group-hover:rounded-r-[0px] `}
               >
@@ -40,15 +40,15 @@ function ProjectPageProjectMembers(props:any) {
               <div className='flex flex-row items-center'>
               <Person sx={{ fontSize: 12, color: colors.C11 }} />
               <Tooltip title="View Profile" arrow placement="right">
-                <div className="p-2 break-words ">{node.memberName}</div>
+                <button onClick={()=>setViewMemberModal(true)} className="p-2 break-words cursor-pointer hover:underline">{node.memberName}</button>
               </Tooltip>
                 </div> 
               {/* Project manager privilege */}
               <Tooltip title="Remove member" arrow placement="left">
                 <button 
                 onClick={()=>setRemoveMemberModal(true)}
-                className="p-2 text-transparent break-words group-hover:text-C11 "> 
-                <Delete sx={{fontSize:18}}/>
+                className="text-transparent break-words cursor-pointer group-hover:text-C11 "> 
+                <Delete sx={{fontSize:18}} />
                 </button>
               </Tooltip>
               </div>

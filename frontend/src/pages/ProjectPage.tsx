@@ -15,6 +15,9 @@ import UserProfileModal from "../modals/UserProfileModal";
 import OverallPerformaceModal from "../modals/OverallPerformaceModal";
 import { performanceData } from "../data/data";
 import RemoveMemberConfirmationModal from "../modals/RemoveMemberConfirmationModal";
+import ViewMemberModal from "../modals/ViewMemberModal";
+import EditProjectInfoModal from "../modals/EditProjectInfoModal";
+import AddNewMemberModal from "../modals/AddNewMemberModal";
 
 function ProjectPage() {
   const [addTaskModal,setAddTaskModal]=useState<Boolean>(false)
@@ -22,6 +25,9 @@ function ProjectPage() {
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
   const [overallPerformaceModal,setOverallPerformanceModal]=useState<Boolean>(false)
   const [removeMemberModal,setRemoveMemberModal] = useState<Boolean>(false)
+  const [viewMemberModal,setViewMemberModal] = useState<Boolean>(false)
+  const [editProjectInfoModal,setEditProjectInfoModal] = useState<Boolean>(false)
+  const [addMemberModal,setAddMemberModal] = useState<Boolean>(false)
 
 
   return (
@@ -35,6 +41,8 @@ function ProjectPage() {
         setAddTaskModal={setAddTaskModal}
         setViewAllTaskModal = {setViewAllTaskModal} 
         setOverallPerformanceModal={setOverallPerformanceModal}
+        setEditProjectInfoModal={setEditProjectInfoModal}
+        setViewMemberModal={setViewMemberModal}
 
         />
         <div className=" flex flex-row justify-between pt-10 gap-[200px]">
@@ -43,6 +51,8 @@ function ProjectPage() {
 
           {/* Project Members */}
           <ProjectPageProjectMembers
+            setAddMemberModal={setAddMemberModal}
+            setViewMemberModal={setViewMemberModal}
             setRemoveMemberModal={setRemoveMemberModal}
           />
 
@@ -96,6 +106,30 @@ function ProjectPage() {
         />
         :null
       }
+
+      {/* View Project Memeber modal */}
+      {
+        viewMemberModal?
+        <ViewMemberModal
+        setViewMemberModal={setViewMemberModal}
+        />:null
+      }
+
+      {
+        editProjectInfoModal?
+        <EditProjectInfoModal
+        setEditProjectInfoModal={setEditProjectInfoModal}
+        />:null
+      }
+
+      {
+        addMemberModal?
+        <AddNewMemberModal
+        setAddMemberModal={setAddMemberModal}
+        />:null
+      }
+
+
 
  
     </div>

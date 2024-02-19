@@ -12,12 +12,15 @@ import UserProfileModal from "../modals/UserProfileModal";
 import EditTaskModal from "../modals/EditTaskModal";
 import ViewMediaModal from "../modals/ViewMediaModal";
 import DeleteTaskConfirmationModal from "../modals/DeleteTaskConfirmationModal";
+import ViewMemberModal from "../modals/ViewMemberModal";
 
 function TaskPage() {
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
   const [editTaskModal,setEditTaskModal]=useState<Boolean>(false)
   const [viewMediaModal,setViewMediaModal]=useState<Boolean>(false)
   const [deleteTaskModal,setDeleteTaskModal]=useState<Boolean>(false)
+  const [viewMemberModal,setViewMemberModal] = useState<Boolean>(false)
+
 
 
   return (
@@ -32,6 +35,7 @@ function TaskPage() {
             <TaskPageTaskInfo 
             setDeleteTaskModal={setDeleteTaskModal}
             setEditTaskModal={setEditTaskModal}
+            setViewMemberModal={setViewMemberModal}
 
             />
             <TaskPageAttachedMedia 
@@ -76,6 +80,13 @@ function TaskPage() {
           setDeleteTaskModal={setDeleteTaskModal}
           />:null
         }
+        {
+        viewMemberModal?
+        <ViewMemberModal
+        setViewMemberModal={setViewMemberModal}
+        />:null
+      }
+
       </div>
     </>
   );

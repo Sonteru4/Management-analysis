@@ -26,8 +26,8 @@ function DeleteTaskConfirmationModal(props:any) {
       </div>
 
       <div className='flex justify-end gap-4 mt-2'>
-        <button className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}  onClick={handleModalClose}>Not Sure</button>
-        <button className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}>Delete</button>
+        <button className={` bg-inactiveC11 rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}  onClick={handleModalClose}>Not Sure</button>
+        <button className={`hover:bg-inactiveRed rounded-[8px] text-highPriority font-bold text-[12px] py-2 px-5`}>Delete</button>
       </div> 
     </div>
   </div>

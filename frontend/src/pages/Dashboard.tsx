@@ -16,12 +16,14 @@ import { performanceData } from "../data/data";
 import Sidebar from "../components/Sidebar";
 import UserProfileModal from "../modals/UserProfileModal";
 import Loader from "../common/Loader";
+import LogoutModal from "../modals/LogoutModal";
 
 function Dashboard() {
   document.title = "TMS • Dashboard";
   const [createNewProjectModal,setCreateNewProjectModal]=useState<Boolean>(false)
   const [overallPerformaceModal,setOverallPerformanceModal]=useState<Boolean>(false)
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
+  const [logoutModal,setLogoutModal] = useState<Boolean>(false)
 
   return (
     <>
@@ -29,6 +31,8 @@ function Dashboard() {
 
       <Sidebar 
       setUserProfileModal={setUserProfileModal}
+      setLogoutModal={setLogoutModal}
+
       />
         <div className="bg-C55 p-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
           <div className="flex flex-row items-center pr-10 ">
@@ -76,6 +80,12 @@ function Dashboard() {
           userProfileModal?
           <UserProfileModal 
           setUserProfileModal={setUserProfileModal}
+          />:null
+        }
+        {
+          logoutModal?
+          <LogoutModal
+          setLogoutModal={setLogoutModal}
           />:null
         }
 

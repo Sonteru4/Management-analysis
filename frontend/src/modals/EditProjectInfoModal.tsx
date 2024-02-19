@@ -1,19 +1,21 @@
-import { Close } from '@mui/icons-material';
+import { Add, Close } from '@mui/icons-material'
 import React from 'react'
+import { projectMembers } from '../data/data'
 
-function EditTaskModal(props:any) {
-    const{setEditTaskModal,data}=props;
+function EditProjectInfoModal(props:any) {
 
-    // function to close this modal
-    const handleModalClose=()=>{
-        setEditTaskModal(false)    
+    const{setEditProjectInfoModal}=props
+
+    const handleModalClose =()=>{
+        setEditProjectInfoModal(false)
     }
+
   return (
-<div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center'>
+    <div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center'>
     <div className='bg-C55 rounded-[8px] p-5 w-[700px]' >
     <div className='flex flex-row items-center justify-between'>
       <div className='font-bold text-[20px] text-C11'>
-        Edit Task Info
+        Edit Project Info
       </div>
       <button className='cursor-pointer'
       onClick={handleModalClose}
@@ -24,11 +26,11 @@ function EditTaskModal(props:any) {
       <div className='my-1 mt-2 text-[14px] flex flex-row gap-2'>
         <div className='flex flex-col flex-1 gap-2'>
         <div className='flex flex-col gap-1'>
-          <div  className=" text-C11 text-[10px] font-bold  w-fit  select-none">Task Name</div>
+          <div  className=" text-C11 text-[10px] font-bold  w-fit  select-none">Project Name</div>
           <input type="text" className='bg-C44 rounded-[8px]  p-2 text-[14px]' />
         </div>
         <div className='flex flex-col gap-1'>
-          <div  className=" text-C11 text-[10px] font-bold  w-fit  select-none">Task Description</div>
+          <div  className=" text-C11 text-[10px] font-bold  w-fit  select-none">Project Description</div>
           <textarea  rows={5} className='bg-C44 rounded-[8px]  p-2 text-[14px] resize-none' />
         </div>
         </div>
@@ -41,7 +43,8 @@ function EditTaskModal(props:any) {
       </div>
     </div>
   </div>
+
   )
 }
 
-export default EditTaskModal
+export default EditProjectInfoModal

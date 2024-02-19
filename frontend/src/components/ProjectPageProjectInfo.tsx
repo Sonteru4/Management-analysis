@@ -2,6 +2,7 @@ import {
   Add,
   CalendarMonth,
   CheckBox,
+  Delete,
   DonutLarge,
   Edit,
   Person,
@@ -16,7 +17,7 @@ import AddNewTaskModal from "../modals/AddNewTaskModal";
 import { log } from "console";
 
 function ProjectPageProjectInfo(props: any) {
-  const { setAddTaskModal, setViewAllTaskModal, setOverallPerformanceModal } =
+  const { setAddTaskModal, setViewAllTaskModal, setOverallPerformanceModal ,setEditProjectInfoModal,setViewMemberModal} =
     props;
 
   // const addTaskModalOnClose = () =>{
@@ -46,10 +47,15 @@ function ProjectPageProjectInfo(props: any) {
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
                 Project Manager
               </div>
-              <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
+              <Tooltip title="View Profile" arrow placement="bottom">
+              <button
+              onClick={()=>setViewMemberModal(true)}
+               className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer hover:underline bg-C44 ">
                 <Person sx={{ fontSize: 12, color: colors.C11 }} />
                 <div className="p-2 font-semibold ">Emily Chen</div>
-              </div>
+              </button>
+              </Tooltip>
+             
             </div>
 
             <div className="flex flex-col">
@@ -113,7 +119,7 @@ function ProjectPageProjectInfo(props: any) {
               </div>
               <Tooltip title={"Edit Project Info"} arrow placement="bottom">
                 <button
-                  onClick={() => {}}
+                  onClick={() => setEditProjectInfoModal(true)}
                   className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 "
                 >
                   <Edit sx={{ fontSize: 12, color: colors.C11 }} />
@@ -121,6 +127,23 @@ function ProjectPageProjectInfo(props: any) {
                 </button>
               </Tooltip>
             </div>
+
+             {/* Delete Task Assigner Privilege  */}
+             <div className="flex flex-col">
+              <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
+              Delete
+              </div>
+              <Tooltip title="Delete Project" arrow placement="bottom">
+              <button
+               onClick={()=>{}}
+               className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 text-highPriority ">
+                <Delete sx={{ fontSize: 15 }} />
+                <div className="p-2 font-semibold ">Delete Project</div>
+              </button>
+              </Tooltip>
+            </div>
+
+
 
             {/* AddTaskModal Active */}
           </div>

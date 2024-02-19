@@ -3,6 +3,7 @@ import React from 'react'
 import { colors } from '../Constants'
 import { dummyProjects } from '../data/data'
 import { Tooltip } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 function DashboardMyProjects(props:any) {
   const{setCreateNewProjectModal}=props
@@ -19,15 +20,16 @@ function DashboardMyProjects(props:any) {
                 {
                     dummyProjects.map((node:any)=>(
                     <Tooltip title={"View Project"} placement='top-end' arrow>
-
-                    <div className="group w-[300px] h-[140px] bg-C44 rounded-[8px] flex flex-col items-start overflow-hidden hover:shadow-lg cursor-pointer transition-all duration-300">
-                    <div className="group-hover:h-full h-[75%] text-left bg-C11 flex flex-row gap-1 w-full items-center p-2  duration-300 justify-center">
-                        <div className="font-semibold text-C55 p-2 group-hover:font-bold group-hover:text-[20px]">{node.projectTitle}</div>
-                    </div>
-                    {/* <div className="flex group-hover:hidden w-full justify-end flex-1 items-center pr-2 transition-all duration-300 bg-red-400 group-hover:w-[0%] group-hover:h-[0%]">
-                        <EmojiEvents sx={{ fontSize: 20, color: colors.C11 }} />
-                    </div> */}
-                    </div>
+                      <Link to={"/project-page"}>
+                        <div className="group w-[300px] h-[140px] bg-C44 rounded-[8px] flex flex-col items-start overflow-hidden hover:shadow-lg cursor-pointer transition-all duration-300">
+                        <div className="group-hover:h-full h-[75%] text-left bg-C11 flex flex-row gap-1 w-full items-center p-2  duration-300 justify-center">
+                            <div className="font-semibold text-C55 p-2 group-hover:font-bold group-hover:text-[20px]">{node.projectTitle}</div>
+                        </div>
+                        {/* <div className="flex group-hover:hidden w-full justify-end flex-1 items-center pr-2 transition-all duration-300 bg-red-400 group-hover:w-[0%] group-hover:h-[0%]">
+                            <EmojiEvents sx={{ fontSize: 20, color: colors.C11 }} />
+                        </div> */}
+                        </div>
+                      </Link>  
                     </Tooltip>
                     ))
                 }

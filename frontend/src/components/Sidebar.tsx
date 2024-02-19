@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { colors } from '../Constants'
 
 function Sidebar(props:any) {
-    const{setUserProfileModal}=props
+    const{setUserProfileModal,setLogoutModal}=props
   return (
     <div className="bg-C44 w-[60px] pt-2 flex flex-col">
     <div className="flex-1 ">
@@ -26,9 +26,11 @@ function Sidebar(props:any) {
     </Tooltip>
     </div>
     <Tooltip title="Logout" placement="right" arrow>
-      <div className="flex justify-center py-4 cursor-pointer">
+      <button className="flex justify-center py-4 cursor-pointer"
+      onClick={()=>setLogoutModal(true)}
+      >
         <Logout sx={{ fontSize: 20, color: colors.C11 }} />
-      </div>
+      </button>
     </Tooltip>
   </div>
   )

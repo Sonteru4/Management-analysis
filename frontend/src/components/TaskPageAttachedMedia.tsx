@@ -16,7 +16,7 @@ function TaskPageAttachedMedia(props:any) {
         <div className='flex mt-2 flex-wrap flex-row gap-5 py-2  px-1 max-w-[90%] overflow-y-auto max-h-[300px]'>
             {
                 sampleMedia.map((node:any)=>(
-                    <Tooltip title="View" placement='top'>
+                    <Tooltip title="View" placement='top' arrow>
 
                     <button 
                     onClick={()=>setViewMediaModal(true)}
