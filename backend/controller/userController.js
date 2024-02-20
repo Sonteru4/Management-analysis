@@ -1,6 +1,7 @@
 const User = require("../model/user"); // Assuming you have a User model
 const Task = require("../model/task")
 const Project = require("../model/project")
+const mongoose = require("mongoose")
 
 // ----- GET REQUESTS ------
 exports.get_all_users = async (req,res)=>{
@@ -16,17 +17,19 @@ exports.get_all_users = async (req,res)=>{
 exports.get_user_by_id = async(req,res)=>{
     try {
         const userId = req.params.userId;
+        console.log(userId);
         
         // Check if the provided userId is a valid ObjectId
         if (!mongoose.isValidObjectId(userId)) {
           return res.status(400).json({ error: "Invalid userId format" });
         }
     
-        const user = await User.find({"userId":userId});
+        const user = await User.findById(userId);
     
         if (!user) {
           return res.status(404).json({ error: "User not found" });
         }
+
     
         res.status(200).json(user);
       } catch (error) {
@@ -38,6 +41,7 @@ exports.get_user_by_id = async(req,res)=>{
 exports.get_all_my_projects_by_user_id = async(req,res)=>{
     try {
         const userId = req.params.userId;
+        console.log(userId)
     
         // Check if the provided userId is a valid ObjectId
         if (!mongoose.isValidObjectId(userId)) {
@@ -45,14 +49,14 @@ exports.get_all_my_projects_by_user_id = async(req,res)=>{
         }
     
         // Find the user by userId
-        const user = await User.find({"userId":userId})
+        const user = await User.findById(userId).populate("myProjects")
     
         if (!user) {
           return res.status(404).json({ error: "User not found" });
         }
     
         // Retrieve the user's projects
-        const myProjects = await Project.find({ userId: { $in: user.myProjects } });
+        const myProjects = user.myProjects;
     
         res.status(200).json(myProjects);
       } catch (error) {
@@ -71,7 +75,7 @@ exports.get_all_involved_projects_by_user_id = async(req,res)=>{
         }
     
         // Find the user by userId
-        const user = await User.find({"userId":userId});
+        const user = await User.findById(userId);
     
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -92,6 +96,7 @@ exports.get_all_involved_projects_by_user_id = async(req,res)=>{
 exports.get_all_tasks_by_user_id=async(req,res)=>{
     try {
         const userId = req.params.userId;
+        console.log(userId)
     
         // Check if the provided userId is a valid ObjectId
         if (!mongoose.isValidObjectId(userId)) {
@@ -99,14 +104,15 @@ exports.get_all_tasks_by_user_id=async(req,res)=>{
         }
     
         // Find the user by userId
-        const user = await User.find({"userId":userId});
+        const user = await User.findById(userId);
+        console.log(user);
     
         if (!user) {
           return res.status(404).json({ error: "User not found" });
         }
     
         // Retrieve all tasks associated with the user
-        const allTasks = await Task.find({userId: { $in: user.allTasks } });
+        const allTasks = await Task.find({_id: { $in: user.allTasks } });
     
         res.status(200).json(allTasks);
       } catch (error) {
@@ -170,6 +176,48 @@ exports.get_all_pending_tasks_by_user_id=async(req,res)=>{
 
 
 // ----- POST REQUESTS -----
+exports.create_new_project_for_user_id = async(req, res) => {
+  try {
+    const userId = req.params.userId;
+    console.log(userId)
+    console.log(req.body)
+    const { projectName, projectDescription} = req.body;
+
+    // Validate the input data, you can add more validation based on your requirements
+
+    // Create a new project
+    const newProject = new Project({
+      projectName:projectName,
+      projectDescription:projectDescription,
+      startDate:`${new Date()}`,
+      projectStatus:'In Progress',
+      projectManager: userId, // Set the project manager to the user's ID
+      projectMembers: [userId], // Add the user to the project members
+      allTasks: [], // Initialize tasks array as empty
+      completedTasks: [], // Initialize completed tasks array as empty
+      pendingTasks: [], // Initialize pending tasks array as empty
+      attachedMediaURLSet: [], // Initialize attached media array as empty
+    });
+
+    // Save the new project
+    await newProject.save();
+
+    // Update the user's myProjects array with the new project
+    await User.findByIdAndUpdate(
+      userId,
+      { $push: { myProjects: newProject._id } },
+      { new: true }
+    );
+
+    // Respond with success or any relevant information
+    res.status(201).json({ message: "Project created successfully", project: newProject });
+  } catch (error) {
+    console.error(error);
+    // Handle any internal server error
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+}
 
 
 // ----- UPDATE REQUESTS -----

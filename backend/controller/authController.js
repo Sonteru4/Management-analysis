@@ -19,15 +19,14 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const newUser = new User({
-      userId: uuid(), // Set userId using uuid4
-      username,
-      email,
+    const newUser = new User({ // Set userId using uuid4
+      username:username,
+      email:email,
       password: hashedPassword,
-      firstName,
-      lastName,
-      role:"",
-      dateOfBirth,
+      firstName:firstName,
+      lastName:lastName,
+      role:role,
+      dateOfBirth:dateOfBirth,
       loginStatus: false, // Assuming the user is not logged in initially
       allTasks: [],
       completedTasks: [],

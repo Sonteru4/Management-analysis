@@ -129,23 +129,25 @@ function calculateOverallPerformance(project) {
 // ----- POST REQUESTS -----
 exports.add_new_task_to_project_by_id = async (req, res) =>{
   try {
+    console.log(req.body);
     const projectId = req.params.projectId;
-    const { title, description, dueDate, assignedTo,assignedBy,priority,taskStatus ,attachedMediaURLSet} = req.body;
+  
+    const { taskTitle, taskDescription, dueDate, assignedTo,assignedBy,taskPriority,taskAttachedMediaURLSet} = req.body;
 
     // Validate the input data, you can add more validation based on your requirements
 
     // Create a new task using the Task model
     const newTask = new Task({
-      title:title,
-      description:description,
-      priority:priority,
+      taskTitle:taskTitle,
+      taskDescription:taskDescription,
+      taskPriority:taskPriority,
       project: projectId, // Assign the task to the specified project
       assignedBy:assignedBy,
       assignedTo:assignedTo,
-      taskStatus:taskStatus,
+      taskStatus:'In Progress',
       dueDate:dueDate,
-      attachedMediaURLSet:attachedMediaURLSet?attachedMediaURLSet:[],
-      comments:[] 
+      taskAttachedMediaURLSet:taskAttachedMediaURLSet?taskAttachedMediaURLSet:[],
+      taskComments:[] 
     });
 
     // Save the new task to the database
@@ -278,7 +280,6 @@ exports.edit_project_by_id = async(req,res)=>{
   }
 
 }
-// ----- DELETE REQUESTS -----
 
 
 

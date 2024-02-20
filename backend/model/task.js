@@ -2,16 +2,16 @@
 const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
-  title: {
+  taskTitle: {
     type: String,
     required: true,
   },
-  description: {
+  taskDescription: {
     type: String,
   },
-  priority:{
+  taskPriority:{
     type:String,
-    enum:['high','medium','low']
+    enum:['High','Medium','Low']
   },
   project: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,22 +28,21 @@ const taskSchema = new mongoose.Schema({
   },
   taskStatus: {
     type: String,
-    enum: ['To Do', 'In Progress', 'Completed'],
-    default: 'To Do',
+    enum: ['In Progress', 'Completed'],
+    default: 'In Progress',
   },
   dueDate: {
-    type: Date,
+    type: String,
   },
-  attachedMediaURLSet:{
+  taskAttachedMediaURLSet:{
     type:[{type:String}]
   },
   
-  comments:{
+  taskComments:{
     type:[{type: mongoose.Schema.Types.ObjectId,
        ref: 'Comment'}]
   }
   
-
   // Add any additional task-related fields here
 });
 
