@@ -14,7 +14,7 @@ function ViewAllTaskModal(props:any) {
 
   return (
     <div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center'>
-    <div className='bg-C55 rounded-[8px] p-5 w-[700px]' >
+    <div className='bg-C55 rounded-[8px] p-5 w-[700px] min-h-[600px]' >
     <div className='flex flex-row items-center justify-between pb-3'>
       <div className='font-bold text-[20px] text-C11'>
         All Tasks

@@ -7,6 +7,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import ProjectPage from "./pages/ProjectPage";
 import TaskPage from "./pages/TaskPage";
+import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/HomePage";
 
 
 
@@ -15,12 +17,14 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HomePage/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/forgot-password" element={<ForgotPassword />}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/project-page" element={<ProjectPage/>}/>
           <Route path="/task-page" element={<TaskPage/>}/>
+          <Route path ="*" element={<ErrorPage/>}/>
         </Routes>
       </BrowserRouter>
     </>

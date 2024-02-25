@@ -1,17 +1,25 @@
-import { AttachFile, AudioFile, Description, FilePresent, InsertDriveFile, InsertPhoto, PictureAsPdf, VideoFile } from '@mui/icons-material'
+import { Add, AttachFile, AudioFile, Description, FilePresent, InsertDriveFile, InsertPhoto, PictureAsPdf, VideoFile } from '@mui/icons-material'
 import React from 'react'
 import { colors } from '../Constants'
 import { sampleMedia } from '../data/data'
 import { Tooltip } from '@mui/material'
 
 function TaskPageAttachedMedia(props:any) {
-    const{setViewMediaModal}=props
+    const{setViewMediaModal,setAddMediaModal }=props
   return (
     <>
     <div className='my-10'>
         <div className='flex flex-row gap-2'>
         <AttachFile sx={{fontSize:25,color:colors.C11,rotate:"45deg"}}/>
         <h2 className="font-bold text-[18px]">Attached Media</h2>
+        <Tooltip title={"Add New Media"} arrow placement="right">
+                <button
+                  onClick={() => setAddMediaModal(true)}
+                  className="text-C55 flex flex-row items-center  rounded-[4px] text-[12px] cursor-pointer "
+                >
+                  <Add sx={{ fontSize: 20, color: colors.C11 }} />
+                </button>
+        </Tooltip>
         </div>
         <div className='flex mt-2 flex-wrap flex-row gap-5 py-2  px-1 max-w-[90%] overflow-y-auto max-h-[300px]'>
             {
@@ -35,7 +43,7 @@ function TaskPageAttachedMedia(props:any) {
                              <FilePresent/>
                             }
                         </div>
-                        <div className=' text-[10px] max-w-[90%] break-words'>{node.fileName}</div>
+                        <div className=' text-[10px] max-w-[90%] break-words '>{node.fileName}</div>
                     </button>
                     </Tooltip>
                 ))

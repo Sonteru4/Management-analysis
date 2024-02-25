@@ -2,6 +2,7 @@ import React from 'react'
 import { projectMembers } from '../data/data';
 import { Add, Close } from '@mui/icons-material';
 import APIResponseStatus from '../common/APIResponseStatus';
+import NoDataMessage from '../common/NoDataMessage';
 
 function OverallPerformaceModal(props:any) {
     const{setOverallPerformanceModal,data}=props;
@@ -25,7 +26,11 @@ function OverallPerformaceModal(props:any) {
       </button>
       </div>
       {/* <APIResponseStatus status={true} message={"Successfully updated"}/> */}
-      <APIResponseStatus status={false} message={"An Error Occured"}/>
+      {/* <APIResponseStatus status={false} message={"An Error Occured"}/> */}
+      {/* <NoDataMessage message={"No users Currently"} size={"small"}/>
+      <NoDataMessage message={"No users Currently"} size={"medium"}/>
+      <NoDataMessage message={"No users Currently"} size={"large"}/> */}
+
 
 
  

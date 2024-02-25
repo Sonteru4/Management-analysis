@@ -172,13 +172,13 @@ export const  genders = [
 ];
 
 export const sampleMedia=[
-  {"fileName":"Summary Document.docx","type":"docx"},
-  {"fileName":"Report.pdf","type":"pdf"},
-  {"fileName":"SampleImage.png","type":"png"},
-  {"fileName":"Summary Document.docx","type":"docx"},
-  {"fileName":"Report.pdf","type":"pdf"},
-  {"fileName":"SampleImage.png","type":"png"},
-  {"fileName":"Demo.mp4","type":"mp4"},
+  {"fileName":"Summary Document.docx","type":"docx",dataURL:"https://css4.pub/2015/icelandic/dictionary.pdf"},
+  {"fileName":"Report.pdf","type":"pdf",dataURL:"https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.britannica.com%2F79%2F232779-050-6B0411D7%2FGerman-Shepherd-dog-Alsatian.jpg&tbnid=MadgLdQ_K-avUM&vet=12ahUKEwj-t4P898OEAxXgb2wGHd4cCAgQMygBegQIARB1..i&imgrefurl=https%3A%2F%2Fwww.britannica.com%2Fanimal%2Fdog&docid=zWUzl6F1QeMfZM&w=1600&h=1144&q=dog&hl=en&ved=2ahUKEwj-t4P898OEAxXgb2wGHd4cCAgQMygBegQIARB1"},
+  {"fileName":"SampleImage.png","type":"png",dataURL:"https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx"},
+  {"fileName":"Summary Document.docx","type":"docx",dataURL:""},
+  {"fileName":"Report.pdf","type":"pdf",dataURL:""},
+  {"fileName":"SampleImage.png","type":"png",dataURL:""},
+  {"fileName":"Demo.mp4","type":"mp4",dataURL:""},
   {"fileName":"Report.pdf","type":"pdf"},
   {"fileName":"SampleImage.png","type":"png"},
   {"fileName":"Rcording.mp3","type":"mp3"},

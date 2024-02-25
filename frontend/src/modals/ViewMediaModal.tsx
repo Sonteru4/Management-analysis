@@ -1,8 +1,11 @@
 import { Close } from '@mui/icons-material'
 import React from 'react'
+import { Document,Page  } from 'react-pdf'
+import { pdfjs } from 'react-pdf';
 
-function ViewMediaModal(props:any) {
-  const{setViewMediaModal}=props
+
+  function ViewMediaModal(props:any) {
+  const{setViewMediaModal ,dataURL}=props
 
    // function to close this modal
    const handleModalClose=()=>{
@@ -20,7 +23,11 @@ function ViewMediaModal(props:any) {
       >
         <Close sx={{fontSize:20,fontWeight:800}}/>
       </button>
-      </div>   
+      </div> 
+
+      <div>
+       
+        </div>  
     </div>
   </div>
   )

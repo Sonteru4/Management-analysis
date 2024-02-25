@@ -7,7 +7,7 @@ exports.register = async (req, res) => {
   console.log("Registering new user...")
   try {
     // Extract data from request body
-    const { username, email, password, firstName, lastName, role, dateOfBirth, profilePictureURL, bio } = req.body;
+    const { username, email, password, firstName, lastName, role, dateOfBirth } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -20,13 +20,13 @@ exports.register = async (req, res) => {
 
     // Create a new user
     const newUser = new User({ // Set userId using uuid4
-      username:username,
-      email:email,
+      username:username,//
+      email:email,//
       password: hashedPassword,
-      firstName:firstName,
-      lastName:lastName,
-      role:role,
-      dateOfBirth:dateOfBirth,
+      firstName:firstName,//
+      lastName:lastName,//
+      role:role,//
+      dateOfBirth:dateOfBirth,//
       loginStatus: false, // Assuming the user is not logged in initially
       allTasks: [],
       completedTasks: [],
@@ -39,26 +39,25 @@ exports.register = async (req, res) => {
     await newUser.save();
 
     // Respond with success
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "User registered successfully" ,success:true});
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" ,success:false});
   }
 };
 
 exports.login = async (req, res) => {
   try {
     // Extract data from request body
-    const { email,username, password } = req.body;
-    if (!(username && password)||!(email&&password)) {
+    const {username, password } = req.body;
+    if (!(username && password)) {
       res.status(400).send("All input is required");
     }
 
     // Check if the user exists
-    const userLog = await User.findOne({ username });
-    const emailLog = await User.findOne({email});
+    const userLog = await User.findOne({username});
 
-    if (!userLog||!emailLog) {
+    if (!userLog) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -69,9 +68,9 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    if((userLog&&passwordMatch)||(emailLog&&passwordMatch)){
+    if((userLog&&passwordMatch)){
       // Generate a JWT token
-      const token = jwt.sign({ userId: userLog._id },
+      const token = jwt.sign({ _id: userLog._id },
         "your-secret-key", 
         { expiresIn: "2h" });
 
@@ -79,6 +78,7 @@ exports.login = async (req, res) => {
       userLog.loginStatus = true
         res.status(200).json({
             loginStatus:true,
+            token: token,
             message:"Login Successful"
         });
 

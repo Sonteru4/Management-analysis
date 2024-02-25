@@ -1,9 +1,59 @@
 import { Comment, Done, DonutLarge, Edit, Person } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "../Constants";
 import { taskComments } from "../data/data";
+import ErrorBox from "../common/ErrorBox";
 
 function TaskPageTaskStatusMarker() {
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError(null);
+    }, 5000);
+
+    // Clear the timeout if the component unmounts or if there's a new error
+    return () => clearTimeout(timer);
+  }, [error]);
+
+  const emptyState={
+    senderName:"",
+    messageContent:""
+  }
+
+  const [taskCommentFormData, setTaskCommentFormData] = useState({
+    senderName:"",
+    messageContent:""
+  });
+
+  const validateBeforeSubmit = () => {
+    if(!taskCommentFormData.messageContent.trim()){
+      setError( "Cannot post an empty comment");
+      return false;
+    }
+    return true
+  }
+
+  const handleInputChange = (e: any) => {
+    setTaskCommentFormData({
+      ...taskCommentFormData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    // Add your validation logic here
+    if (validateBeforeSubmit()) {
+      console.log("Perform Comment Posting logic");
+      setTaskCommentFormData(emptyState)
+    } else {
+      console.error("Validation failed. Display error message.");
+    }
+  };
+
+
+
 
   console.log(taskComments);
   
@@ -53,10 +103,14 @@ function TaskPageTaskStatusMarker() {
           />
           <div className="flex justify-end py-2">
             <button
+             onClick={handleSubmit}
               className={`hover:bg-[#09171c]  rounded-[4px] bg-[#012B39]  text-white font-semibold text-[12px] py-1 px-5 `}>
               Post
             </button>
           </div>
+          {error?
+           <ErrorBox message={error}/>:null
+           } 
 
         </div>
           <div className="flex flex-col">

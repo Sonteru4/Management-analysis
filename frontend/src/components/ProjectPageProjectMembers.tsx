@@ -40,7 +40,7 @@ function ProjectPageProjectMembers(props:any) {
               <div className='flex flex-row items-center'>
               <Person sx={{ fontSize: 12, color: colors.C11 }} />
               <Tooltip title="View Profile" arrow placement="right">
-                <button onClick={()=>setViewMemberModal(true)} className="p-2 break-words cursor-pointer hover:underline">{node.memberName}</button>
+                <button onClick={()=>setViewMemberModal(true)} className="p-2 break-words cursor-pointer hover:underline underline-offset-2">{node.memberName}</button>
               </Tooltip>
                 </div> 
               {/* Project manager privilege */}

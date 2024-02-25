@@ -84,7 +84,7 @@ function TaskPageTaskInfo(props:any) {
               <Tooltip title="View Profile" arrow placement="top-end">
               <button
               onClick={()=>setViewMemberModal(true)}
-              className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C11 ">
+              className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C11 hover:underline underline-offset-2 decoration-C44 ">
                 <Person sx={{ fontSize: 15, color: colors.C55 }} />
                 <div className="p-2 font-semibold text-C55">George Tom </div>
               </button>
@@ -99,7 +99,7 @@ function TaskPageTaskInfo(props:any) {
               <Tooltip title="View Profile" arrow placement="top-end">
               <button 
               onClick={()=>setViewMemberModal(true)}
-              className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
+              className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 hover:underline underline-offset-2 ">
                 <Person sx={{ fontSize: 15, color: colors.C11 }} />
                 <div className="p-2 font-semibold ">Tania Vazquez</div>
               </button>

@@ -10,14 +10,13 @@ function ForgotPassword() {
    <> 
    <div className='flex flex-col justify-center py-20 mx-auto  w-[30%]'>
     <div className='flex justify-center p-2 '>
-    <Logo size={"1"} color={colors.C11}/>
+    <Logo size={"0.6x"} color={colors.C11}/>
     </div>
     <div className='flex flex-col gap-2 p-2 py-10 '>
             
             <div className='bg-[#F4F4F4] rounded-[8px]  h-[46px] flex flex-row items-center justify-between focus-within:outline focus-within:outline-2'>
                 <input type={showPassword?"text":"password"} className=' text-[14px] flex-1 bg-[#F4F4F4] outline-none rounded-[8px] p-2 h-[46px] focus:outline-none' placeholder='New Password'  name="password" id="" />
                 <div className='mr-2 cursor-pointer rounded-full p-1 transition hover:bg-[#00000011]'>
-                 
                   {
                     showPassword===true?
                     <svg 

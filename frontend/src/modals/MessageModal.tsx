@@ -1,7 +1,8 @@
 import React from 'react'
+import APIResponseStatus from '../common/APIResponseStatus';
 
 function MessageModal(props:any) {
-    const { heading, content, buttonText, onClose} = props;
+    const { heading, message,buttonText, onClose, status} = props;
   return (
     <>
     <div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#0000005b] flex justify-center items-center'>
@@ -10,7 +11,7 @@ function MessageModal(props:any) {
           {heading}
         </div>
         <div className='my-1 text-[14px]'>
-          <p>{content}</p>
+          <APIResponseStatus status={status} message={message}/>
         </div>
         {buttonText&&
         <div className='flex justify-end mt-2'>

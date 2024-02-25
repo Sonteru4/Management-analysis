@@ -4,7 +4,8 @@ import { AttachFile, Description, PictureAsPdf, InsertPhoto, AudioFile, VideoFil
 import { sampleMedia } from '../data/data'
 import { Tooltip } from '@mui/material'
 
-function ProjectPageAttachedMedia() {
+function ProjectPageAttachedMedia(props:any) {
+  const {setAddMediaModal,setViewMediaModal}=props
   return (
    <>
      <div >
@@ -13,7 +14,7 @@ function ProjectPageAttachedMedia() {
         <h2 className="font-bold text-[18px]">Attached Media</h2>
         <Tooltip title={"Add New Media"} arrow placement="right">
                 <button
-                  onClick={() => {}}
+                  onClick={() => setAddMediaModal(true)}
                   className="text-C55 flex flex-row items-center  rounded-[4px] text-[12px] cursor-pointer "
                 >
                   <Add sx={{ fontSize: 20, color: colors.C11 }} />
@@ -24,7 +25,9 @@ function ProjectPageAttachedMedia() {
             {
                 sampleMedia.map((node:any)=>(
                     <Tooltip title="View" placement='top' arrow>
-                    <div className='flex flex-row p-2 pr-4 justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'>
+                    <a className='flex flex-row p-2 pr-4 justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'
+                    href={node.dataURL} target='_blank'rel='noreferrer' 
+                    >
                         <div className=''>
                             {node.type==="docx"?
                             <Description/>:
@@ -40,7 +43,7 @@ function ProjectPageAttachedMedia() {
                             }
                         </div>
                         <div className=' text-[10px] max-w-[90%] break-words'>{node.fileName}</div>
-                    </div>
+                    </a>
                     </Tooltip>
                 ))
 
