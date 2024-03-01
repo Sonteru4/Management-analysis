@@ -176,23 +176,34 @@ exports.get_all_pending_tasks_by_user_id=async(req,res)=>{
 
 
 // ----- POST REQUESTS -----
-exports.create_new_project_for_user_id = async(req, res) => {
+exports.create_new_project_for_user_id = async (req, res) => {
   try {
     const userId = req.params.userId;
-    console.log(userId)
-    console.log(req.body)
-    const { projectName, projectDescription} = req.body;
+    const { projectName, projectDescription } = req.body;
 
     // Validate the input data, you can add more validation based on your requirements
 
+    // Fetch user details for project manager
+    const projectManager = await User.findById(userId);
+    if (!projectManager) {
+      return res.status(404).json({ error: "Project manager not found" });
+    }
+
     // Create a new project
     const newProject = new Project({
-      projectName:projectName,
-      projectDescription:projectDescription,
-      startDate:`${new Date()}`,
-      projectStatus:'In Progress',
-      projectManager: userId, // Set the project manager to the user's ID
-      projectMembers: [userId], // Add the user to the project members
+      projectName: projectName,
+      projectDescription: projectDescription,
+      startDate: `${new Date()}`,
+      projectStatus: 'In Progress',
+      projectManager: {
+        managerId: userId,
+        managerName: `${projectManager.firstName} ${projectManager.lastName}`, // Use an appropriate field for the manager's name
+      },
+      projectMembers: [{
+        memberId: userId,
+        memberName: `${projectManager.firstName} ${projectManager.lastName}`,
+        memberRole:"Project Manager" // Use an appropriate field for the member's name
+      }],
       allTasks: [], // Initialize tasks array as empty
       completedTasks: [], // Initialize completed tasks array as empty
       pendingTasks: [], // Initialize pending tasks array as empty
@@ -205,7 +216,10 @@ exports.create_new_project_for_user_id = async(req, res) => {
     // Update the user's myProjects array with the new project
     await User.findByIdAndUpdate(
       userId,
-      { $push: { myProjects: newProject._id } },
+      { $push: { myProjects: {
+        projectId:newProject._id,
+        projectName:newProject.projectName
+      } } },
       { new: true }
     );
 
@@ -216,8 +230,9 @@ exports.create_new_project_for_user_id = async(req, res) => {
     // Handle any internal server error
     res.status(500).json({ error: "Internal Server Error" });
   }
+};
 
-}
+
 
 
 // ----- UPDATE REQUESTS -----

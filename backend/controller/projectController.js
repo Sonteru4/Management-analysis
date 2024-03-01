@@ -17,9 +17,9 @@ exports.get_all_projects = async (req,res)=>{
 
 exports.get_project_by_id = async(req,res)=>{
     try {
-        const  projectId = req.params.projectID; 
+        const  projectId = req.params.projectId; 
         // Retrieve the project with the given projectID from the database
-        const project = await Project.find({"projectID":projectId});
+        const project = await Project.findById(projectId);
     
         // Check if the project exists
         if (!project) {
@@ -280,6 +280,8 @@ exports.edit_project_by_id = async(req,res)=>{
   }
 
 }
+
+
 
 
 

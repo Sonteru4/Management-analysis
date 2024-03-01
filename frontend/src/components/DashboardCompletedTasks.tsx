@@ -1,11 +1,13 @@
 import { TaskAlt } from '@mui/icons-material'
 import React from 'react'
 import { colors } from '../Constants'
-import { dummyTasks } from '../data/data'
+// import { dummyTasks } from '../data/data'
 import { Tooltip } from '@mui/material'
 import { Link } from 'react-router-dom'
+import NoDataMessage from '../common/NoDataMessage'
 
-function DashboardCompletedTasks() {
+function DashboardCompletedTasks(props:any) {
+  const{completedTasks}=props
   return (
     <>
      <div className='w-1/2'>
@@ -27,10 +29,9 @@ function DashboardCompletedTasks() {
             </Tooltip>
           </div>
         </div>
-     <div className='p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]'>
+     <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${completedTasks.length===0? "items-center justify-center":""}`}>
      {
-        dummyTasks?.map((node:any)=>(
-
+        completedTasks?.map((node:any)=>(
           <Tooltip title="View Task" arrow placement="left">
             <Link to={"/task-page"}>
               <div className='flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all '>
@@ -43,6 +44,13 @@ function DashboardCompletedTasks() {
           </Tooltip>
         ))
       }
+      {
+            completedTasks.length === 0?
+            <div className="flex items-center flex-1">
+              <NoDataMessage size="small" message="No Completed Tasks"/>
+            </div>
+            :null
+          }
       
     </div>
      </div>

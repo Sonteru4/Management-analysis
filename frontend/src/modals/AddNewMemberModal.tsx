@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { projectMembers } from "../data/data";
 import { Add, Close } from "@mui/icons-material";
 import ErrorBox from "../common/ErrorBox";
+import { getAllUsers } from "../services/userServices";
 
 function AddNewMemberModal(props: any) {
   const { setAddMemberModal } = props;
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<any>();
+  const [allUsers, setAllUsers] = useState<any>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,6 +18,20 @@ function AddNewMemberModal(props: any) {
     return () => clearTimeout(timer);
   }, [error]);
 
+  useEffect(()=>{
+    if(allUsers.length===0){
+      getUsers()
+    }
+  },[])
+
+  const getUsers =async()=>{
+      const tempARRAY = await getAllUsers()
+      console.log(" PPL IN MODAL ",tempARRAY);
+      setAllUsers(tempARRAY)
+    }
+    
+  
+  
   const emptyState = {
     userId: "",
   };
@@ -81,9 +97,9 @@ function AddNewMemberModal(props: any) {
               <option value="none" selected>
                 None Selected
               </option>
-              {projectMembers.map((node: any) => (
-                <option value={node.id} className="text-C11">
-                  {node.memberName}
+              {allUsers?.map((node: any) => (
+                <option value={node._id} className="text-C11">
+                  {`${node.firstName} ${node.lastName}`}
                 </option>
               ))}
             </select>

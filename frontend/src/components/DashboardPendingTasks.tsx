@@ -1,11 +1,13 @@
 import { PendingActions } from "@mui/icons-material";
 import React from "react";
-import { dummyTasks } from "../data/data";
+// import { dummyTasks } from "../data/data";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
+import NoDataMessage from "../common/NoDataMessage";
 
-function DashboardPendingTasks() {
-  console.log(dummyTasks);
+function DashboardPendingTasks(props:any) {
+  const {pendingTasks}=props
+  console.log("PENDING TASKS : ",pendingTasks);
 
   return (
     <>
@@ -13,7 +15,7 @@ function DashboardPendingTasks() {
       <div className="flex flex-row items-center justify-between gap-2 py-1">
           <div className="flex flex-row ">
           <PendingActions sx={{ fontSize: 25 }} />
-          <div className="font-bold text-[18px] ml-2">My Tasks</div> 
+          <div className="font-bold text-[18px] ml-2">Pending Tasks</div> 
           </div>
           <div className="flex flex-row gap-1 px-1">
             <Tooltip title="High Priority" arrow placement="left">
@@ -27,8 +29,8 @@ function DashboardPendingTasks() {
             </Tooltip>
           </div>
         </div>
-        <div className="p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]">
-          {dummyTasks?.map((node: any) => (
+        <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${pendingTasks.length===0? "items-center justify-center":""}`}>
+          {pendingTasks?.map((node: any) => (
             <Tooltip title="View Task" arrow placement="right">
               <Link to={"/task-page"}>
                 <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
@@ -50,6 +52,13 @@ function DashboardPendingTasks() {
               </Link>  
             </Tooltip>
           ))}
+          {
+            pendingTasks.length === 0?
+            <div className="flex items-center flex-1">
+              <NoDataMessage size="small" message="No Pending Tasks"/>
+            </div>
+            :null
+          }
         </div>
       </div>
     </>

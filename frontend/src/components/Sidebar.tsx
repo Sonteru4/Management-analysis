@@ -4,9 +4,16 @@ import React from 'react'
 import Logo from '../common/Logo'
 import { Link } from 'react-router-dom'
 import { colors } from '../Constants'
+import { useSelector } from 'react-redux'
+import { getRandomColor } from '../helper/helper'
 
 function Sidebar(props:any) {
-    const{setUserProfileModal,setLogoutModal}=props
+    const{setUserProfileModal,setLogoutModal,activePage}=props
+
+    const myProfiledata = useSelector(
+      (state: any) => state.authReducer.myUserProfile
+    );
+    
   return (
     <div className="bg-C44 w-[60px] pt-2 flex flex-col">
     <div className="flex-1 ">
@@ -21,17 +28,28 @@ function Sidebar(props:any) {
       <button className="flex justify-center py-2 cursor-pointer"
        onClick={()=>setUserProfileModal(true)}
       >
-        <AccountCircle sx={{ fontSize: 30, color: colors.C11 }} />
+      {
+        myProfiledata&&
+        <div 
+        className={`w-[35px] h-[35px] rounded-full flex justify-center items-center text-center text-[11px] font-semibold text-white p-[2px] bg-inactiveC11 hover:bg-C11 transition-all duration-[0.5s]` }>
+          <div className='bg-C11 flex items-center justify-center min-w-full min-h-full text-center  border-C44 rounded-full border-[2px]'>
+          {`${myProfiledata?.firstName[0].toUpperCase()}${myProfiledata?.lastName[0].toUpperCase()}`}
+          </div>
+        </div>
+      }
       </button>
     </Tooltip>
     </div>
+    {
+      activePage==="dashboard"?
     <Tooltip title="Logout" placement="right" arrow>
       <button className="flex justify-center py-4 cursor-pointer"
       onClick={()=>setLogoutModal(true)}
       >
         <Logout sx={{ fontSize: 20, color: colors.C11 }} />
       </button>
-    </Tooltip>
+    </Tooltip>:null
+    }
   </div>
   )
 }

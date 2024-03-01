@@ -51,21 +51,58 @@ const userSchema = new mongoose.Schema({
     loginStatus:{
         type:Boolean
     },
-    allTasks:{
-        type:[{type:mongoose.Types.ObjectId,ref:'Task'}],
-    },
-    completedTasks:{
-        type:[{type:mongoose.Types.ObjectId,ref:'Task'}],
-    },
-    pendingTasks:{
-        type:[{type:mongoose.Types.ObjectId,ref:'Task'}],
-    },
-    myProjects:{
-        type:[{type: mongoose.Types.ObjectId,ref:'Project'}]
-    },
-    involvedProjects:{
-        type:[{type: mongoose.Types.ObjectId,ref:'Project'}],
-    },
+    allTasks: [{
+        taskTitle: {
+          type: String,
+        },
+        taskId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Task',
+        },
+        taskStatus: {
+            type:String
+          },
+      }],
+    completedTasks: [{
+        taskTitle: {
+          type: String,
+        },
+        taskId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Task',
+        },
+        taskStatus: {
+            type:String
+          },
+      }],
+    pendingTasks: [{
+        taskTitle: {
+          type: String,
+        },
+        taskId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Task',
+        },
+        taskStatus: {
+            type:String
+          },
+      }],
+    myProjects:[
+            {
+            projectId:{
+              type: mongoose.Types.ObjectId,
+              ref:'Project'},
+
+            projectName:{
+              type:String
+            }
+           }
+    ],
+    involvedProjects: [{
+        projectId:{type: mongoose.Types.ObjectId,ref:'Project'},
+        projectName:{type:String}
+       }
+     ],
     profilePictureURL:{
         type:String
     },

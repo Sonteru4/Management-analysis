@@ -2,7 +2,7 @@ import { Close } from '@mui/icons-material'
 import React from 'react'
 
 function DeleteProjectConfirmationModal(props:any) {
-    const {setDeleteProjetModal}=props
+    const {setDeleteProjetModal,activeProject}=props
 
     const handleModalClose =()=>{
         setDeleteProjetModal(false)

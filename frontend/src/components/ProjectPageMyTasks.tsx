@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 function ProjectPageMyTasks() {
   return (
     <>
-      <div className="w-1/2 ">
+      <div className="w-full lg:w-1/2 ">
         <div className="flex flex-row items-center justify-between gap-2 py-1">
           <div className="flex flex-row ">
           <PendingActions sx={{ fontSize: 25 }} />

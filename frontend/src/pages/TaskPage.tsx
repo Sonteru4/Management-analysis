@@ -1,6 +1,6 @@
 import { AccountCircle, Logout } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { colors } from "../Constants";
 import Logo from "../common/Logo";
@@ -14,6 +14,11 @@ import ViewMediaModal from "../modals/ViewMediaModal";
 import DeleteTaskConfirmationModal from "../modals/DeleteTaskConfirmationModal";
 import ViewMemberModal from "../modals/ViewMemberModal";
 import TaskPageAddMediaModal from "../modals/TaskPageAddMediaModal";
+import { getUserDetailsFromToken } from "../services/authServices";
+import { getUserById } from "../services/userServices";
+import { useDispatch, useSelector } from "react-redux";
+import * as authActions from "../redux/actions/authActions"
+
 
 function TaskPage() {
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
@@ -22,7 +27,26 @@ function TaskPage() {
   const [deleteTaskModal,setDeleteTaskModal]=useState<Boolean>(false)
   const [viewMemberModal,setViewMemberModal] = useState<Boolean>(false)
   const [addMediaModal,setAddMediaModal] = useState<Boolean>(false)
+  
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    const existingUser:any = getUserDetailsFromToken()
+    console.log("EXISITING USER ID : ",existingUser)
+
+    if (existingUser._id) {
+       getMyProfileData(existingUser._id)
+    }
+  }, []);
+  const getMyProfileData =async(myUserId:any)=>{
+    const tempOBJ = await getUserById(myUserId)
+    console.log("in DAHBOARD FUNCTION: ",tempOBJ);
+    dispatch(authActions.loginAction(tempOBJ))
+}
+    
+  const myProfiledata = useSelector(
+    (state: any) => state.authReducer.myUserProfile
+  );
 
 
 
@@ -30,6 +54,7 @@ function TaskPage() {
     <>
       <div className="flex flex-row h-[100vh] text-C11 relative">
       <Sidebar 
+      activePage="task-page"
       setUserProfileModal={setUserProfileModal}
       />
         <div className=" p-10 flex-row flex flex-1 pt-20 max-h-[100vh] overflow-y-auto  gap-2">

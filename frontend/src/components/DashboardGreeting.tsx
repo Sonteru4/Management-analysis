@@ -1,7 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 
 function DashboardGreeting() {
+
+    const myProfiledata = useSelector(
+        (state: any) => state.authReducer.myUserProfile
+      );
 
     const getTimeToReturnGreeting = ()=>{
         if(new Date().getHours() < 12)
@@ -18,7 +23,7 @@ function DashboardGreeting() {
             {getTimeToReturnGreeting()}
         </div>
         <div className='text-[40px] font-extrabold'>
-            John Joseph
+            {`${myProfiledata?.firstName} ${myProfiledata?.lastName}`}
 
         </div>
 

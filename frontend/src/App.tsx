@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
+import "aos/dist/aos.css"
+import AOS from "aos";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,6 +15,9 @@ import HomePage from "./pages/HomePage";
 
 
 function App() {
+  useEffect(()=>{
+    AOS.init();
+  },[])
   return (
     <>
       <BrowserRouter>

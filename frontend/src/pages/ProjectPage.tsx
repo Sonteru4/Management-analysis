@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProjectPageProjectInfo from "../components/ProjectPageProjectInfo";
 import ProjectPageMyTasks from "../components/ProjectPageMyTasks";
 import ProjectPageProjectMembers from "../components/ProjectPageProjectMembers";
@@ -16,6 +16,13 @@ import AddNewMemberModal from "../modals/AddNewMemberModal";
 import DeleteProjectConfirmationModal from "../modals/DeleteProjectConfirmationModal";
 import ProjectPageAddMediaModal from "../modals/ProjectPageAddMediaModal";
 import ViewMediaModal from "../modals/ViewMediaModal";
+import { getProjectById } from "../services/projectServices";
+import * as projectActions from "../redux/actions/projectActions"
+import { useDispatch, useSelector } from "react-redux";
+import { getUserDetailsFromToken } from "../services/authServices";
+import { getUserById } from "../services/userServices";
+import * as authActions from "../redux/actions/authActions"
+
 
 function ProjectPage() {
   const [addTaskModal,setAddTaskModal]=useState<Boolean>(false)
@@ -29,16 +36,62 @@ function ProjectPage() {
   const [addMemberModal,setAddMemberModal] = useState<Boolean>(false)
   const [deleteProjectModal,setDeleteProjetModal] = useState<Boolean>(false)
   const [addMediaModal,setAddMediaModal] = useState<Boolean>(false)
+  const [activeProject,setActiveProject] =  useState<any>({})
+
+  useEffect(() => {
+    const queryString = window.location.search;
+    console.log(queryString);
+    let urlParams = new URLSearchParams(queryString);
+    const projectId = urlParams.get("id");
+    console.log("projectID in projectProject : ", projectId);
+    if (projectId) {
+      getProjectData(projectId)
+    }
+  }, []);
+
+  const getProjectData=async(projectId:any)=>{
+    const tempOBJ = await getProjectById(projectId)
+    console.log("in PROJECTPAGE RETURNED PROJECT ",tempOBJ);
+    setActiveProject(tempOBJ)
+    // dispatch(projectActions.setActiveProjectAction(tempOBJ))
+  }
+  
+
+  // const activeProject = useSelector(
+  //   (state: any) => state.projectReducer.activeProject
+  // );
+
+const dispatch = useDispatch()
+useEffect(() => {
+  const existingUser:any = getUserDetailsFromToken()
+  console.log("EXISITING USER ID : ",existingUser)
+
+  if (existingUser._id) {
+     getMyProfileData(existingUser._id)
+  }
+}, []);
+const getMyProfileData =async(myUserId:any)=>{
+  const tempOBJ = await getUserById(myUserId)
+  console.log("in DAHBOARD FUNCTION: ",tempOBJ);
+  dispatch(authActions.loginAction(tempOBJ))
+}
+  
+
+
 
 
   return (
     <div className="flex flex-row h-[100vh] text-C11 relative">
      <Sidebar 
       setUserProfileModal={setUserProfileModal}
+      activePage="project-page"
       />
+      {
+        activeProject._id?
       <div className=" bg-C55 p-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
         {/* Project Info */}
-        <ProjectPageProjectInfo 
+        <ProjectPageProjectInfo
+        activeProject={activeProject} 
         setAddTaskModal={setAddTaskModal}
         setViewAllTaskModal = {setViewAllTaskModal} 
         setOverallPerformanceModal={setOverallPerformanceModal}
@@ -47,12 +100,13 @@ function ProjectPage() {
         setDeleteProjetModal={setDeleteProjetModal}
 
         />
-        <div className=" flex flex-row justify-between pt-10 gap-[200px]">
+        <div className=" flex flex-row justify-between pt-10  2xl:gap-[150px] xl:gap-[120px] gap-[50px] flex-wrap lg:flex-nowrap">
           {/* my Taks tasks */}
-          <ProjectPageMyTasks/>
+          <ProjectPageMyTasks />
 
           {/* Project Members */}
           <ProjectPageProjectMembers
+            activeProject={activeProject} 
             setAddMemberModal={setAddMemberModal}
             setViewMemberModal={setViewMemberModal}
             setRemoveMemberModal={setRemoveMemberModal}
@@ -63,6 +117,7 @@ function ProjectPage() {
         <div className="w-[60%] ">
           {/* Attached Media */}
           <ProjectPageAttachedMedia 
+          activeProject={activeProject} 
           setAddMediaModal={setAddMediaModal}
           setViewMediaModal={setViewMediaModal}
           />
@@ -71,7 +126,14 @@ function ProjectPage() {
         No Media Selected
         </div>
         </div>
+      </div>:
+      <div className="flex items-center justify-center flex-1 w-full">
+      <div className="flex justify-center mt-[100px] text-[16px] font-light ">
+        <div>Accumulating Project Details...</div>
       </div>
+      </div>
+
+      }
 
     {/*--- Active Modals ----*/}
      { 
@@ -84,7 +146,8 @@ function ProjectPage() {
      {
       // View all tasks of the project modal 
       viewAllTaskModal?
-      <ViewAllTaskModal 
+      <ViewAllTaskModal
+      activeProject={activeProject} 
       setViewAllTaskModal = {setViewAllTaskModal} 
       />:null
      }
@@ -144,6 +207,7 @@ function ProjectPage() {
       {
         deleteProjectModal?
         <DeleteProjectConfirmationModal
+        activeProject={activeProject}
         setDeleteProjetModal={setDeleteProjetModal}
         />:null
       }

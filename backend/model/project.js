@@ -10,30 +10,64 @@ const projectSchema = new mongoose.Schema({
     type: String,
   },
   projectManager: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    managerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    managerName: {
+      type: String,
+      required: true,
+    },
   },
   projectMembers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
-  allTasks:[
-    {
+    memberId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:'Task'
-    }
-  ],
-  completedTasks:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Task'
+      ref: 'User',
+    },
+    memberName: {
+      type: String,
+    },
+    memberRole: {
+      type: String,
+    },
   }],
-  pendingTasks:[
-    {
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'Task'
-    }
-  ],
+  allTasks: [{
+    taskTitle: {
+      type: String,
+    },
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Task',
+    },
+    taskStatus: {
+      type:String
+    },
+  }],
+  completedTasks: [{
+    taskTitle: {
+      type: String,
+    },
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Task',
+    },
+    taskStatus: {
+      type:String
+    },
+  }],
+  pendingTasks: [{
+    taskTitle: {
+      type: String,
+    },
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Task',
+    },
+    taskStatus: {
+      type:String
+    },
+  }],
   startDate:{
     type: Date,
     required:true

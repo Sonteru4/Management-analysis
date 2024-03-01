@@ -2,10 +2,18 @@ import { Add } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { projectMembers } from "../data/data";
 import ErrorBox from "../common/ErrorBox";
+import { createNewProject } from "../services/projectServices";
+import { useSelector } from "react-redux";
+import APIResponseStatus from "../common/APIResponseStatus";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function CreateNewProjectModal(props: any) {
   const { setCreateNewProjectModal } = props;
   const [error, setError] = useState<string | null>(null);
+  const [createProjectStatus,setCreateProjectStatus] = useState<any>("not-created")
+  const [createdProjectId,setCreatedProjectId] = useState<any>(null)
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,13 +55,27 @@ function CreateNewProjectModal(props: any) {
     // If all validations pass, return true
     return true;
     };
+    const myProfiledata = useSelector(
+      (state: any) => state.authReducer.myUserProfile
+    );
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
+
     // Add your validation logic here
     if (validateBeforeSubmit()) {
+      setCreateProjectStatus("create-loading")
       // Perform registration logic here call API
       console.log("Perform registration logic");
-      setCreateProjectFormData(emptyState)
+      await createNewProject(createProjectFormData,myProfiledata._id).then((res:any)=>{
+        console.log("INSIDE CREATE PROJECT :",res)
+        setCreatedProjectId(res?.project?._id);
+        setCreateProjectFormData(emptyState)
+        setCreateProjectStatus("create-success")
+
+      }).catch((err:any)=>{
+        console.log("INSIDE CREATE PROJECT :",err)
+        setCreateProjectStatus("create-failure")
+      })
     } else {
       // Display error message
       console.error("Validation failed. Display error message.");
@@ -66,11 +88,23 @@ function CreateNewProjectModal(props: any) {
     setCreateNewProjectModal(false);
   };
 
+  // const goToProject=()=>{
+
+  //   navigate
+
+
+  // }
+
+
+
+
   return (
     <div className="top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center">
       <div className="bg-C55 rounded-[8px] p-5 w-[700px] ">
         <div className="font-bold text-[20px] text-C11">New Project</div>
         <div className="my-1 mt-2 text-[14px] flex flex-col gap-2 ">
+          {
+            createProjectStatus==="not-created"?
           <div className="flex flex-col flex-1 gap-2">
             <div className="flex flex-col gap-1">
               <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
@@ -98,13 +132,26 @@ function CreateNewProjectModal(props: any) {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
+          </div>:
+          createProjectStatus==="create-loading"?
+          <div className="flex justify-center text-[16px] font-light ">
+            <div>Creating New Project...</div>
+          </div>:
+          createProjectStatus==="create-success"?
+           <APIResponseStatus message="Project Created" status={true}/>:
+           createProjectStatus==="create-failure"?
+           <APIResponseStatus message="Failed To Create" status={false}/>:null
+          }
+
           {error?
             // Section to implement the logic for validation
             <ErrorBox message={error} />:null
           }
         </div>
+        {
+        createProjectStatus==="not-created"?
         <div className="flex justify-end gap-4 mt-4">
+          
           <button
             className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
             onClick={handleModalClose}
@@ -117,7 +164,41 @@ function CreateNewProjectModal(props: any) {
           >
             Save
           </button>
-        </div>
+        </div>:
+        createProjectStatus==="create-loading"?
+        null:
+        createProjectStatus==="create-success"?
+        <div className="flex justify-end gap-4 mt-4">
+            
+            <button
+              className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
+              onClick={handleModalClose}
+            >
+              Back To Dashboard
+            </button>
+            <Link to={`/project-page?id=${createdProjectId}`}>
+            <div
+              className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}
+            >
+              Go To project
+            </div>
+            </Link>
+        </div>:
+        createProjectStatus==="create-failure"?
+        <div className="flex justify-end gap-4 mt-4">
+            <button
+              className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
+              onClick={handleModalClose}
+            >
+              Back To Dashboard
+            </button>
+        </div>:
+        null
+
+
+        }
+
+
       </div>
     </div>
   );

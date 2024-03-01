@@ -15,10 +15,12 @@ import CircularGraph from "../common/CircularGraph";
 import { Tooltip } from "@mui/material";
 import AddNewTaskModal from "../modals/AddNewTaskModal";
 import { log } from "console";
+import { useSelector } from "react-redux";
 
 function ProjectPageProjectInfo(props: any) {
   const { 
-    setAddTaskModal, 
+    setAddTaskModal,
+    activeProject, 
     setViewAllTaskModal, 
     setOverallPerformanceModal ,
     setEditProjectInfoModal,
@@ -26,29 +28,21 @@ function ProjectPageProjectInfo(props: any) {
     setDeleteProjetModal} =
     props;
 
-  // const addTaskModalOnClose = () =>{
-  //   setAddTaskModal(false)
-  //   console.log("close pressed");
 
-  // }
+
+  const myProfiledata = useSelector(
+    (state: any) => state.authReducer.myUserProfile
+  );
 
   return (
     <>
       <div className="flex flex-row items-center ">
-        <div className="flex flex-col w-[75%] ">
-          <div className="text-[40px] font-extrabold">Project Name</div>
+        <div className="flex flex-col w-full md:w-[75%] ">
+          <div className="text-[40px] font-extrabold">{activeProject?.projectName}</div>
           <div className="text-[14px] w-[90%]">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            {activeProject?.projectDescription}
           </div>
-          <div className="relative flex flex-row gap-5 py-5 ">
+          <div className="relative flex flex-row flex-wrap gap-5 py-5">
             <div className="flex flex-col">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
                 Project Manager
@@ -58,7 +52,7 @@ function ProjectPageProjectInfo(props: any) {
               onClick={()=>setViewMemberModal(true)}
                className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer hover:underline underline-offset-2 bg-C44 ">
                 <Person sx={{ fontSize: 12, color: colors.C11 }} />
-                <div className="p-2 font-semibold ">Emily Chen</div>
+                <div className="p-2 font-semibold ">{activeProject?.projectManager?.managerName}</div>
               </button>
               </Tooltip>
              
@@ -85,7 +79,10 @@ function ProjectPageProjectInfo(props: any) {
             </div>
 
             {/* Project Manager Privileges */}
-            <div className="flex flex-col">
+            {
+              activeProject.projectManager?.managerId === myProfiledata?._id?
+              <>
+               <div className="flex flex-col">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
                 View
               </div>
@@ -99,7 +96,6 @@ function ProjectPageProjectInfo(props: any) {
                 </button>
               </Tooltip>
             </div>
-
             <div className="flex flex-col ">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
                 Add
@@ -118,7 +114,6 @@ function ProjectPageProjectInfo(props: any) {
               </div>
 
             </div>
-
             <div className="flex flex-col">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">
                 Edit
@@ -133,8 +128,6 @@ function ProjectPageProjectInfo(props: any) {
                 </button>
               </Tooltip>
             </div>
-
-             {/* Delete Task Assigner Privilege  */}
              <div className="flex flex-col">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1 ">
               Delete
@@ -148,18 +141,23 @@ function ProjectPageProjectInfo(props: any) {
               </button>
               </Tooltip>
             </div>
-
-
-
+              </>:null
+            }
             {/* AddTaskModal Active */}
           </div>
         </div>
+        {
+          activeProject.allTasks.length!==0?
+        <div className="hidden md:flex">
+
         <CircularGraph
           setOverallPerformanceModal={setOverallPerformanceModal}
           color={colors.C11}
           trackColor={colors.C44}
           percentage={25}
         />
+        </div>:null
+        }
       </div>
     </>
   );

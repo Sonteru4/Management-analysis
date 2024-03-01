@@ -15,8 +15,9 @@ connectToDatabase().then(()=>{
             app.use(express.json())
 
             // AUTH REQUESTS
-            app.post("/register",authRouter); 
+            app.post("/register",authRouter)
             app.post("/login",authRouter)
+            app.post("/logout",authRouter)
             
             // USER REQUESTS
             app.get("/get-all-users",userRouter)

@@ -3,6 +3,9 @@ import React, { useState } from 'react'
 import { projectMembers } from '../data/data'
 import { Tooltip } from '@mui/material'
 import Loader from '../common/Loader'
+import { useSelector } from 'react-redux'
+import moment from 'moment'
+import { getRandomColor } from '../helper/helper'
 
 function UserProfileModal(props:any) {
     const {setUserProfileModal}=props
@@ -13,12 +16,16 @@ function UserProfileModal(props:any) {
       setUserProfileModal(false)    
     }
 
+    const myProfiledata = useSelector(
+      (state: any) => state.authReducer.myUserProfile
+    );
+
   return (
     <div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center'>
     <div className='bg-C55 rounded-[8px] p-5 w-[600px]' >
       <div className='flex flex-row items-center justify-between'>
       <div className='font-bold text-[20px] text-C11'>
-        My  Profile
+      {`${editState?"Edit ":""} My  Profile`}  
       </div>
       <button className='cursor-pointer'
       onClick={handleModalClose}
@@ -27,8 +34,13 @@ function UserProfileModal(props:any) {
       </button>
       </div> 
       <div className='flex flex-col text-[14px]'>
-        <div className='mx-auto w-[150px] h-[150px] rounded-[8px]  flex justify-center my-2 items-center border-4 border-C44'>
-          <img src="" alt="profileimage " />
+        <div className='mx-auto w-[150px] h-[150px] rounded-[4px]  flex justify-center my-2 items-center  bg-C11 p-1'>
+          {myProfiledata.profilePictureURL===""?
+           <div
+            className='flex items-center justify-center w-full h-full font-bold text-center text-white text-[40px] capitalize rounded-[2px] bg-C11 border-[2px] border-white'>
+            {`${myProfiledata.firstName[0]} ${myProfiledata.lastName[0]}`}
+           </div>:
+            <img src="" alt="profileimage " />}
         </div>
       {
         editState&&
@@ -58,24 +70,32 @@ function UserProfileModal(props:any) {
         !editState?
       <div className='flex flex-col'>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>First Name</div>
-          <div className='w-1/2 font'>John</div>
+          <div className='w-1/2 text-C11'>First Name</div>
+          <div className='w-1/2 font-bold'>{myProfiledata?.firstName}</div>
         </div>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Last Name</div>
-          <div className='w-1/2 '>Joseph</div>
+          <div className='w-1/2 text-C11'>Last Name</div>
+          <div className='w-1/2 font-bold'>{myProfiledata?.lastName}</div>
         </div>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Username</div>
-          <div className='w-1/2 '>JJoseph112</div>
+          <div className='w-1/2 text-C11'>Username</div>
+          <div className='w-1/2 font-bold'>{myProfiledata?.username}</div>
         </div>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Role</div>
-          <div className='w-1/2 '>Designer</div>
+          <div className='w-1/2 text-C11'>Role</div>
+          <div className='w-1/2 font-bold'>{myProfiledata?.role}</div>
+        </div>
+        <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
+          <div className='w-1/2 text-C11'>Date of birth</div>
+          <div className='w-1/2 font-bold'>{moment(myProfiledata.dateOfBirth).format("LL")}</div>
         </div>
         <div className='flex flex-row items-start justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Bio</div>
-          <div className='w-1/2 '>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet repellat magni doloribus at quos commodi id tenetur suscipit. Ipsum consequatur exercitationem saepe aliquam, quas modi animi ex cum quos repellendus.</div>
+          <div className='w-1/2 text-C11'>Bio</div>
+          {
+          myProfiledata?.bio===""?
+          <div className='w-1/2 italic text-gray-300'>not specified</div>:
+          <div className='w-1/2 font-bold'>{myProfiledata?.bio}</div>
+          }
         </div>
       </div>:
         <div className='flex flex-col gap-2'>
@@ -99,7 +119,6 @@ function UserProfileModal(props:any) {
           <div  className=" text-C11 text-[10px] font-bold  w-fit  select-none">Username</div>
           <input type="text" className='bg-C44 rounded-[4px]  p-2 text-[14px]' />
         </div>
-          
         </div> 
 
 
@@ -128,8 +147,6 @@ function UserProfileModal(props:any) {
       </div>
       }
     </div>
-
-
   </div>
   )
 }

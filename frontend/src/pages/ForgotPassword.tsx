@@ -10,7 +10,7 @@ function ForgotPassword() {
    <> 
    <div className='flex flex-col justify-center py-20 mx-auto  w-[30%]'>
     <div className='flex justify-center p-2 '>
-    <Logo size={"0.6x"} color={colors.C11}/>
+    <Logo size={"0.4"} color={colors.C11}/>
     </div>
     <div className='flex flex-col gap-2 p-2 py-10 '>
             
