@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 function CreateNewProjectModal(props: any) {
-  const { setCreateNewProjectModal } = props;
+  const { setCreateNewProjectModal,triggerRerender} = props;
   const [error, setError] = useState<string | null>(null);
   const [createProjectStatus,setCreateProjectStatus] = useState<any>("not-created")
   const [createdProjectId,setCreatedProjectId] = useState<any>(null)
@@ -69,6 +69,7 @@ function CreateNewProjectModal(props: any) {
       await createNewProject(createProjectFormData,myProfiledata._id).then((res:any)=>{
         console.log("INSIDE CREATE PROJECT :",res)
         setCreatedProjectId(res?.project?._id);
+        triggerRerender()
         setCreateProjectFormData(emptyState)
         setCreateProjectStatus("create-success")
 

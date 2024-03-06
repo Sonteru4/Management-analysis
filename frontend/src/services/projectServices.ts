@@ -4,18 +4,18 @@ import { ENV } from "../env/environment";
 export const createNewProject =async(projectDetails:any,userId:any)=>{
     let newProjectData
     await axios.post(`${ENV}/create-new-project-for-user-id/${userId}`,projectDetails).then((res:any)=>{
-        console.log("Create Project Response", res)
+        console.log("(inservice)CREATE PROJECT BY USER ID RESULT:",res);
         newProjectData = res.data
     }).catch((err:any)=>{
         newProjectData= err
     }) 
-    return  newProjectData;
+    return newProjectData;
 }
 
 export const getProjectById = async(projectId:any)=>{
     let projectData
     await axios.get(`${ENV}/get-project-by-id/${projectId}`).then((res:any)=>{
-        console.log("RESPONSE TO GET PROJECT BY ID : ",res.data)
+        console.log("(inservice) GET PROJECT BY ID RESULT: ",res.data)
         projectData = res.data
     }).catch((err:any)=>{
         console.log("ERROR TO GET PROJECT BY ID : ",err)
@@ -23,12 +23,64 @@ export const getProjectById = async(projectId:any)=>{
     return projectData
 }
 
-export const deleteProjectById = async(projectId:any)=>{
+export const addTaskToProject = async(projectId:string,taskDetails:any)=>{
+    let createdTaskResult
+    axios.post(`${ENV}/add-new-task-by-project-id/${projectId}`,taskDetails).then((res:any)=>{
+        console.log("(inservice)ADD TASK RESULT : ",res)
+        createdTaskResult = res.data
+    }).catch((err:any)=>{
+        createdTaskResult = err
+        console.log("ERROR IN ADD TASK : ",err)
+    })
+    return createdTaskResult
+}
+
+export const deleteProjectById = async(projectId:string)=>{
     let deleteResult
-    await axios.delete(`${ENV}/delete-project-by-id/${projectId}`).then(()=>{
-        deleteResult="SUCCESSFULLY DELETED!"
-    }).catch((error:any)=> {
-        deleteResult= error.response.statusText
+    await axios.delete(`${ENV}/delete-project-by-id/${projectId}`).then((res:any)=>{
+        console.log("(inservice)DELETE PROJECT BY ID RESULT :",res)
+        deleteResult=res.data
+    }).catch((err:any)=> {
+        console.log("(inservice)DELETE PROJECT BY ID ERROR:",err)
+        deleteResult= err
     });
    return deleteResult
+}
+
+export const editProjectById = async(projectId:string,updatedInfo:any)=>{
+    let editResult
+    await axios.put(`${ENV}/edit-project-by-id/${projectId}`,updatedInfo).then((res:any)=>{
+        console.log("(inservice)EDIT PROJECT BY ID RESULT :",res);
+        editResult = res.data
+    }).catch((err:any)=>{
+        editResult = err
+    })
+    return editResult;
+}
+
+export const addMemberToProject = async(projectId:string,userData:any)=>{
+    let addMemberResponse 
+    await axios.post(`${ENV}/add-new-member-by-project-id/${projectId}`,userData).then((res:any)=>{
+        console.log("(inservice)ADDMEMBER PROJECT BY ID RESULT :",res);
+        addMemberResponse = res.data
+
+    }).catch((err:any)=>{
+        console.log("(inservice)ERROR ADDMEMBER PROJECT BY ID RESULT :",err);
+
+        addMemberResponse = err
+
+    })
+    return addMemberResponse
+}
+
+export const deleteMemberFromProject = async(projectId:string,userData:any)=>{
+    let removeMemberResponse 
+    console.log("USERDATA IN SERVICE",userData.memberId)
+    await axios.delete(`${ENV}/remove-member-from-project-by-id/${projectId}`, { data: userData }).then((res:any)=>{
+        console.log("(inservice)REMOVE MEMBER FROM PROJECT BY ID RESULT :",res);
+        removeMemberResponse = res.data
+    }).catch((err:any)=>{
+        removeMemberResponse = err
+    })
+    return removeMemberResponse
 }

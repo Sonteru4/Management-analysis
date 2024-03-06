@@ -5,9 +5,12 @@ const taskController = require("../controller/taskController");
 taskRouter.get("/get-all-tasks", taskController.get_all_tasks);//
 taskRouter.get("/get-task-by-id/:taskId", taskController.get_task_by_id);//
 
-taskRouter.put("/edit_task_by_id/:taskId",taskController.edit_task_by_id);//
-taskRouter.put("/change_task_status_by_id/:taskId",taskController.change_task_status_by_id)//
-taskRouter.post("/add_comment_by_id/:taskId",taskController.add_comment_by_task_id)//
+taskRouter.put("/edit-task-by-id/:taskId",taskController.edit_task_by_id);//
+taskRouter.put("/change-task-status-by-id/:taskId",taskController.change_task_status_by_id)//
+taskRouter.post("/add-comment-by-id/:taskId",taskController.add_comment_by_task_id)//
 
-taskRouter.delete("/delete_task_by_id/:taskId",taskController.delete_task_by_id)//
+taskRouter.delete("/delete-task-by-id/:taskId",taskController.delete_task_by_id)//
+
+taskRouter.delete("/delete-all-tasks",taskController.delete_all_tasks)
+
 module.exports = taskRouter;

@@ -15,6 +15,7 @@ userRouter.post("/create-new-project-for-user-id/:userId",userController.create_
 userRouter.put("/update-user-profile/:userId",userController.update_user_profile_by_user_id)//
 userRouter.delete("/delete-user/:userId",userController.delete_user_by_user_id)//
 
+userRouter.delete("/delete-all-users",userController.delete_all_users)
 
 
 module.exports = userRouter;

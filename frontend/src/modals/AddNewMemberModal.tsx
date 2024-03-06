@@ -3,11 +3,20 @@ import { projectMembers } from "../data/data";
 import { Add, Close } from "@mui/icons-material";
 import ErrorBox from "../common/ErrorBox";
 import { getAllUsers } from "../services/userServices";
+import APIResponseStatus from "../common/APIResponseStatus";
+import { addMemberToProject } from "../services/projectServices";
+import { useSelector } from "react-redux";
+import { resolve } from "path/posix";
 
 function AddNewMemberModal(props: any) {
-  const { setAddMemberModal } = props;
+  const { setAddMemberModal ,triggerRerender,activeProject} = props;
   const [error, setError] = useState<any>();
   const [allUsers, setAllUsers] = useState<any>([]);
+  const [addNewMemberStatus,setAddNewMemberStatus] = useState<string>("not-added")
+
+  const myProfiledata = useSelector(
+    (state: any) => state.authReducer.myUserProfile
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,24 +34,26 @@ function AddNewMemberModal(props: any) {
   },[])
 
   const getUsers =async()=>{
-      const tempARRAY = await getAllUsers()
-      console.log(" PPL IN MODAL ",tempARRAY);
-      setAllUsers(tempARRAY)
+     await getAllUsers().then((res:any)=>{
+        const tempARRAY= res.filter((user:any)=>(user._id!==myProfiledata?._id))
+        console.log(" PPL IN MODAL ",tempARRAY);
+        setAllUsers(tempARRAY)
+      })
     }
     
   
   
   const emptyState = {
-    userId: "",
+    memberId: "",
   };
 
   const [addMemberFormData, setAddMemberFormData]: any = useState<any>({
-    userId: "",
+    memberId: "",
   });
 
   const validateBeforeSubmit = () => {
 
-    if(!addMemberFormData.userId.trim()){
+    if(!addMemberFormData.memberId.trim()){
       setError( "Please Choose a Member");
       return false;
     }
@@ -55,11 +66,23 @@ function AddNewMemberModal(props: any) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     // Add your validation logic here
     if (validateBeforeSubmit()) {
-      // Perform registration logic here call API
-      console.log("Perform registration logic");
+      console.log("GOIN TO ADD MEMBER", addMemberFormData.memberId);
+      setAddNewMemberStatus("add-loading")
+      await addMemberToProject(activeProject?._id,addMemberFormData).then((res:any)=>{
+        console.log("(INREACT) ADDMEMBER PROJECT BY ID RESULT",res.data)
+        const tempOBJ = res.data
+        triggerRerender()
+        setAddMemberFormData(emptyState)
+        setAddNewMemberStatus("add-success")
+      }).catch((err:any)=>{
+        setAddNewMemberStatus("add-failure")
+      })
+
+
+
       setAddMemberFormData(emptyState)
       // setAddNewTaskFormData(emptyState);
     } else {
@@ -82,19 +105,21 @@ function AddNewMemberModal(props: any) {
             <Close sx={{ fontSize: 20, fontWeight: 800 }} />
           </button>
         </div>
+        {
+          addNewMemberStatus==="not-added"?
         <div className="my-4 text-[14px] flex flex-row gap-2 ">
           <div className="flex flex-col w-full gap-1 mt-2">
             <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
               Choose a member
             </div>
             <select
-              name="userId"
-              id="userId"
+              name="memberId"
+              id="memberId"
               className="bg-C44 rounded-[8px]  p-2 text-[14px]"
               value={addMemberFormData.userId}
               onChange={handleInputChange}
             >
-              <option value="none" selected>
+              <option value=" " selected>
                 None Selected
               </option>
               {allUsers?.map((node: any) => (
@@ -104,24 +129,42 @@ function AddNewMemberModal(props: any) {
               ))}
             </select>
           </div>
-        </div>
+        </div>:
+        addNewMemberStatus==="add-loading"?
+        <div className="flex justify-center text-[16px] font-light ">
+        <div>Adding Member To Project...</div>
+        </div>:
+        addNewMemberStatus === "add-success"?
+          <APIResponseStatus status={true} message="Memeber Added to Project"/>:
+          addNewMemberStatus === "add-failure"?
+           <APIResponseStatus status={true} message="Failed To Add Member"/>:
+       null
+        }
+
         {error?
           <ErrorBox message={error} />:null
         }
-        <div className="flex justify-end gap-4 mt-2">
-          <button
-            className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
-            onClick={handleModalClose}
-          >
-            Cancel
-          </button>
-          <button
+        <div className="flex justify-end gap-4 mt-4">
+        
+        <button
+          className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
+          onClick={handleModalClose}
+        >
+          {((addNewMemberStatus==="add-success"||addNewMemberStatus==="add-failure"))? "Back To Project":addNewMemberStatus==="add-loading"?null:"Close"}
+        </button>
+
+        {
+        addNewMemberStatus==="not-added"?
+        
+        <button
           onClick={handleSubmit}
-            className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}
-          >
-            Save
-          </button>
-        </div>
+          className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}
+        >
+          Add
+        </button>:null
+      }
+
+      </div>
       </div>
     </div>
   );

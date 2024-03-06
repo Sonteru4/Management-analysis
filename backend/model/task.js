@@ -21,10 +21,12 @@ const taskSchema = new mongoose.Schema({
   assignedBy:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   assignedTo: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
   taskStatus: {
     type: String,
@@ -33,6 +35,9 @@ const taskSchema = new mongoose.Schema({
   },
   dueDate: {
     type: String,
+  },
+  assignedOn:{
+    type:String
   },
   taskAttachedMediaURLSet:{
     type:[{type:String}]

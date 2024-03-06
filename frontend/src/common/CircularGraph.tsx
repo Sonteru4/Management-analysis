@@ -11,7 +11,7 @@ function CircularGraph(props: any) {
     onClick={()=>setOverallPerformanceModal(true)}
     >
       {/* Progress bar */}
-      <div className="max-w-[200px] max-h-[200px] border-dashed  rounded-full text-center items-center flex justify-center text-[50px] font-extrabold">
+      <div className="max-w-[200px] max-h-[200px] border-dashed  rounded-full text-center items-center hidden md:flex justify-center text-[50px] font-extrabold">
         <ProgressProvider valueStart={0} valueEnd={percentage}>
           {(value: any) => (
             <CircularProgressbar

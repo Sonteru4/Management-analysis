@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { colors } from "../Constants";
 import { ArrowForwardRounded, ReplayRounded, RestartAlt, RestartAltRounded, Visibility, VisibilityOff } from "@mui/icons-material";
 import ErrorBox from "../common/ErrorBox";
-import { registerUser } from "../services/authServices";
+import { getUserDetailsFromToken, registerUser } from "../services/authServices";
 import MessageModal from "../modals/MessageModal";
 import APIResponseStatus from "../common/APIResponseStatus";
 import Loader from "../common/Loader";
@@ -19,17 +19,29 @@ import {
 import { useSelector } from "react-redux";
 
 function Register() {
-  document.title = "TMS • Sign Up";
+  
   const [showPassword, setShowPassword] = useState<Boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [registerStatus, setRegisterStatus] = useState<any>("not-registered");
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const existingUser:any = getUserDetailsFromToken()
+    console.log("EXISITING USER ID : ",existingUser)
+
+    if (existingUser?._id) {
+       navigate("/dashboard")
+    }
+    else{
+      document.title = "TMS • Sign Up";
+    }
+  }, []);
 
   const retryRegister = () => {
     setRegisterFormData(emptyState);
     setRegisterStatus("not-registered");
   };
 
-  const navigate = useNavigate();
   useEffect(() => {
     const timer = setTimeout(() => {
       setError(null);

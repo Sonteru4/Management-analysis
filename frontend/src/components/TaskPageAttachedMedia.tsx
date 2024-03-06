@@ -3,9 +3,10 @@ import React from 'react'
 import { colors } from '../Constants'
 import { sampleMedia } from '../data/data'
 import { Tooltip } from '@mui/material'
+import NoDataMessage from '../common/NoDataMessage'
 
 function TaskPageAttachedMedia(props:any) {
-    const{setViewMediaModal,setAddMediaModal }=props
+    const{setViewMediaModal,setAddMediaModal ,activeTask}=props
   return (
     <>
     <div className='my-10'>
@@ -23,7 +24,7 @@ function TaskPageAttachedMedia(props:any) {
         </div>
         <div className='flex mt-2 flex-wrap flex-row gap-5 py-2  px-1 max-w-[90%] overflow-y-auto max-h-[300px]'>
             {
-                sampleMedia.map((node:any)=>(
+                activeTask?.taskAttachedMediaURLSet.map((node:any)=>(
                     <Tooltip title="View" placement='top' arrow>
 
                     <button 
@@ -50,6 +51,10 @@ function TaskPageAttachedMedia(props:any) {
 
             }
         </div>
+        {
+          activeTask?.taskAttachedMediaURLSet.length===0&&
+          <NoDataMessage message="No Media Regarding this Task" size="small"/>
+        }
     </div>
     </>
   )

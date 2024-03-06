@@ -9,7 +9,7 @@ export const colors={
     inactiveRed:"#ff5a5a3f",
     SucessGreen:"#2abf43",
     highPriority:"#FF5A5A",
-    mediumPriority:"#FFD15A",
+    mediumPriority:"#fac439",
     lowPriority:"#5A92FF",
     
 }

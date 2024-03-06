@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { colors } from "../Constants";
 import { taskComments } from "../data/data";
 import ErrorBox from "../common/ErrorBox";
+import NoDataMessage from "../common/NoDataMessage";
 
-function TaskPageTaskStatusMarker() {
-
+function TaskPageTaskStatusMarker(props:any) {
+ 
+  const{activeTask,myProfiledata}=props
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -18,13 +20,15 @@ function TaskPageTaskStatusMarker() {
   }, [error]);
 
   const emptyState={
-    senderName:"",
-    messageContent:""
+    senderName:`${myProfiledata?.firstName} ${myProfiledata?.lastName}`,
+    messageContent:"",
+    senderId:""
   }
 
   const [taskCommentFormData, setTaskCommentFormData] = useState({
     senderName:"",
-    messageContent:""
+    messageContent:"",
+    senderId:"",
   });
 
   const validateBeforeSubmit = () => {
@@ -46,6 +50,7 @@ function TaskPageTaskStatusMarker() {
     // Add your validation logic here
     if (validateBeforeSubmit()) {
       console.log("Perform Comment Posting logic");
+
       setTaskCommentFormData(emptyState)
     } else {
       console.error("Validation failed. Display error message.");
@@ -68,7 +73,7 @@ function TaskPageTaskStatusMarker() {
 
         <div className="flex flex-col gap-3 my-1 bg-gray-50 max-h-[300px] overflow-y-auto p-2">
 
-          {taskComments.map((node:any)=>(
+          {activeTask?.taskComments.map((node:any)=>(
                     <div className="flex flex-col group   text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all p-1 w-fit border-l-4 hover:border-C11 ">
                         <div
                           className={`min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-left items-center p-1 rounded-[4px] group-hover:rounded-l-[4px] group-hover:rounded-r-[0px] `}
@@ -87,7 +92,12 @@ function TaskPageTaskStatusMarker() {
         }
 
 
+        {activeTask?.taskComments.length===0&&
+        <NoDataMessage message ={"No Comments"} size="small"/>
+
+        }
         </div>
+
         </div>
 
 
@@ -100,6 +110,9 @@ function TaskPageTaskStatusMarker() {
             rows={4}
             className="bg-C44 resize-none   rounded-[4px] p-2 text-[14px]"
             placeholder="Type a message"
+            name="messageContent"
+            id="messageContent"
+            onChange={handleInputChange}
           />
           <div className="flex justify-end py-2">
             <button

@@ -16,6 +16,7 @@ import { Tooltip } from "@mui/material";
 import AddNewTaskModal from "../modals/AddNewTaskModal";
 import { log } from "console";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 function ProjectPageProjectInfo(props: any) {
   const { 
@@ -49,10 +50,10 @@ function ProjectPageProjectInfo(props: any) {
               </div>
               <Tooltip title="View Profile" arrow placement="bottom">
               <button
-              onClick={()=>setViewMemberModal(true)}
+              onClick={()=>setViewMemberModal({[`isOpen`]:true,[`memberData`]:activeProject?.projectManager})}
                className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer hover:underline underline-offset-2 bg-C44 ">
                 <Person sx={{ fontSize: 12, color: colors.C11 }} />
-                <div className="p-2 font-semibold ">{activeProject?.projectManager?.managerName}</div>
+                <div className="p-2 font-semibold ">{`${activeProject?.projectManager?.firstName} ${activeProject?.projectManager?.lastName}`}</div>
               </button>
               </Tooltip>
              
@@ -64,7 +65,7 @@ function ProjectPageProjectInfo(props: any) {
               </div>
               <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
                 <CalendarMonth sx={{ fontSize: 12, color: colors.C11 }} />
-                <div className="p-2 font-semibold">12 Dec 2021 </div>
+                <div className="p-2 font-semibold">{moment(activeProject?.startDate).format("LL")}</div>
               </div>
             </div>
 
@@ -74,13 +75,13 @@ function ProjectPageProjectInfo(props: any) {
               </div>
               <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
                 <DonutLarge sx={{ fontSize: 12, color: colors.C11 }} />
-                <div className="p-2 font-semibold">In Progres</div>
+                <div className="p-2 font-semibold">{activeProject?.projectStatus}</div>
               </div>
             </div>
 
             {/* Project Manager Privileges */}
             {
-              activeProject.projectManager?.managerId === myProfiledata?._id?
+              activeProject.projectManager?._id === myProfiledata?._id?
               <>
                <div className="flex flex-col">
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1 select-none">

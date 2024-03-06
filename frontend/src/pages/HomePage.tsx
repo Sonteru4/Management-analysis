@@ -49,7 +49,7 @@ function HomePage() {
                 </div>
                 </Link>
                  </>: 
-                 <Link to={`/dashboard?id=${userData._id}`}>
+                 <Link to={`/dashboard`}>
                  <div className='hover:bg-inactiveC11 text-C11 px-4 py-1  rounded-[4px]'>
                      Dashboard
                  </div>

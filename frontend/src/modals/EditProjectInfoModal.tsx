@@ -2,10 +2,13 @@ import { Add, Close } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import { projectMembers } from "../data/data";
 import ErrorBox from "../common/ErrorBox";
+import { editProjectById } from "../services/projectServices";
+import APIResponseStatus from "../common/APIResponseStatus";
 
 function EditProjectInfoModal(props: any) {
-  const { setEditProjectInfoModal } = props;
+  const { setEditProjectInfoModal,activeProject ,triggerRerender} = props;
   const [error, setError] = useState<string | null>(null);
+  const [editProjectStatus,setEditProjectStatus] = useState<string>("not-edited")
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,15 +20,15 @@ function EditProjectInfoModal(props: any) {
   }, [error]);
 
   const emptyState = {
-    projectName: "",
-    projectDescription: "",
-    projectStatus: "",
+    projectName:activeProject?.projectName,
+    projectDescription: activeProject?.projectDescription,
+    projectStatus: activeProject.status,
   };
 
   const [editProjectFormData, setEditProjectFormData]: any = useState<any>({
-    projectName: "",
-    projectDescription: "",
-    projectStatus: "",
+    projectName:activeProject?.projectName,
+    projectDescription: activeProject?.projectDescription,
+    projectStatus: activeProject.projectStatus,
   });
 
   const validateBeforeSubmit = () => {
@@ -51,12 +54,23 @@ function EditProjectInfoModal(props: any) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     // Add your validation logic here
     if (validateBeforeSubmit()) {
+      setEditProjectStatus("edit-loading")
       // Perform registration logic here call API
       console.log("Perform registration logic");
-      setEditProjectFormData(emptyState)
+      await editProjectById(activeProject?._id,editProjectFormData).then((res:any)=>{
+        console.log("(inreact)EDIT PROJECT BY ID RESULT : ",res)
+        if(res.status){
+          setEditProjectStatus("edit-success")
+          triggerRerender()
+          setEditProjectFormData(emptyState)
+        }
+      }).catch((err:any)=>{
+        setEditProjectStatus("edit-failure")
+        setEditProjectFormData(emptyState)
+      })
       // setAddNewTaskFormData(emptyState);
     } else {
       // Display error message
@@ -80,8 +94,9 @@ function EditProjectInfoModal(props: any) {
             <Close sx={{ fontSize: 20, fontWeight: 800 }} />
           </button>
         </div>
-        <div className="my-1 mt-2 text-[14px] flex flex-row gap-2">
-          <div className="flex flex-col flex-1 gap-2">
+        {
+        editProjectStatus==="not-edited"?
+        <div className="my-1 mt-2 text-[14px] flex flex-col gap-2 ">
             <div className="flex flex-col gap-1">
               <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
                 Project Name
@@ -108,49 +123,67 @@ function EditProjectInfoModal(props: any) {
                 onChange={handleInputChange}
               />
             </div>
+          <div className="flex flex-col gap-1">
+            <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
+              Project Status
+            </div>
+            <select
+              name="projectStatus"
+              id="projectStatus"
+              className="bg-C44 rounded-[8px]  p-2 text-[14px]"
+              value={editProjectFormData.projectStatus}
+              onChange={handleInputChange}
+            >
+              <option value="" className="text-C11" >
+                None Selected
+              </option>
+              <option value="In Progress" className="text-C11" >
+                In Progress
+              </option>
+              <option value="Completed" className="text-C11">
+                Completed
+              </option>
+            </select>
           </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
-            Project Status
-          </div>
-          <select
-            name="projectStatus"
-            id="projectStatus"
-            className="bg-C44 rounded-[8px]  p-2 text-[14px]"
-            value={editProjectFormData.projectStatus}
-            onChange={handleInputChange}
-          >
-            <option value="" className="text-C11" >
-              None Selected
-            </option>
-            <option value="In progress" className="text-C11" >
-              In Progress
-            </option>
-            <option value="Completed" className="text-C11">
-              Completed
-            </option>
-          </select>
-        </div>
+          
+        </div>:
+        editProjectStatus ==="edit-loading"?
+        <div className="flex justify-center text-[16px] font-light ">
+        <div>Editing Project Info...</div>
+        </div>:
+        editProjectStatus === "edit-success"?
+          <APIResponseStatus status={true} message="Project Info Edited"/>:
+        editProjectStatus === "edit-failure"?
+           <APIResponseStatus status={false} message="Project Edit Failed"/>:
+       null
+        }
         <div className="mt-2">
 
         {error?
           <ErrorBox message={error  } />:null
         }
         </div>
+
         <div className="flex justify-end gap-4 mt-4">
+        
           <button
             className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
             onClick={handleModalClose}
           >
-            Cancel
+            {((editProjectStatus==="edit-success"||editProjectStatus==="edit-failure"))? "Back To Project":editProjectStatus==="edit-loading"?null:"Close"}
           </button>
+
+          {
+          editProjectStatus==="not-edited"?
+          
           <button
             onClick={handleSubmit}
             className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}
           >
             Save
-          </button>
+          </button>:null
+        }
+
         </div>
       </div>
     </div>

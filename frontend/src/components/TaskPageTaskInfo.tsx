@@ -12,10 +12,10 @@ import React from "react";
 import { colors } from "../Constants";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 function TaskPageTaskInfo(props:any) {
-    const {setEditTaskModal,setDeleteTaskModal,setViewMemberModal}=props
-    const priority = "high"
+    const {setEditTaskModal,setDeleteTaskModal,setViewMemberModal,activeTask}=props
   return (
     <>
       <div className="flex flex-row items-center ">
@@ -25,25 +25,17 @@ function TaskPageTaskInfo(props:any) {
               Project
             </div>
             <Tooltip title="View Project" arrow placement="right">
-            <Link to="/project-page">
+            <Link to={`/project-page?id=${activeTask?.project?._id}`}>
             <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
               <EmojiEvents sx={{ fontSize: 15, color: colors.C11 }} />
-              <div className="p-2 font-semibold">Project Name</div>
+              <div className="p-2 font-semibold">{activeTask?.project?.projectName}</div>
             </div>
             </Link>
             </Tooltip>
           </div>
-          <div className="text-[40px] font-extrabold">Task Name</div>
+          <div className="text-[40px] font-extrabold">{activeTask?.taskTitle}</div>
           <div className="text-[14px] w-[90%]">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            {activeTask?.taskDescription}
           </div>
           <div className="flex flex-row flex-wrap gap-5 py-5 ">
 
@@ -54,7 +46,7 @@ function TaskPageTaskInfo(props:any) {
               </div>
               <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
                 <Info sx={{ fontSize: 15, color: colors.C11 }} />
-                <div className="p-2 font-semibold ">223165</div>
+                <div className="p-2 font-semibold ">{activeTask?._id}</div>
               </div>
             </div>
 
@@ -63,16 +55,17 @@ function TaskPageTaskInfo(props:any) {
               <div className=" text-C11 text-[8px] font-bold  w-fit py-1">
                 Priority
               </div>
-              <div className={`flex flex-row items-center px-2 rounded-[4px] text-[12px]
-              ${ priority === "high"
+              
+              <div className={`text-C55 flex flex-row items-center px-2 rounded-[4px] text-[12px] 
+              ${ activeTask?.taskPriority === "High"
                 ? "bg-highPriority":
-                priority === "medium"? 
+                activeTask?.taskPriority === "Medium"? 
                 "bg-mediumPriority"
                 : "bg-lowPriority"
               }
                cursor-pointer bg-C44 justify-between`}>
-                <LabelImportant sx={{ fontSize: 15, color: colors.C55 }} />
-                <div className="p-2 font-semibold text-C55">High</div>
+                <LabelImportant sx={{ fontSize: 15}} />
+                <div className="p-2 font-semibold ">{activeTask?.taskPriority}</div>
               </div>
             </div>
 
@@ -83,10 +76,10 @@ function TaskPageTaskInfo(props:any) {
               </div>
               <Tooltip title="View Profile" arrow placement="top-end">
               <button
-              onClick={()=>setViewMemberModal(true)}
+              onClick={()=>setViewMemberModal({[`isOpen`]:true,[`memberData`]:activeTask?.assignedTo})}
               className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C11 hover:underline underline-offset-2 decoration-C44 ">
                 <Person sx={{ fontSize: 15, color: colors.C55 }} />
-                <div className="p-2 font-semibold text-C55">George Tom </div>
+                <div className="p-2 font-semibold text-C55">{`${activeTask?.assignedTo?.firstName} ${activeTask?.assignedTo?.lastName}`}</div>
               </button>
               </Tooltip>
             </div>
@@ -98,10 +91,10 @@ function TaskPageTaskInfo(props:any) {
               </div>
               <Tooltip title="View Profile" arrow placement="top-end">
               <button 
-              onClick={()=>setViewMemberModal(true)}
+              onClick={()=>setViewMemberModal({[`isOpen`]:true,[`memberData`]:activeTask?.assignedBy})}
               className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 hover:underline underline-offset-2 ">
                 <Person sx={{ fontSize: 15, color: colors.C11 }} />
-                <div className="p-2 font-semibold ">Tania Vazquez</div>
+                <div className="p-2 font-semibold ">{`${activeTask?.assignedBy?.firstName} ${activeTask?.assignedBy?.lastName}`}</div>
               </button>
               </Tooltip>
             </div>
@@ -115,7 +108,7 @@ function TaskPageTaskInfo(props:any) {
               </div>
               <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
                 <CalendarMonth sx={{ fontSize: 15, color: colors.C11 }} />
-                <div className="p-2 font-semibold ">12 Dec 2023</div>
+                <div className="p-2 font-semibold ">{moment(activeTask?.assignedOn).format("LL")}</div>
               </div>
             </div>
 
@@ -126,7 +119,7 @@ function TaskPageTaskInfo(props:any) {
               </div>
               <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C11 ">
                 <CalendarMonth sx={{ fontSize: 15, color: colors.C55 }} />
-                <div className="p-2 font-semibold text-C55">24 Dec 2023</div>
+                <div className="p-2 font-semibold text-C55">{moment(activeTask?.dueDate).format("LL")}</div>
               </div>
             </div>
 
@@ -137,7 +130,7 @@ function TaskPageTaskInfo(props:any) {
               </div>
               <div className="flex flex-row items-center px-2 rounded-[4px] text-[12px] cursor-pointer bg-C44 ">
                 <DonutLarge sx={{ fontSize: 15, color: colors.C11 }} />
-                <div className="p-2 font-semibold ">Assigned</div>
+                <div className="p-2 font-semibold ">{activeTask?.taskStatus}</div>
               </div>
             </div>
 

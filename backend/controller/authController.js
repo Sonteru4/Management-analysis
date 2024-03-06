@@ -125,3 +125,22 @@ exports.logout = async(req,res)=>{
 }
 
 
+exports.delete_all_data = async (req, res) => {
+  try {
+    // Delete all tasks
+    await Task.deleteMany();
+
+    // Delete all projects
+    await Project.deleteMany();
+
+    // Delete all users
+    await User.deleteMany();
+
+    res.status(200).json({ message: 'All tasks, projects, and users deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+

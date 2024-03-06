@@ -21,8 +21,11 @@ exports.get_task_by_id = async(req,res)=>{
         const taskId = req.params.taskId; // Use req.params to get the task ID from the URL
     
         // Find the task in the database based on the provided task ID
-        const task = await Task.find({"taskId":taskId});
-    
+        const task = await Task.findById(taskId)
+        .populate('project')
+        .populate('assignedBy')
+        .populate('assignedTo')
+       
         if (!task) {
           // If the task is not found, respond with a 404 status
           return res.status(404).json({ error: 'Task not found' });
@@ -41,27 +44,41 @@ exports.get_task_by_id = async(req,res)=>{
 exports.edit_task_by_id= async(req,res)=>{
   try {
     const taskId = req.params.taskId;
-    const { title, description, details, dueDate } = req.body;
+    const { taskTitle, taskDescription, dueDate,taskStatus,taskPriority} = req.body;
 
     // Implement the logic to edit the task in the database
     // Use the Task model and its findOneAndUpdate method
-    const editedTask = await Task.findOneAndUpdate(
-      { "taskId": taskId },
-      { title, description, details, dueDate },
-      { new: true } // This option ensures you get the updated document in the response
-    );
+    // const editedTask = await Task.findOneAndUpdate(
+    //   {  _id: taskId },
+    //   { title, description, details, dueDate },
+    //   { new: true } // This option ensures you get the updated document in the response
+    // );
+
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ error: "Task not found" ,status:false});
+    }
+
+    // Update project properties with the new values
+    task.taskTitle = taskTitle;
+    task.taskDescription = taskDescription;
+    task.taskStatus = taskStatus;
+    task.dueDate = dueDate
+    task.taskPriority = taskPriority
+
+    const editedTask = await task.save()
 
     if (!editedTask) {
       // Handle the case where the task with the given ID is not found
-      return res.status(404).json({ error: "Task not found" });
+      return res.status(404).json({ error: "Task not found",editStatus: false });
     }
 
     // Respond with the edited task or any relevant information
-    res.status(200).json({ message: "Task edited successfully", task: editedTask });
+    res.status(200).json({ message: "Task edited successfully", editStatus: true });
   } catch (error) {
     console.error(error);
     // Handle any internal server error
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error",editStatus: true });
   }
   
 }
@@ -74,7 +91,7 @@ exports.add_comment_by_task_id= async(req,res)=>{
     // Implement the logic to add a comment to the task in the database
     // Use the Task model and its findOneAndUpdate method
     const updatedTask = await Task.findOneAndUpdate(
-      { "taskId": taskId },
+      { taskId },
       { $push: { comments: comment } },
       { new: true } // This option ensures you get the updated document in the response
     );
@@ -129,15 +146,15 @@ exports.delete_task_by_id = async(req,res)=>{
 
     // Implement the logic to delete the task from the database
     // Use the Task model and its findOneAndDelete method
-    const deletedTask = await Task.findOneAndDelete({ "taskId": taskId });
+    const deletedTask = await Task.findByIdAndDelete(taskId);
 
     if (!deletedTask) {
       // Handle the case where the task with the given ID is not found
-      return res.status(404).json({ error: "Task not found" });
+      return res.status(404).json({ error: "Task not found" ,deleteStatus:false});
     }
 
     // Respond with a success message or any relevant information
-    res.status(200).json({ message: "Task deleted successfully", task: deletedTask });
+    res.status(200).json({ message: "Task deleted successfully",deleteStatus:false});
   } catch (error) {
     console.error(error);
     // Handle any internal server error
@@ -145,5 +162,17 @@ exports.delete_task_by_id = async(req,res)=>{
   }
   
 }
+
+
+exports.delete_all_tasks = async (req, res) => {
+  try {
+    console.log("delete all task called");
+    await Task.deleteMany();
+    res.status(200).json({ message: 'All tasks deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 

@@ -1,10 +1,29 @@
 import { PendingActions } from "@mui/icons-material";
-import React from "react";
+import React, { useEffect } from "react";
 import { dummyTasks } from "../data/data";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import NoDataMessage from "../common/NoDataMessage";
 
-function ProjectPageMyTasks() {
+function ProjectPageMyTasks(props:any) {
+
+  const {myProfiledata,activeProject,myTasks,setMytasks} = props
+  useEffect(()=>{
+    if(activeProject){
+      console.log("ACTIVE PROJECT CHANGED");
+      filterMyTasks()
+    }
+  },[activeProject])
+   
+  const filterMyTasks = ()=>{
+    const myTasksTemp = activeProject?.allTasks?.filter(
+      (task:any) => task.assignedTo=== myProfiledata?._id
+    );
+    setMytasks(myTasksTemp)
+  }
+
+
   return (
     <>
       <div className="w-full lg:w-1/2 ">
@@ -25,22 +44,24 @@ function ProjectPageMyTasks() {
             </Tooltip>
           </div>
         </div>
+        {myTasks?.length!==0?
         <div className="p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]">
-          {dummyTasks?.map((node: any) => (
-            <Tooltip title="View Task" arrow placement="right">
-            <Link to={"/task-page"}>
+          {myTasks?.map((node: any) => (
+            <Tooltip
+             title="View Task" arrow placement="right">
+            <Link to={`/task-page?id=${node._id}`}>
               <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
                 <div
-                  className={`min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-center items-center  ${
-                    node.priority === "high"
+                  className={` group-hover:px-2 min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-center items-center  ${
+                    node?.taskPriority === "High"
                       ? "bg-highPriority"
-                      : node.priority === "medium"
+                      : node.taskPriority === "Medium"
                       ? "bg-mediumPriority"
                       : "bg-lowPriority"
                   } p-1 rounded-[4px] group-hover:rounded-l-[4px] group-hover:rounded-r-[0px] `}
                 >
-                  <div className="hidden text-C11 font-semibold group-hover:flex duration-[1s]">
-                    {node.taskID}
+                  <div className="hidden text-C55 font-semibold group-hover:flex duration-[1s]">
+                    {moment(node.dueDate).format("LL")}
                   </div>
                 </div>
 
@@ -48,15 +69,17 @@ function ProjectPageMyTasks() {
                   className={`hidden group-hover:flex  min-w-[10px] group-hover:min-w-[80px] duration-200 justify-center items-center p-1   group-hover:rounded-r-[0px] bg-[#dedede] `}
                 >
                   <div className="hidden text-C11 font-semibold group-hover:flex duration-[1s]">
-                    Completed
+                    {node?.taskStatus}
                   </div>
                 </div>
-                <div className="p-2 max-w-[80%] break-words">{node.taskName}</div>
+                <div className="p-2 max-w-[80%] break-words">{node.taskTitle}</div>
               </div>
             </Link> 
             </Tooltip>
           ))}
-        </div>
+        </div>:
+         <NoDataMessage size="small" message="Currently No Tasks For You Here"/>
+        }
       </div>
     </>
   );

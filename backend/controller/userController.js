@@ -6,7 +6,7 @@ const mongoose = require("mongoose")
 // ----- GET REQUESTS ------
 exports.get_all_users = async (req,res)=>{
     try {
-        const users = await User.find();
+        const users = await User.find().populate('myProjects').populate('involvedProjects').populate('allTasks');
         res.status(200).json(users);
       } catch (error) {
         console.error(error);
@@ -24,7 +24,10 @@ exports.get_user_by_id = async(req,res)=>{
           return res.status(400).json({ error: "Invalid userId format" });
         }
     
-        const user = await User.findById(userId);
+        const user = await User.findById(userId)
+        .populate('myProjects')
+        .populate('involvedProjects')
+        .populate('allTasks');
     
         if (!user) {
           return res.status(404).json({ error: "User not found" });
@@ -84,7 +87,7 @@ exports.get_all_involved_projects_by_user_id = async(req,res)=>{
         // Retrieve the user's involved projects
         const involvedProjects = await Project.find({
           _id: { $in: user.involvedProjects },
-        });
+        }).populate('involvedProjects');
     
         res.status(200).json(involvedProjects);
       } catch (error) {
@@ -195,16 +198,8 @@ exports.create_new_project_for_user_id = async (req, res) => {
       projectDescription: projectDescription,
       startDate: `${new Date()}`,
       projectStatus: 'In Progress',
-      projectManager: {
-        managerId: userId,
-        managerName: `${projectManager.firstName} ${projectManager.lastName}`, // Use an appropriate field for the manager's name
-      },
-      projectMembers: [{
-        memberId: userId,
-        memberName: `${projectManager.firstName} ${projectManager.lastName}`,
-        memberRole:"Project Manager" // Use an appropriate field for the member's name
-      }],
-      allTasks: [], // Initialize tasks array as empty
+      projectManager:userId,
+      projectMembers: [userId],
       completedTasks: [], // Initialize completed tasks array as empty
       pendingTasks: [], // Initialize pending tasks array as empty
       attachedMediaURLSet: [], // Initialize attached media array as empty
@@ -216,10 +211,7 @@ exports.create_new_project_for_user_id = async (req, res) => {
     // Update the user's myProjects array with the new project
     await User.findByIdAndUpdate(
       userId,
-      { $push: { myProjects: {
-        projectId:newProject._id,
-        projectName:newProject.projectName
-      } } },
+      { $push: { myProjects: newProject._id } },
       { new: true }
     );
 
@@ -283,3 +275,14 @@ exports.delete_user_by_user_id = async(req,res)=>{
   }
   
 }
+
+
+exports.delete_all_users = async (req, res) => {
+  try {
+    await User.deleteMany();
+    res.status(200).json({ message: 'All users deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

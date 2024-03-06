@@ -18,6 +18,7 @@ connectToDatabase().then(()=>{
             app.post("/register",authRouter)
             app.post("/login",authRouter)
             app.post("/logout",authRouter)
+            app.delete("/delete-all-data",authRouter)
             
             // USER REQUESTS
             app.get("/get-all-users",userRouter)
@@ -30,6 +31,7 @@ connectToDatabase().then(()=>{
             app.post("/create-new-project-for-user-id/:userId",userRouter)
             app.put("/update-user-profile/:userId",userRouter)
             app.delete('/delete-user/:userId',userRouter)
+            app.delete('/delete-all-users',userRouter)
 
             // PROJECT REQUESTS
             app.get("/get-all-projects", projectRouter);
@@ -37,18 +39,23 @@ connectToDatabase().then(()=>{
             app.get("/get-project-members-by-id/:projectId",projectRouter)
             app.get("/get-all-tasks-by-project-id/:projectId",projectRouter)
             app.get("/get-project-overall-performance-by-id/:projectId",projectRouter)
-            app.post("/add-new_member-by-project-id/:projectId",projectRouter)
+            app.post("/add-new-member-by-project-id/:projectId",projectRouter)
             app.post("/add-new-task-by-project-id/:projectId",projectRouter)
             app.put("/edit-project-by-id/:projectId",projectRouter)
             app.delete("/remove-member-from-project-by-id/:projectId",projectRouter)
+            app.delete("/delete-project-by-id/:projectId",projectRouter)
+            app.delete('/delete-all-projects',projectRouter)
+
 
             // TASK REQUESTS
             app.get("/get-all-tasks", taskRouter);
             app.get("/get-task-by-id/:taskId", taskRouter);
-            app.put("/edit_task_by_id/:taskId",taskRouter);
-            app.post("/change_task_status_by_id/:taskId",taskRouter)
-            app.post("/add_comment_by_id",taskRouter)
-            app.delete("/delete_task_by_id",taskRouter)
+            app.put("/edit-task-by-id/:taskId",taskRouter);
+            app.post("/change-task-status_by-id/:taskId",taskRouter)
+            app.post("/add-comment-by-id/:taskId",taskRouter)
+            app.delete("/delete-task-by-id/:taskId",taskRouter)
+            app.delete('/delete-all-tasks',taskRouter)
+
 
 
 

@@ -21,11 +21,11 @@ function DashboardMyProjects(props:any) {
               <div className="font-bold text-[18px] ">Manage My Projects</div>
             </div>
       }
-              <div className={`flex flex-wrap items-center gap-5 py-2 ${myProjects.length===0?"justify-center flex-col-reverse ":""}`}>
+              <div className={`flex flex-wrap flex-col sm:flex-row  items-center gap-5 py-2 ${myProjects.length===0?"justify-center flex-col-reverse ":""}`}>
                 {
                     myProjects?.map((node:any)=>(
                     <Tooltip title={"View Project"} placement='top-end' arrow>
-                      <Link to={`/project-page?id=${node?.projectId}`}>
+                      <Link to={`/project-page?id=${node?._id}`}>
                         <div className="group w-[300px] h-[140px] bg-C44 rounded-[8px] flex flex-col items-start overflow-hidden hover:shadow-lg cursor-pointer transition-all duration-300">
                         <div className="group-hover:h-full h-[75%] text-left bg-C11 flex flex-row gap-1 w-full items-center p-2  duration-300 justify-center">
                             <div className="font-semibold text-C55 p-2 group-hover:font-bold group-hover:text-[18px]">{node?.projectName}</div>

@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom'
 import NoDataMessage from '../common/NoDataMessage'
 
 function DashboardCompletedTasks(props:any) {
-  const{completedTasks}=props
+  const{allTasks}=props
   return (
     <>
-     <div className='w-1/2'>
+     <div className='lg:w-1/2'>
      <div className="flex flex-row items-center justify-between gap-2 py-1">
           <div className="flex flex-row ">
           <TaskAlt sx={{fontSize:25, color:colors.C11}}/>
@@ -29,9 +29,9 @@ function DashboardCompletedTasks(props:any) {
             </Tooltip>
           </div>
         </div>
-     <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${completedTasks.length===0? "items-center justify-center":""}`}>
+     <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${allTasks.length===0? "items-center justify-center":""}`}>
      {
-        completedTasks?.map((node:any)=>(
+        allTasks?.map((node:any)=>(
           <Tooltip title="View Task" arrow placement="left">
             <Link to={"/task-page"}>
               <div className='flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all '>
@@ -45,9 +45,9 @@ function DashboardCompletedTasks(props:any) {
         ))
       }
       {
-            completedTasks.length === 0?
+            allTasks?.length === 0?
             <div className="flex items-center flex-1">
-              <NoDataMessage size="small" message="No Completed Tasks"/>
+              <NoDataMessage size="small" message="No Tasks are Complete"/>
             </div>
             :null
           }

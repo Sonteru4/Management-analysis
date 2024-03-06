@@ -3,11 +3,13 @@ import { Tooltip } from '@mui/material'
 import React from 'react'
 
 function ViewMemberModal(props:any) {
-    const {setViewMemberModal}=props
+    const {setViewMemberModal,memberData}=props
     // function to close this modal
     const handleModalClose=()=>{
         setViewMemberModal(false)    
     }
+
+    console.log("MEMEBER DATA",memberData)
   return (
     <div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center'>
     <div className='bg-C55 rounded-[8px] p-5 w-[600px]' >
@@ -22,42 +24,44 @@ function ViewMemberModal(props:any) {
       </button>
       </div> 
       <div className='flex flex-col text-[14px]'>
-        <div className='mx-auto w-[150px] h-[150px] rounded-[8px]  flex justify-center my-2 items-center border-4 border-C44'>
+        <div className='mx-auto w-[150px] h-[150px] rounded-[8px]  flex justify-center my-2 items-center   bg-C11 p-1'>
+        {memberData?.profilePictureURL===""?
+        <div
+            className='flex items-center justify-center w-full h-full font-bold text-center text-white text-[40px] capitalize rounded-[2px] bg-C11 border-[2px] border-white'>
+            {`${memberData.firstName[0]} ${memberData.lastName[0]}`}
+        </div>:
           <img src="" alt="profileimage " />
+          }
+        
         </div>
 
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>First Name</div>
-          <div className='w-1/2 font'>John</div>
+          <div className='w-1/2 text-C11'>First Name</div>
+          <div className='w-1/2 font-bold'>{memberData?.firstName}</div>
         </div>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Last Name</div>
-          <div className='w-1/2 '>Joseph</div>
+          <div className='w-1/2 text-C11'>Last Name</div>
+          <div className='w-1/2 font-bold'>{memberData?.lastName}</div>
         </div>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Username</div>
-          <div className='w-1/2 '>JJoseph112</div>
+          <div className='w-1/2 text-C11'>Username</div>
+          <div className='w-1/2 font-bold'>{memberData?.username}</div>
         </div>
         <div className='flex flex-row items-center justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Role</div>
-          <div className='w-1/2 '>Designer</div>
+          <div className='w-1/2 text-C11'>Role</div>
+          <div className='w-1/2 font-bold'>{memberData?.role}</div>
         </div>
         <div className='flex flex-row items-start justify-between p-1 px-5 my-1 gap-x-2 bg-C44 rounded-[4px]'>
-          <div className='w-1/2 font-bold text-C11'>Bio</div>
-          <div className='w-1/2 '>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet repellat magni doloribus at quos commodi id tenetur suscipit. Ipsum consequatur exercitationem saepe aliquam, quas modi animi ex cum quos repellendus.</div>
+          <div className='w-1/2 text-C11'>Bio</div>
+          {
+          memberData?.bio===""?
+          <div className='w-1/2 italic text-gray-300'>not specified</div>:
+          <div className='w-1/2 font-bold'>{memberData?.bio}</div>
+          }
         </div>
         {/* <Loader/> */}
-
-
-        
-
       </div>
-
-
-
     </div>
-
-
   </div>
   )
 }

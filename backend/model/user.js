@@ -52,55 +52,15 @@ const userSchema = new mongoose.Schema({
         type:Boolean
     },
     allTasks: [{
-        taskTitle: {
-          type: String,
-        },
-        taskId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Task',
-        },
-        taskStatus: {
-            type:String
-          },
-      }],
-    completedTasks: [{
-        taskTitle: {
-          type: String,
-        },
-        taskId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Task',
-        },
-        taskStatus: {
-            type:String
-          },
-      }],
-    pendingTasks: [{
-        taskTitle: {
-          type: String,
-        },
-        taskId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Task',
-        },
-        taskStatus: {
-            type:String
-          },
       }],
     myProjects:[
-            {
-            projectId:{
-              type: mongoose.Types.ObjectId,
-              ref:'Project'},
+      {type: mongoose.Types.ObjectId,
+       ref:'Project'}],
 
-            projectName:{
-              type:String
-            }
-           }
-    ],
     involvedProjects: [{
-        projectId:{type: mongoose.Types.ObjectId,ref:'Project'},
-        projectName:{type:String}
+       type: mongoose.Types.ObjectId,ref:'Project'
        }
      ],
     profilePictureURL:{

@@ -5,14 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import ForgotPasswordModal from "../modals/ForgotPasswordModal";
 import {Visibility, VisibilityOff } from "@mui/icons-material";
 import ErrorBox from "../common/ErrorBox";
-import { loginUser } from "../services/authServices";
+import { getUserDetailsFromToken, loginUser } from "../services/authServices";
 import APIResponseStatus from "../common/APIResponseStatus";
 import MagicLoader from "../common/MagicLoader";
 import { Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import * as authActions from "../redux/actions/authActions"
+import { getUserById } from "../services/userServices";
+
 
 function Login() {
-  document.title = "TMS • Login";
   const dispatch = useDispatch()
   const [showPassword, setShowPassword] = useState<Boolean>(false);
   const [forgotPasswordModal, setForgotPasswordModal] = useState<Boolean>(false);
@@ -28,6 +30,23 @@ function Login() {
     setLoginStatus("not-loggedin")
   }
 
+  useEffect(() => {
+    const existingUser:any = getUserDetailsFromToken()
+    console.log("EXISITING USER ID : ",existingUser)
+
+    if (existingUser?._id) {
+       navigate("/dashboard")
+    }
+    else{
+      document.title = "TMS • Log In";
+    }
+  }, []);
+
+//   const getMyProfileData =async(myUserId:any)=>{
+//     const tempOBJ = await getUserById(myUserId)
+//     console.log("in DAHBOARD FUNCTION: ",tempOBJ);
+//     dispatch(authActions.loginAction(tempOBJ))
+// }
  
 
 
@@ -229,7 +248,7 @@ function Login() {
           <div className="mt-20">
             <APIResponseStatus
               status={false}
-              message={apiResponseMessage}
+              message={apiResponseMessage?apiResponseMessage:"Network Error"}
             />
              <div className="flex justify-center gap-4 mt-10">
               <button

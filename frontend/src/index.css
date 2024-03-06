@@ -118,10 +118,7 @@ select::after{
   /* border:3px solid #6060601b; */
 }
 
-.animate-circle:hover{
-  opacity: 0.2;
-  transition: opacity 0.1s ease-in-out;
-}
+
 
 
 

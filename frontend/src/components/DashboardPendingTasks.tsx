@@ -4,14 +4,15 @@ import React from "react";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import NoDataMessage from "../common/NoDataMessage";
+import moment from "moment";
 
 function DashboardPendingTasks(props:any) {
-  const {pendingTasks}=props
-  console.log("PENDING TASKS : ",pendingTasks);
+  const {allTasks}=props
+  console.log("PENDING TASKS : ",allTasks);
 
   return (
     <>
-      <div className="w-1/2 ">
+      <div className="lg:w-1/2 ">
       <div className="flex flex-row items-center justify-between gap-2 py-1">
           <div className="flex flex-row ">
           <PendingActions sx={{ fontSize: 25 }} />
@@ -29,31 +30,31 @@ function DashboardPendingTasks(props:any) {
             </Tooltip>
           </div>
         </div>
-        <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${pendingTasks.length===0? "items-center justify-center":""}`}>
-          {pendingTasks?.map((node: any) => (
+        <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${allTasks.length===0? "items-center justify-center":""}`}>
+          {allTasks?.map((node: any) => (
             <Tooltip title="View Task" arrow placement="right">
-              <Link to={"/task-page"}>
-                <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
+              <Link to={`/task-page?id=${node?._id}`}>
+                <div className=" flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
                   <div
-                    className={`min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-center items-center  ${
-                      node.priority === "high"
+                    className={`group-hover:px-2 min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-center items-center  ${
+                      node?.taskPriority === "High"
                         ? "bg-highPriority"
-                        : node.priority === "medium"
+                        : node.taskPriority === "Medium"
                         ? "bg-mediumPriority"
                         : "bg-lowPriority"
                     } p-1 rounded-[4px] group-hover:rounded-l-[4px] group-hover:rounded-r-[0px] `}
                   >
-                    <div className="hidden text-C11 font-semibold group-hover:flex duration-[1s]">
-                      {node.taskID}
+                    <div className="hidden text-C55 font-semibold group-hover:flex duration-[1s]">
+                      {moment(node?.dueDate).format("LL")}
                     </div>
                   </div>
-                  <div className="p-2 max-w-[80%] break-words">{node.taskName}</div>
+                  <div className="p-2 max-w-[80%] break-words">{node?.taskTitle}</div>
                 </div>
               </Link>  
             </Tooltip>
           ))}
           {
-            pendingTasks.length === 0?
+            allTasks.length === 0?
             <div className="flex items-center flex-1">
               <NoDataMessage size="small" message="No Pending Tasks"/>
             </div>

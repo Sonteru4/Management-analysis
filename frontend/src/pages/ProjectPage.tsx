@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserDetailsFromToken } from "../services/authServices";
 import { getUserById } from "../services/userServices";
 import * as authActions from "../redux/actions/authActions"
+import { useNavigate } from "react-router";
 
 
 function ProjectPage() {
@@ -29,14 +30,22 @@ function ProjectPage() {
   const [viewAllTaskModal,setViewAllTaskModal] = useState<Boolean>(false)
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
   const [overallPerformaceModal,setOverallPerformanceModal]=useState<Boolean>(false)
-  const [removeMemberModal,setRemoveMemberModal] = useState<Boolean>(false)
-  const [viewMemberModal,setViewMemberModal] = useState<Boolean>(false)
+  const [removeMemberModal,setRemoveMemberModal] = useState<any>({isOpen: false, memberData: null})
+  const [viewMemberModal,setViewMemberModal] = useState<any>({isOpen: false, memberData: null})
   const [viewMediaModal,setViewMediaModal]=useState<Boolean>(false)
   const [editProjectInfoModal,setEditProjectInfoModal] = useState<Boolean>(false)
   const [addMemberModal,setAddMemberModal] = useState<Boolean>(false)
   const [deleteProjectModal,setDeleteProjetModal] = useState<Boolean>(false)
   const [addMediaModal,setAddMediaModal] = useState<Boolean>(false)
   const [activeProject,setActiveProject] =  useState<any>({})
+  const [rerender, setRerender] = useState(false);
+  const [myTasks,setMytasks] = useState<any>([])
+  const navigate = useNavigate()
+
+  const myProfiledata = useSelector(
+    (state: any) => state.authReducer.myUserProfile
+  );
+  
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -47,7 +56,17 @@ function ProjectPage() {
     if (projectId) {
       getProjectData(projectId)
     }
-  }, []);
+    else{
+      navigate("*") 
+    }
+  }, [rerender]);
+
+
+
+
+  const triggerRerender = () => {
+    setRerender((prev) => !prev);
+  };
 
   const getProjectData=async(projectId:any)=>{
     const tempOBJ = await getProjectById(projectId)
@@ -55,27 +74,41 @@ function ProjectPage() {
     setActiveProject(tempOBJ)
     // dispatch(projectActions.setActiveProjectAction(tempOBJ))
   }
-  
+
+
+
 
   // const activeProject = useSelector(
   //   (state: any) => state.projectReducer.activeProject
   // );
-
 const dispatch = useDispatch()
 useEffect(() => {
   const existingUser:any = getUserDetailsFromToken()
   console.log("EXISITING USER ID : ",existingUser)
 
-  if (existingUser._id) {
+  if (existingUser?._id) {
      getMyProfileData(existingUser._id)
   }
+  else{
+    navigate("*") 
+  }
 }, []);
+
 const getMyProfileData =async(myUserId:any)=>{
   const tempOBJ = await getUserById(myUserId)
   console.log("in DAHBOARD FUNCTION: ",tempOBJ);
   dispatch(authActions.loginAction(tempOBJ))
+
 }
+
+
+
+
+
   
+
+
+
 
 
 
@@ -87,7 +120,7 @@ const getMyProfileData =async(myUserId:any)=>{
       activePage="project-page"
       />
       {
-        activeProject._id?
+        activeProject?._id?
       <div className=" bg-C55 p-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
         {/* Project Info */}
         <ProjectPageProjectInfo
@@ -102,10 +135,11 @@ const getMyProfileData =async(myUserId:any)=>{
         />
         <div className=" flex flex-row justify-between pt-10  2xl:gap-[150px] xl:gap-[120px] gap-[50px] flex-wrap lg:flex-nowrap">
           {/* my Taks tasks */}
-          <ProjectPageMyTasks />
+          <ProjectPageMyTasks setMytasks={setMytasks} activeProject={activeProject} myProfiledata={myProfiledata} myTasks={myTasks}/>
 
           {/* Project Members */}
           <ProjectPageProjectMembers
+            myProfiledata={myProfiledata}
             activeProject={activeProject} 
             setAddMemberModal={setAddMemberModal}
             setViewMemberModal={setViewMemberModal}
@@ -140,6 +174,8 @@ const getMyProfileData =async(myUserId:any)=>{
     //  Add New Task to project modal
      addTaskModal?
      <AddNewTaskModal 
+     triggerRerender={triggerRerender} // Pass the function here
+     activeProject={activeProject} 
      setAddTaskModal={setAddTaskModal}
      />:null
      }
@@ -149,12 +185,14 @@ const getMyProfileData =async(myUserId:any)=>{
       <ViewAllTaskModal
       activeProject={activeProject} 
       setViewAllTaskModal = {setViewAllTaskModal} 
+      triggerRerender={triggerRerender}
       />:null
      }
      {
       // Show user profile modal
       userProfileModal?
       <UserProfileModal
+      triggerRerender={triggerRerender} // Pass the function here
       setUserProfileModal={setUserProfileModal}
       />:null
      }
@@ -168,8 +206,11 @@ const getMyProfileData =async(myUserId:any)=>{
         }
       {
         // Remove Memeber Confirmation Modal
-        removeMemberModal?
+        removeMemberModal.isOpen?
         <RemoveMemberConfirmationModal
+        memberData={removeMemberModal.memberData}
+        activeProject={activeProject}
+        triggerRerender={triggerRerender} // Pass the function here
         setRemoveMemberModal={setRemoveMemberModal}
         />
         :null
@@ -177,8 +218,9 @@ const getMyProfileData =async(myUserId:any)=>{
 
       {/* View Project Memeber modal */}
       {
-        viewMemberModal?
+        viewMemberModal.isOpen?
         <ViewMemberModal
+        memberData={viewMemberModal.memberData}
         setViewMemberModal={setViewMemberModal}
         />:null
       }
@@ -194,6 +236,8 @@ const getMyProfileData =async(myUserId:any)=>{
       {
         editProjectInfoModal?
         <EditProjectInfoModal
+        triggerRerender={triggerRerender} // Pass the function here
+        activeProject={activeProject}
         setEditProjectInfoModal={setEditProjectInfoModal}
         />:null
       }
@@ -201,6 +245,8 @@ const getMyProfileData =async(myUserId:any)=>{
       {
         addMemberModal?
         <AddNewMemberModal
+        activeProject={activeProject}
+        triggerRerender={triggerRerender} // Pass the function here
         setAddMemberModal={setAddMemberModal}
         />:null
       }
@@ -214,6 +260,7 @@ const getMyProfileData =async(myUserId:any)=>{
       {
         addMediaModal?
           <ProjectPageAddMediaModal
+          triggerRerender={triggerRerender} // Pass the function here
           setAddMediaModal={setAddMediaModal} 
           />:null
       }

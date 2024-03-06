@@ -1,0 +1,16 @@
+auth
+    login complete
+    register complete
+    logout complete
+    all routing complete
+
+dashboard
+    pending task complete
+    myprojects complete 
+    user profile complete
+    edit profile not complete
+    myproject routing complete
+    
+    
+
+
