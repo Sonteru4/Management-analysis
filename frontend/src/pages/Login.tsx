@@ -129,7 +129,7 @@ function Login() {
   return (
     <>
       <div className="">
-        <div className="flex flex-col justify-center py-[6px] mx-auto  w-[450px] ">
+        <div className="flex flex-col justify-center py-[6px] mx-auto w-[360px] sm:w-[450px] mt-5 sm:mt-0">
          
           <div className="flex justify-center p-2 h-[180px]" data-aos="zoom-in" data-aos-duration="1000" >
             <Logo size={"0.5"} color={colors.C11} />
@@ -137,13 +137,13 @@ function Login() {
           {
           loginStatus==="not-loggedin"?( 
           <>
-          <div className="flex flex-col gap-2 p-2 py-8 ">
+          <div className="flex flex-col gap-2 p-2 px-3 py-8 mx:px-2">
             <Tooltip title="Username" placement="top" arrow>
               <input
                 data-aos="fade-up"
                 data-aos-duration="1000"
                 type="text"
-                className="bg-C44 rounded-[8px] p-2 h-[46px] text-[14px]"
+                className="bg-C44 rounded-[8px] p-2 h-[40px] sm:h-[46px] text-[14px]"
                 placeholder="Username"
                 name="username"
                 id="username"
@@ -152,7 +152,7 @@ function Login() {
               />
             </Tooltip>
 
-            <div className="bg-C44 rounded-[8px]  h-[46px] flex flex-row items-center justify-between focus-within:outline focus-within:outline-2"  
+            <div className="bg-C44 rounded-[8px]  h-[40px] sm:h-[46px] flex flex-row items-center justify-between focus-within:outline focus-within:outline-2"  
             data-aos="fade-up"
                 data-aos-duration="1500">
              <Tooltip title="Password" placement="bottom" arrow >
@@ -160,7 +160,7 @@ function Login() {
               <input
                
                 type={showPassword ? "text" : "password"}
-                className=" text-[14px] flex-1 bg-C44 focus:outline-none rounded-[8px] p-2 h-[46px]"
+                className=" text-[14px] flex-1 bg-C44 focus:outline-none rounded-[8px] p-2  h-[40px] sm:h-[46px]"
                 placeholder="Password"
                 name="password"
                 id="password"

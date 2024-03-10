@@ -233,21 +233,32 @@ exports.update_user_profile_by_user_id = async(req,res)=>{
     const userId = req.params.userId;
     const updatedUserProfile = req.body;
 
+    console.log("NEW USER DATA : ",updatedUserProfile)
+
     // Implement the logic to update the user profile in the database
     // Use the User model and its findOneAndUpdate method
-    const updatedUser = await User.findOneAndUpdate({ "userId":userId }, updatedUserProfile, { new: true });
+    const USER = await User.findById(userId)
+    USER.firstName=updatedUserProfile.firstName
+    USER.lastName=updatedUserProfile.lastName
+    USER.email=updatedUserProfile.email
+    USER.username=updatedUserProfile.username
+    USER.dateOfBirth=updatedUserProfile.dateOfBirth
+    USER.bio=updatedUserProfile.bio
+
+    const updatedUser = await USER.save()
+
 
     if (!updatedUser) {
       // Handle the case where the user with the given username is not found
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found",updateStatus:false });
     }
 
     // Respond with the updated user profile
-    res.status(200).json(updatedUser);
-  } catch (error) {
+    res.status(200).json({message:"User updated successfully",updateStatus:true});
+  } catch (error) { 
     console.error(error);
     // Handle any internal server error
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error",updateStatus:false });
   }
 
 }

@@ -1,4 +1,4 @@
-import { ManageSearch, ManageSearchRounded } from '@mui/icons-material'
+import { ManageSearchRounded } from '@mui/icons-material'
 import React from 'react'
 
 function NoDataMessage(props:any) {

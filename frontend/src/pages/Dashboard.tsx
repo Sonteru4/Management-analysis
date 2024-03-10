@@ -24,6 +24,7 @@
   import MagicLoader from "../common/MagicLoader";
   import { getUserDetailsFromToken } from "../services/authServices";
   import { useNavigate } from "react-router";
+import TopBar from "../components/TopBar";
 
   function Dashboard() {
     document.title = "TMS • Dashboard";
@@ -89,27 +90,32 @@
       <>
         {myProfiledata ? (
           <>
-            <div className="flex flex-row h-[100vh] text-C11 relative">
+            <div className="flex flex-col md:flex-row h-[100vh] text-C11 relative">
+              <TopBar
+                activePage="dashboard"
+               setUserProfileModal={setUserProfileModal}
+               setLogoutModal={setLogoutModal}
+              />
               <Sidebar
                 activePage="dashboard"
                 setUserProfileModal={setUserProfileModal}
                 setLogoutModal={setLogoutModal}
               />
-              <div className="bg-C55 p-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
-                <div className="flex flex-row items-center pr-10 ">
+              <div className="bg-C55 py-10 px-5 sm:px-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
+                <div className="flex flex-row items-center sm:pr-10 ">
                   <DashboardGreeting />
                   {
                   !( myProfiledata?.allTasks?.length===0)?
                   <CircularGraph
                     color={colors.C11}
                     trackColor={colors.C44}
-                    percentage={85}
+                    percentage={Math.floor((completedTasks?.length/myProfiledata?.allTasks?.length)*100)}
                     setOverallPerformanceModal={setOverallPerformanceModal}
                   />:null
                   }
 
                 </div>
-                <div className=" flex flex-col lg:flex-row justify-between pt-10 gap-[50px] lg:gap-[150px]">
+                <div className=" flex flex-col lg:flex-row justify-between pt-10 gap-[30px] lg:gap-[150px] ">
 
                   {
                   myProfiledata?.allTasks?.length!==0?
@@ -151,7 +157,7 @@
                 ) : null
               }
 
-              {
+              {/* {
                 // Overall Performance project modal
                 overallPerformaceModal ? (
                   <OverallPerformaceModal
@@ -159,12 +165,14 @@
                     setOverallPerformanceModal={setOverallPerformanceModal}
                   />
                 ) : null
-              }
+              } */}
 
               {
                 // User Profile Modal
                 userProfileModal ? (
-                  <UserProfileModal setUserProfileModal={setUserProfileModal} />
+                  <UserProfileModal 
+                  triggerRerender={triggerRerender}
+                  setUserProfileModal={setUserProfileModal} />
                 ) : null
               }
               {logoutModal ? (

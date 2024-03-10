@@ -13,7 +13,6 @@ const commentSchema = new mongoose.Schema({
     },
     timeStamp:{
         type:Date, 
-        default: Date.now()  
     }
 })
 

@@ -1,6 +1,5 @@
 import { PendingActions } from "@mui/icons-material";
 import React, { useEffect } from "react";
-import { dummyTasks } from "../data/data";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -9,19 +8,18 @@ import NoDataMessage from "../common/NoDataMessage";
 function ProjectPageMyTasks(props:any) {
 
   const {myProfiledata,activeProject,myTasks,setMytasks} = props
-  useEffect(()=>{
-    if(activeProject){
-      console.log("ACTIVE PROJECT CHANGED");
-      filterMyTasks()
-    }
-  },[activeProject])
-   
-  const filterMyTasks = ()=>{
+  useEffect(() => {
+    filterMyTasks();
+  }, [activeProject, myProfiledata]);
+  
+  const filterMyTasks = () => {
     const myTasksTemp = activeProject?.allTasks?.filter(
-      (task:any) => task.assignedTo=== myProfiledata?._id
+      (task: any) => task.assignedTo === myProfiledata?._id
     );
-    setMytasks(myTasksTemp)
-  }
+    setMytasks(myTasksTemp);
+  };
+  
+
 
 
   return (
@@ -48,7 +46,7 @@ function ProjectPageMyTasks(props:any) {
         <div className="p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]">
           {myTasks?.map((node: any) => (
             <Tooltip
-             title="View Task" arrow placement="right">
+             title="View Task" arrow placement="right" key={node._id}>
             <Link to={`/task-page?id=${node._id}`}>
               <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
                 <div

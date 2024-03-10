@@ -1,6 +1,5 @@
 import { PendingActions } from "@mui/icons-material";
 import React from "react";
-// import { dummyTasks } from "../data/data";
 import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import NoDataMessage from "../common/NoDataMessage";
@@ -30,9 +29,9 @@ function DashboardPendingTasks(props:any) {
             </Tooltip>
           </div>
         </div>
-        <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] min-h-[200px] ${allTasks.length===0? "items-center justify-center":""}`}>
+        <div className={`p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px] sm:min-h-[200px] ${allTasks.length===0? "items-center justify-center":""}`}>
           {allTasks?.map((node: any) => (
-            <Tooltip title="View Task" arrow placement="right">
+            <Tooltip title="View Task" arrow placement="right" key={node._id}>
               <Link to={`/task-page?id=${node?._id}`}>
                 <div className=" flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44 cursor-pointer transition-all ">
                   <div

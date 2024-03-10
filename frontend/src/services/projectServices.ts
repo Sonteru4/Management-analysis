@@ -25,7 +25,7 @@ export const getProjectById = async(projectId:any)=>{
 
 export const addTaskToProject = async(projectId:string,taskDetails:any)=>{
     let createdTaskResult
-    axios.post(`${ENV}/add-new-task-by-project-id/${projectId}`,taskDetails).then((res:any)=>{
+    await axios.post(`${ENV}/add-new-task-by-project-id/${projectId}`,taskDetails).then((res:any)=>{
         console.log("(inservice)ADD TASK RESULT : ",res)
         createdTaskResult = res.data
     }).catch((err:any)=>{
@@ -84,3 +84,17 @@ export const deleteMemberFromProject = async(projectId:string,userData:any)=>{
     })
     return removeMemberResponse
 }
+
+export const  addMediaToProject = async(projectId:string,mediaDataArray:any)=>{
+    let mediaUploadResult
+    await axios.post(`${ENV}/add-media-to-project/${projectId}`,{mediaDataArray:mediaDataArray}).then((res:any)=>{
+        mediaUploadResult = res.data
+        console.log("(INSERVICE) UPLOAD MEDIA RESPONSE",res)
+    }).catch((err:any)=>{
+        mediaUploadResult = err
+        console.log("(INSERVICE) UPLOAD MEDIA ERROR",err)
+    })
+    return mediaUploadResult
+}
+
+

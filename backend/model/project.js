@@ -33,10 +33,14 @@ projectStatus:{
   type: String,
   enum: ['In Progress', 'Completed'],
 },
-attachedMediaURLSet:{
-  type:[{type:String}]
-}
-
+attachedMediaURLSet:[
+  {
+    mediaType :{type:String},
+    mediaURL : {type:String},
+    mediaName:{type:String},
+    mediaSize:{type:Number}
+  }
+]
   // Add any additional project-related fields here
 });
 

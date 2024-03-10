@@ -1,6 +1,5 @@
-import { Add, Delete, Group, Person, PersonAddAlt1 } from '@mui/icons-material'
+import { Delete, Group, Person, PersonAddAlt1 } from '@mui/icons-material'
 import React from 'react'
-import { projectMembers } from '../data/data'
 import { colors } from '../Constants'
 import { Tooltip } from '@mui/material'
 
@@ -31,7 +30,7 @@ function ProjectPageProjectMembers(props:any) {
         </div>
         <div className="p-1 flex flex-col gap-2 py-4 overflow-y-auto max-h-[400px]">
           {activeProject?.projectMembers?.map((node: any) => (
-            <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44  transition-all ">
+            <div className="flex flex-row group rounded-[4px]  text-[12px] max-w-full break-words hover:bg-C44  transition-all " key={node._id}>
               <div
                 className={`min-w-[10px] group-hover:min-w-[80px] duration-200 flex justify-center items-center bg-C11 p-1 rounded-[4px] group-hover:rounded-l-[4px] group-hover:rounded-r-[0px] `}
               >

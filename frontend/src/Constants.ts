@@ -14,3 +14,5 @@ export const colors={
     
 }
 
+export const acceptedFileTypes = "image/*,.pps,.txt,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.slideshow,application/vnd.openxmlformats-officedocument.presentationml.presentation"
+

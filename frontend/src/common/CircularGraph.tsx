@@ -6,7 +6,7 @@ import { Tooltip } from "@mui/material";
 function CircularGraph(props: any) {
   const { percentage, color, trackColor ,setOverallPerformanceModal} = props;
   return (
-    <Tooltip title="View Overall Performace" arrow placement="bottom">
+    <Tooltip title="Overall Performace" arrow placement="bottom">
           <div className="flex flex-col justify-center gap-2 p-2 cursor-pointer "
     onClick={()=>setOverallPerformanceModal(true)}
     >

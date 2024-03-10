@@ -1,7 +1,12 @@
 const Project = require("../model/project")
 const User = require("../model/user")
 const Task = require("../model/task")
+const File = require('../model/file'); 
+const fs = require('fs').promises;
+ // Assuming your file model is in the correct path
 
+const multer = require("multer")
+const upload = multer({ dest: 'uploads/' }); // Specify the destination folder for uploaded files
 
 // ----- GET REQUESTS -----
 exports.get_all_projects = async (req,res)=>{
@@ -23,6 +28,7 @@ exports.get_project_by_id = async(req,res)=>{
         .populate("allTasks")
         .populate("projectManager")
         .populate("projectMembers")
+
     
         // Check if the project exists
         if (!project) {
@@ -318,6 +324,7 @@ exports.edit_project_by_id = async(req,res)=>{
     res.status(500).json({ error: "Internal Server Error",status:false });
   }
 
+
 }
 
 exports.delete_project_by_id=async(req,res)=>{
@@ -330,20 +337,30 @@ exports.delete_project_by_id=async(req,res)=>{
       return res.status(404).json({ error: 'Project not found',status:false });
     }
 
-    // Delete the project
-    await Project.findByIdAndDelete(projectId);
+   // Get all task IDs within the project
+   const taskIds = project.allTasks;
 
-    // Remove the project from the involvedProjects array of project members
-    await User.updateMany(
-      { _id: { $in: project.projectMembers } },
-      { $pull: { involvedProjects: projectId } }
-    );
+   // Delete the project and tasks
+   await Project.findByIdAndDelete(projectId);
+   await Task.deleteMany({ _id: { $in: taskIds } });
 
-    // Remove the project from the myProjects array of the project manager
-    await User.findByIdAndUpdate(
-      project.projectManager,
-      { $pull: { myProjects: projectId } }
-    );
+   // Remove the project from the involvedProjects array of project members
+   await User.updateMany(
+     { _id: { $in: project.projectMembers } },
+     { $pull: { involvedProjects: projectId } }
+   );
+
+   // Remove the project from the myProjects array of the project manager
+   await User.findByIdAndUpdate(
+     project.projectManager,
+     { $pull: { myProjects: projectId } }
+   );
+
+   // Remove tasks from the allTasks array of all project members
+   await User.updateMany(
+     { _id: { $in: project.projectMembers } },
+     { $pullAll: { allTasks: taskIds } }
+   );
 
     // Respond with success or any relevant information
     res.status(200).json({ message: 'Project deleted successfully' ,deleteStatus:true});
@@ -352,6 +369,9 @@ exports.delete_project_by_id=async(req,res)=>{
     // Handle any internal server error
     res.status(500).json({ error: 'Internal Server Error',deleteStatus:false });
   }
+
+    // ---------------------------------------------------------------------
+
 
 }
 
@@ -371,6 +391,44 @@ exports.delete_all_projects = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+
+
+exports.add_new_media_to_project = async(req,res)=>{
+  try {
+    const projectId = req.params.projectId;
+    const {mediaDataArray} = req.body; // Assuming the URL is sent in the request body
+
+    console.log("MEDIA ARRAY IN BACKEND : ",mediaDataArray)
+    // Validate if projectId and mediaUrl are provided
+    // Find the project by projectId
+    const project = await Project.findById(projectId);
+
+    // Check if the project exists
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found',addSuccess:false });
+    }
+
+    // Append the mediaUrl to the attachedmediaurlset array
+    // project.attachedmediaurlset.push(mediaUrl);
+    project.attachedMediaURLSet.push(...mediaDataArray);
+
+
+    // Save the updated project
+    await project.save()
+
+    res.status(200).json({ message: 'Media URL added to project', addSuccess:true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error',addSuccess:false });
+  }
+
+}
+
+
+
+
 
 
 

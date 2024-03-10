@@ -15,10 +15,8 @@ projectRouter.put("/edit-project-by-id/:projectId",projectController.edit_projec
 
 projectRouter.delete("/remove-member-from-project-by-id/:projectId",projectController.remove_member_from_project_by_id)//
 projectRouter.delete("/delete-project-by-id/:projectId",projectController.delete_project_by_id)
-
 projectRouter.delete("/delete-all-projects",projectController.delete_all_projects)
-
-
+projectRouter.post("/add-media-to-project/:projectId",projectController.add_new_media_to_project) 
 
 
 

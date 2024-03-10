@@ -15,7 +15,7 @@ function Sidebar(props:any) {
     );
     
   return (
-    <div className="bg-C44 w-[60px] pt-2 hidden sm:flex flex-col">
+    <div className="bg-C44 w-[60px] pt-2 hidden md:flex flex-col">
     <div className="flex-1 ">
     <Tooltip title="Dashboard" placement="right" arrow>
     <Link to="/dashboard">

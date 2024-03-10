@@ -45,16 +45,19 @@ connectToDatabase().then(()=>{
             app.delete("/remove-member-from-project-by-id/:projectId",projectRouter)
             app.delete("/delete-project-by-id/:projectId",projectRouter)
             app.delete('/delete-all-projects',projectRouter)
+            app.post("/add-media-to-project/:projectId",projectRouter)
 
 
             // TASK REQUESTS
             app.get("/get-all-tasks", taskRouter);
             app.get("/get-task-by-id/:taskId", taskRouter);
             app.put("/edit-task-by-id/:taskId",taskRouter);
-            app.post("/change-task-status_by-id/:taskId",taskRouter)
+            app.put("/change-task-status-by-id/:taskId",taskRouter)
             app.post("/add-comment-by-id/:taskId",taskRouter)
             app.delete("/delete-task-by-id/:taskId",taskRouter)
             app.delete('/delete-all-tasks',taskRouter)
+            app.post("/add-media-to-task/:taskId",taskRouter)
+
 
 
 

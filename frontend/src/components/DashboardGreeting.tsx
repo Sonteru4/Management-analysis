@@ -18,11 +18,11 @@ function DashboardGreeting() {
     }
   return (
     <>
-    <div className=' flex flex-col w-[75%] '>
-        <div className=' text-[20px] font-bold'>
+    <div className=' flex flex-col w-full sm:w-[75%] '>
+        <div className='text-[18px] md:text-[20px] font-bold'>
             {getTimeToReturnGreeting()}
         </div>
-        <div className='text-[40px] font-extrabold'>
+        <div className='text-[35px] md:text-[40px] font-extrabold w-full sm:w-[75%] '>
             {`${myProfiledata?.firstName} ${myProfiledata?.lastName}`}
 
         </div>

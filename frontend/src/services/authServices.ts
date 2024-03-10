@@ -28,17 +28,17 @@ export const loginUser = async(loginData:any)=>{
 }
 
 export const registerUser = async(registerData:any)=>{
-    try {
+   
+  let registrationResult
         // Make a POST request to the register API endpoint
-        const response = await axios.post(`${ENV}/register`, registerData)
-        // Return the response data
-        return response.data;
-      } catch (error:any) {
-        // Handle errors and return an error object
-        return { error: error.response.data.error || 'Internal Server Error' };
-      }
-
-
+        await axios.post(`${ENV}/register`, registerData).then((res:any)=>{
+          console.log("(inservice) RESGISTRATION SUCCESS",res)
+          registrationResult =res.data
+        }).catch((err:any)=>{
+          console.log("(inservice) RESGISTRATION ERROR",err)
+          registrationResult= err
+        })
+        return registrationResult
 }
 
 const clearCookie=(name:any)=>{

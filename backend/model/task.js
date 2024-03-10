@@ -39,14 +39,19 @@ const taskSchema = new mongoose.Schema({
   assignedOn:{
     type:String
   },
-  taskAttachedMediaURLSet:{
-    type:[{type:String}]
-  },
+  attachedMediaURLSet:[
+    {
+      mediaType :{type:String},
+      mediaURL : {type:String},
+      mediaName:{type:String},
+      mediaSize:{type:Number}
+    }
+  ],
   
-  taskComments:{
-    type:[{type: mongoose.Schema.Types.ObjectId,
-       ref: 'Comment'}]
-  }
+  taskComments:[{
+       type: mongoose.Schema.Types.ObjectId,
+       ref: 'Comment'
+      }]
   
   // Add any additional task-related fields here
 });

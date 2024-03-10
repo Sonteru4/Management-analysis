@@ -11,7 +11,7 @@ function AddNewTaskModal(props: any) {
 
   const [error, setError] = useState<string | null>(null);
   const [createTaskStatus,setCreateTaskStatus]=useState<any>("not-created");
-  const [createdTaskId,setCreatedTaskId]=useState<any>(null)
+  const [createdTaskId,setCreatedTaskId]=useState<string>("")
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -90,7 +90,7 @@ function AddNewTaskModal(props: any) {
       await addTaskToProject(activeProject._id,addNewTaskFormData).then((res:any)=>{
         console.log("TASK CREATION RESULT OBJECT IN MODAL",res)
         setCreateTaskStatus("create-success")
-        setCreatedTaskId(res?.taskId)
+        setCreatedTaskId(res.taskId)
         triggerRerender()
 
       }).catch((err:any)=>{
@@ -114,7 +114,7 @@ function AddNewTaskModal(props: any) {
 
   return (
     <div className="top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center">
-      <div className="bg-C55 rounded-[8px] p-5 w-[700px]">
+      <div className="bg-C55 rounded-[8px] p-5 w-[90%] md:w-[700px] shadow-xl">
         <div className="flex flex-row items-center justify-between">
           <div className="font-bold text-[20px] text-C11">Add New Task</div>
           <button className="cursor-pointer" onClick={handleModalClose}>
@@ -122,7 +122,7 @@ function AddNewTaskModal(props: any) {
           </button>
         </div>
         {createTaskStatus==="not-created"?
-                <div className="my-1 mt-2 text-[14px] flex flex-row gap-2">
+                <div className="my-1 mt-2 text-[14px] flex flex-col md:flex-row gap-2">
                 <div className="flex flex-col flex-1 gap-2">
                   <div className="flex flex-col gap-1">
                     <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
@@ -151,7 +151,7 @@ function AddNewTaskModal(props: any) {
                     />
                   </div>
                 </div>
-                <div className="flex flex-col w-[40%] gap-2">
+                <div className="flex flex-wrap flex-row md:flex-col md:w-[40%] gap-2">
                   <div className="flex flex-col gap-1">
                     <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
                       Assigned To
@@ -168,7 +168,7 @@ function AddNewTaskModal(props: any) {
                         None Selected
                       </option>
                       {activeProject?.projectMembers?.map((node: any) => (
-                        <option value={node?._id} className="text-C11">
+                        <option value={node?._id} className="text-C11" key={node._id}>
                           {`${node.firstName} ${node.lastName}`}
                         </option>
                       ))}

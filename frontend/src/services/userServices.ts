@@ -29,4 +29,16 @@ export const getUserById =async(userId:any)=>{
     return userData
 }
 
+export const editUserById = async(userId:string,userData:object)=>{
+    let userEditResult
+    await axios.put(`${ENV}/update-user-profile/${userId}`,userData).then((res:any)=>{
+        console.log("(inservice) EDIT PROFILE RESULT : ",res.data)
+        userEditResult= res.data;
+    }).catch((err:any)=>{
+        userEditResult =err
+        console.log("(inservice) EDIT PROFILE ERROR : ", err);
+    })
+    return userEditResult
+}
+
 

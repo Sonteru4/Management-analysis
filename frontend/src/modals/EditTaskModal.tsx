@@ -91,7 +91,7 @@ function EditTaskModal(props: any) {
   };
   return (
     <div className="top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center">
-      <div className="bg-C55 rounded-[8px] p-5 w-[700px]">
+      <div className="bg-C55 rounded-[8px] p-5 w-[90%] md:w-[700px] shadow-xl">
         <div className="flex flex-row items-center justify-between">
           <div className="font-bold text-[20px] text-C11">Edit Task Info</div>
           <button className="cursor-pointer" onClick={handleModalClose}>
@@ -213,7 +213,7 @@ function EditTaskModal(props: any) {
             className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
             onClick={handleModalClose}
           >
-          {((editTaskStatus==="edit-success"||editTaskStatus==="edit-failure"))? "Back To Project":editTaskStatus==="edit-loading"?null:"Close"}
+          {((editTaskStatus==="edit-success"||editTaskStatus==="edit-failure"))? "Back To Task":editTaskStatus==="edit-loading"?null:"Close"}
 
           </button>
           {

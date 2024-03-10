@@ -49,7 +49,7 @@ function MagicLoader(props:any) {
       <div className='absolute z-[5] magic-loader min-w-[10px] min-h-[2px]  speed5 opacity-[0.8]'></div>
       <div className='absolute z-[6] magic-loader min-w-[5px]  min-h-[2px]  speed6 opacity-[1]'></div>
       {/* <div className='absolute z-[8] magic-loader min-w-[10px] min-h-[10px]  speed8'></div> */}
-      <div className='absolute z-[9] font-semibold  text-[10px] text-C11'>
+      <div className='absolute z-[9] font-semibold  text-[8px] text-C11'>
           {message}
       </div>
 </div>

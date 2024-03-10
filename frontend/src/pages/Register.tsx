@@ -2,27 +2,20 @@ import React, { useEffect, useState } from "react";
 import Logo from "../common/Logo";
 import { Link, useNavigate } from "react-router-dom";
 import { colors } from "../Constants";
-import { ArrowForwardRounded, ReplayRounded, RestartAlt, RestartAltRounded, Visibility, VisibilityOff } from "@mui/icons-material";
+import { ArrowForwardRounded, ReplayRounded, RestartAltRounded, Visibility, VisibilityOff } from "@mui/icons-material";
 import ErrorBox from "../common/ErrorBox";
 import { getUserDetailsFromToken, registerUser } from "../services/authServices";
-import MessageModal from "../modals/MessageModal";
 import APIResponseStatus from "../common/APIResponseStatus";
-import Loader from "../common/Loader";
-import MagicLoader from "../common/MagicLoader";
 import { Tooltip } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import {
-  DateCalendar,
-  DatePicker,
-  LocalizationProvider,
-} from "@mui/x-date-pickers";
 import { useSelector } from "react-redux";
 
 function Register() {
   
   const [showPassword, setShowPassword] = useState<Boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [registerStatus, setRegisterStatus] = useState<any>("not-registered");
+  const [registerStatus, setRegisterStatus] = useState<string>("not-registered");
+  const [apiResponseMessage,setApiResponseMessage] = useState<string>("")
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -35,12 +28,14 @@ function Register() {
     else{
       document.title = "TMS • Sign Up";
     }
-  }, []);
+  }, [navigate]);
 
   const retryRegister = () => {
-    setRegisterFormData(emptyState);
     setRegisterStatus("not-registered");
   };
+  const myProfiledata = useSelector(
+    (state: any) => state.authReducer.myUserProfile
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,11 +50,8 @@ function Register() {
     if(myProfiledata?._id){
       navigate("/dashboard")
     }
-  },[])
+  },[myProfiledata?._id,navigate])
 
-  const myProfiledata = useSelector(
-    (state: any) => state.authReducer.myUserProfile
-  );
 
 
   const emptyState = {
@@ -143,15 +135,25 @@ function Register() {
       console.log("Perform registration logic");
       await registerUser(registerFormData)
         .then((res: any) => {
+          if(res.registerSuccess){
+            setRegisterStatus("register-success");
+            setRegisterFormData(emptyState);
+            navigate("/login");
+          }
+          else{
+            console.log("(INREACT)ERROR REGISTER ", res.response.data.error);
+            setApiResponseMessage(res.response.data.error)
+            setRegisterStatus("register-failure");
+          }
           console.log("Response : ", res);
-          setRegisterStatus("register-success");
-          navigate("/login");
         })
         .catch((err: any) => {
-          console.log("Error : ", err);
-          setRegisterStatus("register-failure");
+          setRegisterStatus("register-failure")
+          setError(err.error)
+          console.log("Error : ",err);
+
         });
-      setRegisterFormData(emptyState);
+      
     } else {
       // Display error message
       console.error("Validation failed. Display error message.");
@@ -160,21 +162,20 @@ function Register() {
 
   return (
     <>
-      <div className="flex flex-col justify-center py-1   mx-auto  w-[500px] max-w-[500px] overflow-y-hidden">
+      <div className="flex flex-col justify-center py-1 pb-10  mx-auto  md:w-[500px] md:max-w-[500px] md:overflow-y-hidden ">
         <div className="flex justify-center p-2 h-[180px] " data-aos="zoom-in" data-aos-duration="1000">
           <Logo size={"0.5"} color={colors.C11} />
         </div>
 
         {registerStatus === "not-registered" ? (
           <>
-            <div className="flex flex-col gap-2 p-2 py-5 ">
-              <div className="flex flex-row gap-2">
+            <div className="flex flex-col gap-2 px-3 py-5 md:p-2">
+              <div className="flex flex-col gap-2 md:flex-row">
                 <Tooltip title="First Name" placement="left" arrow>
                   <input
                     data-aos="fade-up" data-aos-duration="1000"
                     type="text"
-                    className="flex-1
-              bg-C44 rounded-[8px] p-2 h-[46px] text-[14px]"
+                    className="flex-1 bg-C44 rounded-[8px] p-2 min-h-[46px] text-[14px]"
                     placeholder="First Name"
                     name="firstName"
                     id="firstName"
@@ -186,7 +187,7 @@ function Register() {
                   <input
                   data-aos="fade-up" data-aos-duration="1200"
                     type="text"
-                    className="flex-1 bg-C44 rounded-[8px] p-2 h-[46px] text-[14px]"
+                    className="flex-1 bg-C44 rounded-[8px] p-2 min-h-[46px] text-[14px]"
                     placeholder="Last Name"
                     name="lastName"
                     id="lastName"
@@ -207,7 +208,7 @@ function Register() {
                   onChange={handleInputChange}
                 />
               </Tooltip>
-              <div className="flex flex-row justify-between gap-2">
+              <div className="flex flex-col justify-between gap-2 md:flex-row">
                 <Tooltip title="Role" placement="left" arrow>
                   <input
                   data-aos="fade-up" data-aos-duration="1600"
@@ -303,7 +304,7 @@ function Register() {
                 Sign Up
               </button>
             </div>
-            <div className="flex flex-col justify-center gap-2 mt-2" data-aos="fade-up" data-aos-duration="2800">
+            <div className="flex flex-col justify-center gap-2 pb-5 mt-2 md:pb-0" data-aos="fade-up" data-aos-duration="2800">
           <div className="mx-auto" 
  >
           <Link to={"/login"}>
@@ -314,7 +315,7 @@ function Register() {
               </div>
             </Link>
           </div>
-          <div className="mx-auto">
+          <div className="mx-auto ">
           <Link to={"/"}>
             <div
               className={`text-[11px] text-C22 cursor-pointer  text-center  w-fit hover:underline underline-offset-1 hover:text-C11`}
@@ -329,7 +330,8 @@ function Register() {
            
             
           </>
-        ) : registerStatus === "register-success" ? (
+        ) : 
+        registerStatus === "register-success" ? (
           <div className="mt-20">
             <APIResponseStatus
               status={true}
@@ -354,11 +356,12 @@ function Register() {
               </button>
             </div>
           </div>
-        ) : registerStatus === "register-failure" ? (
+        ) : 
+        registerStatus === "register-failure" ? (
           <div className="mt-20">
             <APIResponseStatus
               status={false}
-              message={"User Registration Failed"}
+              message={apiResponseMessage}
             />
             <div className="flex justify-center gap-4 mt-10">
               <button

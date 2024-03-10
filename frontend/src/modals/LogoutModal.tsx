@@ -50,7 +50,7 @@ function LogoutModal(props:any) {
 
   return (
  <div className='top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center'>
-    <div className='bg-C55 rounded-[8px] p-5 min-w-[500px] max-h-[300px]' >
+    <div className='bg-C55 rounded-[8px] p-5 w-[90%] md:max-w-[500px] max-h-[300px] shadow-xl' >
     <div className='flex flex-row items-center justify-between'>
       <div className='font-bold text-[20px] text-C11 '>
       {`${logoutStatus==="logout-loading"?"Loggin Out ":"Log Out"}`}

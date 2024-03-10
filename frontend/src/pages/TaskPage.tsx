@@ -19,15 +19,18 @@ import { getUserById } from "../services/userServices";
 import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../redux/actions/authActions"
 import { getTaskById } from "../services/taskServices";
+import TopBar from "../components/TopBar";
+import ChangeStatusModal from "../modals/ChangeStatusModal";
 
 
 function TaskPage() {
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
   const [editTaskModal,setEditTaskModal]=useState<Boolean>(false)
-  const [viewMediaModal,setViewMediaModal]=useState<Boolean>()
+  const [viewMediaModal,setViewMediaModal]=useState<any>({isOpen: false, mediaData: null})
   const [deleteTaskModal,setDeleteTaskModal]=useState<Boolean>(false)
   const [viewMemberModal,setViewMemberModal] = useState<any>({isOpen: false, memberData: null})
   const [addMediaModal,setAddMediaModal] = useState<Boolean>(false)
+  const [taskStatusModal,setTaskStatusModal] = useState<Boolean>(false)
   const [activeTask,setActiveTask]= useState<any>(null)
   const [rerender, setRerender] = useState<Boolean>(false)
   
@@ -81,16 +84,20 @@ function TaskPage() {
 
   return (
     <>
-      <div className="flex flex-row h-[100vh] text-C11 relative">
+      <div className="flex flex-col md:flex-row h-[100vh] text-C11 relative">
+      <TopBar
+        activePage="projectpage"
+        setUserProfileModal={setUserProfileModal}
+        />
       <Sidebar 
       activePage="task-page"
       setUserProfileModal={setUserProfileModal}
       />
       {
         activeTask?._id?
-        <div className=" p-10 flex-row flex flex-1 pt-20 max-h-[100vh] overflow-y-auto  gap-2">
+        <div className="py-10 px-5 sm:px-10 flex-col md:flex-row flex flex-1 pt-20 max-h-[100vh] overflow-y-auto  gap-2 ">
           {/* Task Info */}
-          <div className="flex flex-col  max-w-[60%]   h-fit">
+          <div className="flex flex-col w-full md:max-w-[50%] lg:max-w-[60%] h-fit">
             <TaskPageTaskInfo 
             triggerRerender={triggerRerender}
             myProfiledata={myProfiledata}
@@ -107,16 +114,19 @@ function TaskPage() {
             setAddMediaModal={setAddMediaModal} 
             />
           </div>
+      {
+  activeTask?.assignedTo?._id===myProfiledata?._id||activeTask?.assignedBy?._id ===myProfiledata?._id?
 
-          <div className="flex flex-col flex-1 gap-2 ">
-            {/* <div className=" text-[#cfcfcf]  h-[600px] border-2 border-C44 rounded-[8px] bg-C44 justify-center items-center flex">
-              No Media Selected
-            </div> */}
-            <TaskPageTaskStatusMarker  
+          <div className="flex flex-col flex-1 gap-2 mb-10 md:mb-0">
+            <TaskPageTaskStatusMarker
+            triggerRerender={triggerRerender}
+            setTaskStatusModal={setTaskStatusModal}  
             myProfiledata={myProfiledata}           
             activeTask={activeTask}
              />
-          </div>
+          </div>:null
+        }
+
         </div>:
         <div className="flex items-center justify-center flex-1 w-full">
             <div className="flex justify-center mt-[100px] text-[16px] font-light ">
@@ -131,6 +141,7 @@ function TaskPage() {
           // User Profile Modal
           userProfileModal?
           <UserProfileModal 
+          triggerRerender={triggerRerender}
           setUserProfileModal={setUserProfileModal}
           />:null
         }
@@ -143,14 +154,14 @@ function TaskPage() {
           setEditTaskModal={setEditTaskModal}
           />:null
         }
-        {/* {
-          viewMediaModal?
+        {
+          viewMediaModal.isOpen?
           <ViewMediaModal
-          data={"datae"}
+          mediaData={viewMediaModal.mediaData}
           setViewMediaModal={setViewMediaModal}
 
           />:null
-        } */}
+        }
         {
           deleteTaskModal?
           <DeleteTaskConfirmationModal
@@ -168,8 +179,18 @@ function TaskPage() {
        {
         addMediaModal?
           <TaskPageAddMediaModal
+          triggerRerender={triggerRerender}
+          activeTask={activeTask}
           setAddMediaModal={setAddMediaModal} 
           />:null
+      }
+      {
+        taskStatusModal?
+        <ChangeStatusModal
+        triggerRerender={triggerRerender}
+        activeTask={activeTask}
+        setTaskStatusModal={setTaskStatusModal}
+        />:null
       }
 
       </div>

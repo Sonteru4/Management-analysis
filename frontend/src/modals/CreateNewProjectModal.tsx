@@ -13,6 +13,7 @@ function CreateNewProjectModal(props: any) {
   const [error, setError] = useState<string | null>(null);
   const [createProjectStatus,setCreateProjectStatus] = useState<any>("not-created")
   const [createdProjectId,setCreatedProjectId] = useState<any>(null)
+  const [apiResponseMessage,setApiResponseMessage] = useState<string>("")
 
 
   useEffect(() => {
@@ -68,14 +69,15 @@ function CreateNewProjectModal(props: any) {
       console.log("Perform registration logic");
       await createNewProject(createProjectFormData,myProfiledata._id).then((res:any)=>{
         console.log("INSIDE CREATE PROJECT :",res)
-        setCreatedProjectId(res?.project?._id);
-        triggerRerender()
         setCreateProjectFormData(emptyState)
         setCreateProjectStatus("create-success")
+        setCreatedProjectId(res?.project?._id);
+        triggerRerender()
 
       }).catch((err:any)=>{
         console.log("INSIDE CREATE PROJECT :",err)
         setCreateProjectStatus("create-failure")
+        setApiResponseMessage(err.response.data.error)
       })
     } else {
       // Display error message
@@ -89,19 +91,9 @@ function CreateNewProjectModal(props: any) {
     setCreateNewProjectModal(false);
   };
 
-  // const goToProject=()=>{
-
-  //   navigate
-
-
-  // }
-
-
-
-
   return (
     <div className="top-0 left-0 absolute w-[100vw] h-[100vh] bg-[#00000054] flex justify-center items-center">
-      <div className="bg-C55 rounded-[8px] p-5 w-[700px] ">
+      <div className="bg-C55 rounded-[8px] p-5 w-[90%] md:w-[700px] shadow-xl">
         <div className="font-bold text-[20px] text-C11">New Project</div>
         <div className="my-1 mt-2 text-[14px] flex flex-col gap-2 ">
           {
@@ -141,7 +133,7 @@ function CreateNewProjectModal(props: any) {
           createProjectStatus==="create-success"?
            <APIResponseStatus message="Project Created" status={true}/>:
            createProjectStatus==="create-failure"?
-           <APIResponseStatus message="Failed To Create" status={false}/>:null
+           <APIResponseStatus message={apiResponseMessage} status={false}/>:null
           }
 
           {error?

@@ -26,7 +26,9 @@ function ProjectPageProjectInfo(props: any) {
     setOverallPerformanceModal ,
     setEditProjectInfoModal,
     setViewMemberModal,
-    setDeleteProjetModal} =
+    setDeleteProjetModal,
+    completedTasks,
+} =
     props;
 
 
@@ -152,10 +154,11 @@ function ProjectPageProjectInfo(props: any) {
         <div className="hidden md:flex">
 
         <CircularGraph
+          
           setOverallPerformanceModal={setOverallPerformanceModal}
           color={colors.C11}
           trackColor={colors.C44}
-          percentage={25}
+          percentage={Math.floor((completedTasks.length/activeProject?.allTasks.length)*100)}
         />
         </div>:null
         }

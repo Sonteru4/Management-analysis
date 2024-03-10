@@ -19,6 +19,7 @@ export const editTaskById = async(taskId:string,newTaskData:any)=>{
         editTaskResult = res.data
     }).catch((err:any)=>{
         console.log("(inservice)ERROR TO EDIT TASK BY ID : ",err)
+        editTaskResult=err
     })
     return editTaskResult
 }
@@ -32,4 +33,40 @@ export const deleteTaskById = async(taskId:string)=>{
         console.log("(inservice)ERROR TO EDIT TASK BY ID : ",err)
     })
     return deleteTaskResult
+}
+
+export const changeTaskStatus = async(taskId:string,status:string)=>{
+    let changeTaskStatusResult
+    await axios.put(`${ENV}/change-task-status-by-id/${taskId}`,{newStatus:status}).then((res:any)=>{
+        console.log("(inservice)RESPONSE TO CHANGE TASK STATUS BY ID : ",res.data)
+        changeTaskStatusResult = res.data
+    }).catch((err:any)=>{
+        console.log("(inservice)ERROR TO CHANGE TASK STATUS BY ID : ",err)
+    })
+    return changeTaskStatusResult
+}
+
+export const addCommentById = async(taskId:string,commentData:any)=>{
+    let addCommentResult
+    await axios.post(`${ENV}/add-comment-by-id/${taskId}`,commentData).then((res:any)=>{
+        addCommentResult = res.data
+        console.log("(inservice) ADD COMMENT RESULT :",res.data)
+    }).catch((err:any)=>{
+        addCommentResult = err
+        console.log("(inservice) ADD COMMENT ERROR :",err)
+    })
+    return addCommentResult
+}
+
+
+export const  addMediaToTask = async(taskId:string,mediaDataArray:any)=>{
+    let mediaUploadResult
+    await axios.post(`${ENV}/add-media-to-task/${taskId}`,{mediaDataArray:mediaDataArray}).then((res:any)=>{
+        mediaUploadResult = res.data
+        console.log("(INSERVICE) UPLOAD MEDIA RESPONSE",res)
+    }).catch((err:any)=>{
+        mediaUploadResult = err
+        console.log("(INSERVICE) UPLOAD MEDIA ERROR",err)
+    })
+    return mediaUploadResult
 }

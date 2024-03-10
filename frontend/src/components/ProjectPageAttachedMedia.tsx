@@ -1,18 +1,21 @@
 import React from 'react'
 import { colors } from '../Constants'
-import { AttachFile, Description, PictureAsPdf, InsertPhoto, AudioFile, VideoFile, FilePresent, Add } from '@mui/icons-material'
-import { sampleMedia } from '../data/data'
+import { AttachFile, Description, PictureAsPdf, InsertPhoto, FilePresent, Add } from '@mui/icons-material'
 import { Tooltip } from '@mui/material'
 import NoDataMessage from '../common/NoDataMessage'
 
 function ProjectPageAttachedMedia(props:any) {
-  const {setAddMediaModal,setViewMediaModal,activeProject}=props
+  const {setAddMediaModal,setViewMediaModal,activeProject,myProfiledata}=props
+  const isUserProjectMember = activeProject?.projectMembers.some((member:any) => member._id === myProfiledata?._id);
   return (
    <>
-     <div >
-        <div className='flex flex-row gap-2 '>
+     <div className='w-full ' >
+        <div className='flex flex-row justify-between gap-2 md:justify-start'>
+        <div className='flex flex-row items-center '>
         <AttachFile sx={{fontSize:25,color:colors.C11,rotate:"45deg"}}/>
         <h2 className="font-bold text-[18px]">Attached Media</h2>
+          </div>  
+        {isUserProjectMember&&
         <Tooltip title={"Add New Media"} arrow placement="right">
                 <button
                   onClick={() => setAddMediaModal(true)}
@@ -21,30 +24,49 @@ function ProjectPageAttachedMedia(props:any) {
                   <Add sx={{ fontSize: 20, color: colors.C11 }} />
                 </button>
         </Tooltip>
+        }
         </div>
-        <div className='flex mt-2 flex-wrap flex-row gap-5 py-2  px-1 max-w-[90%] overflow-y-auto max-h-[300px]'>
+        <div className='flex mt-2 flex-wrap flex-col sm:flex-row gap-2 md:gap-5 py-2  px-1 md:max-w-[90%] overflow-y-auto max-h-[300px]'>
             {
                 activeProject?.attachedMediaURLSet.map((node:any)=>(
-                    <Tooltip title="View" placement='top' arrow>
-                    <a className='flex flex-row p-2 pr-4 justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'
-                    href={node.dataURL} target='_blank'rel='noreferrer' 
+                    <Tooltip title="View" placement='top' arrow key={node.mediaURL}>
+                     <>{
+                      node.mediaType==="image/png"||node.mediaType==="image/jpeg"||node.type==="image/jpg"?  
+                      <div 
+                      onClick={()=>setViewMediaModal({[`isOpen`]:true,[`mediaData`]:node})}
+                      className='flex flex-row p-2 pr-4 md:justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11' 
+                      >
+                          <div className='hidden md:flex'>
+                              {node.mediaType===".txt"?
+                              <Description/>:
+                               node.mediaType==="application/pdf"?
+                               <PictureAsPdf/>:
+                               node.mediaType==="image/png"||node.mediaType==="image/jpeg"||node.type==="image/jpg"?
+                               <InsertPhoto/>:
+                               <FilePresent/>
+                              }
+                          </div>
+                          <div className=' text-[10px] md:max-w-[90%] break-words'>{node?.mediaName}</div>
+                      </div>  :             
+                    <a className='flex flex-row p-2 pr-4 md:justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'
+                    href={node?.mediaURL} download target='_blank'rel='noreferrer' 
                     >
-                        <div className=''>
-                            {node.type==="docx"?
+                        <div className='hidden md:flex'>
+                            {node.mediaType===".txt"?
                             <Description/>:
-                             node.type==="pdf"?
+                             node.mediaType==="application/pdf"?
                              <PictureAsPdf/>:
-                             node.type==="png"||node.type==="jpeg"||node.type==="svg"?
+                             node.mediaType==="image/png"||node.mediaType==="image/jpeg"||node.type==="image/jpg"?
                              <InsertPhoto/>:
-                             node.type==="wav"||node.type==="mp3"?
-                             <AudioFile/>:
-                             node.type==="mp4"||node.type==="mkv"||node.type==="mov"?
-                             <VideoFile/>:
                              <FilePresent/>
                             }
                         </div>
-                        <div className=' text-[10px] max-w-[90%] break-words'>{node.fileName}</div>
+                        <div className=' text-[10px] md:max-w-[90%] break-words'>{node?.mediaName}</div>
                     </a>
+                    
+                    }
+                     
+                     </> 
                     </Tooltip>
                 ))
 

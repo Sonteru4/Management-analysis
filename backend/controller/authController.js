@@ -9,10 +9,16 @@ exports.register = async (req, res) => {
     // Extract data from request body
     const { username, email, password, firstName, lastName, role, dateOfBirth } = req.body;
 
-    // Check if the user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+    // Check if the user already exists by username or email
+    const existingUserByUsername = await User.findOne({ username });
+    const existingUserByEmail = await User.findOne({ email });
+
+    if (existingUserByUsername) {
+      return res.status(400).json({ error: "Username already exists", registerSuccess: false });
+    }
+
+    if (existingUserByEmail) {
+      return res.status(400).json({ error: "Email already exists", registerSuccess: false });
     }
 
     // Hash the password
@@ -39,10 +45,10 @@ exports.register = async (req, res) => {
     await newUser.save();
 
     // Respond with success
-    res.status(201).json({ message: "User registered successfully" ,success:true});
+    res.status(201).json({ message: "User registered successfully" ,registerSuccess: true});
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" ,success:false});
+    res.status(500).json({ error: "Internal Server Error" ,registerSuccess: false});
   }
 };
 

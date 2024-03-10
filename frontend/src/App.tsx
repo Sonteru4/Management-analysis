@@ -11,6 +11,8 @@ import ProjectPage from "./pages/ProjectPage";
 import TaskPage from "./pages/TaskPage";
 import ErrorPage from "./pages/ErrorPage";
 import HomePage from "./pages/HomePage";
+import FileViewer from "./pages/FileDemo";
+import FileDemo from "./pages/FileDemo";
 
 
 
@@ -29,6 +31,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/project-page" element={<ProjectPage/>}/>
           <Route path="/task-page" element={<TaskPage/>}/>
+          <Route path="/file-demo" element={<FileDemo/>}/>
           <Route path ="*" element={<ErrorPage/>}/>
         </Routes>
       </BrowserRouter>

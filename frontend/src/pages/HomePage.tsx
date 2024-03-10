@@ -60,7 +60,7 @@ function HomePage() {
             </div>
         </div>
 
-        <div className='h-[300px]   relative mx-auto w-1/2 mt-16 justify-center flex items-center' 
+        <div className='h-[300px]   relative mx-auto w-1/2 mt-16 justify-center flex items-center ' 
         data-aos="zoom-in" 
         data-aos-duration="2000"
         >
@@ -72,14 +72,14 @@ function HomePage() {
             <div className='absolute z-[6] animate-circle min-w-[130px] min-h-[130px] bg-C11 speed6 opacity-[0.06]'></div>
             <div className='absolute z-[7] animate-circle min-w-[120px] min-h-[120px] bg-C11 speed7 opacity-5'></div>
             <div className='absolute z-[8] animate-circle min-w-[110px] min-h-[110px] bg-C11 speed8 opacity-[0.06]'></div>
-            <div className='absolute w-1/2 z-[9]'  >
+            <div className='absolute w-full md:w-3/4 lg:w-1/2 z-[9]'  >
                 <Logo color={colors.C11}/>
             </div>
-            <div className='absolute z-[10] bottom-[20px] left-[39%]  text-C11 font-semibold'>Team Management Software</div>
+            <div className='absolute z-[10] w-[300px] md:w-fit text-center bottom-[20px] md:left-[32%] lg:left-[38%] text-C11 font-semibold '>Team Management Software</div>
         </div>
 
-        <div className='flex flex-col gap-5 max-w-[78%] mx-auto text-justify '>
-            <div data-aos="fade-in" data-aos-duration="1000">
+        <div className='flex flex-col gap-5 max-w-[90%] md:max-w-[78%] mx-auto text-justify '>
+            <div data-aos="fade-in" data-aos-duration="1000" data-aos-once={true}>
             Welcome to our innovative project management platform, a robust 
             solution designed to streamline collaboration and enhance productivity. 
             Our project stems from the vision of simplifying task management, 
@@ -88,7 +88,7 @@ function HomePage() {
               teamwork, our platform integrates advanced features to empower users 
               at every stage of their project lifecycle.
             </div>
-            <div data-aos="fade-in" data-aos-duration="1500">
+            <div data-aos="fade-in" data-aos-duration="1500" data-aos-once={true}>
             Our project management tool offers a comprehensive suite of functionalities. 
             Seamlessly organize tasks, set milestones, and track progress within a 
             user-friendly interface. With dynamic project dashboards, gain real-time
@@ -97,7 +97,7 @@ function HomePage() {
              to ensure everyone stays on the same page.
             </div>
 
-            <div data-aos="fade-in" data-aos-duration="2000">
+            <div data-aos="fade-in" data-aos-duration="2000" data-aos-once={true}>
             Furthermore, our platform prioritizes user experience, offering a visually appealing and intuitive design.
              From task prioritization to detailed analytics, our tool is crafted to adapt to the diverse
               needs of project managers, team leads, and individual contributors.
