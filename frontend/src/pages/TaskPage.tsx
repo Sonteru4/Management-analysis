@@ -31,11 +31,17 @@ function TaskPage() {
   const [viewMemberModal,setViewMemberModal] = useState<any>({isOpen: false, memberData: null})
   const [addMediaModal,setAddMediaModal] = useState<Boolean>(false)
   const [taskStatusModal,setTaskStatusModal] = useState<Boolean>(false)
-  const [activeTask,setActiveTask]= useState<any>(null)
+  const [activeTask,setActiveTask]= useState<any>({})
   const [rerender, setRerender] = useState<Boolean>(false)
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    Object.keys(activeTask).length!==0?
+    window.document.title = activeTask?.taskTitle:window.document.title ="TMS"
+  },[activeTask])
+
   useEffect(() => {
     const existingUser:any = getUserDetailsFromToken()
     console.log("EXISITING USER ID : ",existingUser)

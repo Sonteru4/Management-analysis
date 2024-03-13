@@ -70,3 +70,15 @@ export const  addMediaToTask = async(taskId:string,mediaDataArray:any)=>{
     })
     return mediaUploadResult
 }
+
+export const  deleteMediaToTask = async(projectId:string,mediaURL:any)=>{
+    let mediaDeleteResult
+    await axios.delete(`${ENV}/remove-media-from-task/${projectId}`,{data:mediaURL}).then((res:any)=>{
+        mediaDeleteResult = res.data
+        console.log("(INSERVICE) DELETE MEDIA RESPONSE",res)
+    }).catch((err:any)=>{
+        mediaDeleteResult = err
+        console.log("(INSERVICE) DELETE MEDIA ERROR",err)
+    })
+    return mediaDeleteResult
+}

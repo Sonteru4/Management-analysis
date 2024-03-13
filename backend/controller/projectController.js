@@ -426,6 +426,42 @@ exports.add_new_media_to_project = async(req,res)=>{
 
 }
 
+exports.remove_media_from_project = async(req,res)=>{
+// this should remove the media that particular project  has from its database as well as from cloudinary
+try {
+  const projectId = req.params.projectId;
+  const mediaURLToRemove = req.data; // Assuming you send the media URL as a parameter
+
+  console.log("MEDIA URL TO REMOVE  :",mediaURLToRemove)
+
+  // Check if the task exists
+  const project = await Task.findById(projectId);
+  if (!project) {
+    return res.status(404).json({ error: 'Project not found', deleteStatus: false });
+  }
+
+  // Find the index of the media item to remove
+  const mediaIndex = project.attachedMediaURLSet.findIndex((mediaItem) => mediaItem.mediaURL === mediaURLToRemove);
+
+  // If the media item is found, remove it from the set
+  if (mediaIndex !== -1) {
+    project.attachedMediaURLSet.splice(mediaIndex, 1);
+  } else {
+    return res.status(404).json({ error: 'Media not found in Project', deleteStatus: false });
+  }
+
+  // Save the updated task
+  await project.save();
+
+  // Respond with success or any relevant information
+  res.status(200).json({ message: 'Media removed from Project successfully', deleteStatus: true });
+} catch (error) {
+  console.error(error);
+  // Handle any internal server error
+  res.status(500).json({ error: 'Internal Server Error', deleteStatus: false });
+}
+
+}
 
 
 

@@ -73,34 +73,40 @@ function TaskPageAddMediaModal(props:any) {
 }
 
   const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      await uploadToCloudinary().then(async(res:any)=>{
-        console.log("MEDIA UPLOAD RESULT : ",res)
-        await addMediaToTask(activeTask?._id,res).then((res:any)=>{
-          console.log("(INREACT) UPLOAD MEDIA RESULT: ", res);
-          if(res.addSuccess){
-            setLoading(false);
-            setFileList([]);
-            setAddMediaModal(false);
-            triggerRerender();
-          }
-          else{
-            setLoading(false);
-            setError("Something went wrong");
-          }
-  
-        }).catch((err:any)=>{
-          console.log("(INREACT) UPLOAD MEDIA ERROR: ", err);
-  
-        })
-      }).catch((err:any)=>{
-        console.log("MEDIA UPLOAD ERROR INCLOUDINARY : ",err)
-      })
 
-    } catch (err:any) {
-      setLoading(false);
-      setError(err?.message || "Something went wrong");
+    if(fileList.length===0){
+      setError("Add atleast one media")
+    }
+    else{
+      setLoading(true);
+      try {
+        await uploadToCloudinary().then(async(res:any)=>{
+          console.log("MEDIA UPLOAD RESULT : ",res)
+          await addMediaToTask(activeTask?._id,res).then((res:any)=>{
+            console.log("(INREACT) UPLOAD MEDIA RESULT: ", res);
+            if(res.addSuccess){
+              setLoading(false);
+              setFileList([]);
+              setAddMediaModal(false);
+              triggerRerender();
+            }
+            else{
+              setLoading(false);
+              setError("Something went wrong");
+            }
+    
+          }).catch((err:any)=>{
+            console.log("(INREACT) UPLOAD MEDIA ERROR: ", err);
+    
+          })
+        }).catch((err:any)=>{
+          console.log("MEDIA UPLOAD ERROR INCLOUDINARY : ",err)
+        })
+  
+      } catch (err:any) {
+        setLoading(false);
+        setError(err?.message || "Something went wrong");
+      }
     }
   };
   
@@ -148,7 +154,7 @@ function TaskPageAddMediaModal(props:any) {
               <div className="flex items-center justify-between flex-row gap-1 px-2 py-1 text-[12px] font-semibold bg-gray-100     hover:bg-inactiveC11 text-C11 rounded-[4px]">
                 <div className="flex flex-row gap-1 item-center">
                   <div className="w-fit">
-                    {node.type === "image/jpeg" ? (
+                    {(node.type === "image/jpeg"||node.type === "image/jpg"||node.type === "image/png") ? (
                       <Image sx={{ fontSize: 15 }} />
                     ) : node.type === "application/pdf" ? (
                       <InsertDriveFile sx={{ fontSize: 15 }} />

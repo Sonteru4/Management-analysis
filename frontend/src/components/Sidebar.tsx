@@ -29,7 +29,7 @@ function Sidebar(props:any) {
        onClick={()=>setUserProfileModal(true)}
       >
       {
-        myProfiledata&&
+        myProfiledata&&activePage==="dashboard"&&
         <div 
         className={`w-[35px] h-[35px] rounded-full flex justify-center items-center text-center text-[11px] font-semibold text-white p-[2px] bg-inactiveC11 hover:bg-C11 transition-all duration-[0.5s]` }>
           <div className='bg-C11 flex items-center justify-center min-w-full min-h-full text-center  border-C44 rounded-full border-[2px]'>

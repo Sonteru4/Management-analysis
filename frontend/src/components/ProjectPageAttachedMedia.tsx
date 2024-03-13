@@ -30,8 +30,6 @@ function ProjectPageAttachedMedia(props:any) {
             {
                 activeProject?.attachedMediaURLSet.map((node:any)=>(
                     <Tooltip title="View" placement='top' arrow key={node.mediaURL}>
-                     <>{
-                      node.mediaType==="image/png"||node.mediaType==="image/jpeg"||node.type==="image/jpg"?  
                       <div 
                       onClick={()=>setViewMediaModal({[`isOpen`]:true,[`mediaData`]:node})}
                       className='flex flex-row p-2 pr-4 md:justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11' 
@@ -41,32 +39,13 @@ function ProjectPageAttachedMedia(props:any) {
                               <Description/>:
                                node.mediaType==="application/pdf"?
                                <PictureAsPdf/>:
-                               node.mediaType==="image/png"||node.mediaType==="image/jpeg"||node.type==="image/jpg"?
+                               (node.type === "image/jpeg"||node.type === "image/jpg"||node.type === "image/png")?
                                <InsertPhoto/>:
                                <FilePresent/>
                               }
                           </div>
                           <div className=' text-[10px] md:max-w-[90%] break-words'>{node?.mediaName}</div>
-                      </div>  :             
-                    <a className='flex flex-row p-2 pr-4 md:justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11'
-                    href={node?.mediaURL} download target='_blank'rel='noreferrer' 
-                    >
-                        <div className='hidden md:flex'>
-                            {node.mediaType===".txt"?
-                            <Description/>:
-                             node.mediaType==="application/pdf"?
-                             <PictureAsPdf/>:
-                             node.mediaType==="image/png"||node.mediaType==="image/jpeg"||node.type==="image/jpg"?
-                             <InsertPhoto/>:
-                             <FilePresent/>
-                            }
-                        </div>
-                        <div className=' text-[10px] md:max-w-[90%] break-words'>{node?.mediaName}</div>
-                    </a>
-                    
-                    }
-                     
-                     </> 
+                      </div>                 
                     </Tooltip>
                 ))
 

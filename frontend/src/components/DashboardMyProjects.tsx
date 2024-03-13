@@ -47,7 +47,7 @@ function DashboardMyProjects(props:any) {
                 <Tooltip title={"Create New Project"} arrow placement="right">
                     <button 
                     onClick={()=>setCreateNewProjectModal(true)}
-                    className={`${myProjects.length===0?"w-[70px] h-[70px] mt-10":"w-[40px] h-[40px]"} rounded-full bg-[#dcdbdb] flex justify-center items-center opacity-50 hover:bg-C11 hover:opacity-100 transition duration-[0.5s] hover:scale-1`}>
+                    className={`${myProjects.length===0?"w-[70px] h-[70px] mt-10":"w-[40px] h-[40px]"} rounded-full bg-[#dcdbdb] flex justify-center items-center opacity-50 hover:bg-C11 hover:opacity-100 transition duration-[0.5s] hover:scale-1 hover:shadow-md`}>
                         <AddRounded sx={{fontSize:30,color:colors.C55}} />
                     </button>
                 </Tooltip>

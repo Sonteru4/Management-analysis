@@ -63,12 +63,9 @@ export const addMemberToProject = async(projectId:string,userData:any)=>{
     await axios.post(`${ENV}/add-new-member-by-project-id/${projectId}`,userData).then((res:any)=>{
         console.log("(inservice)ADDMEMBER PROJECT BY ID RESULT :",res);
         addMemberResponse = res.data
-
     }).catch((err:any)=>{
         console.log("(inservice)ERROR ADDMEMBER PROJECT BY ID RESULT :",err);
-
         addMemberResponse = err
-
     })
     return addMemberResponse
 }
@@ -96,5 +93,20 @@ export const  addMediaToProject = async(projectId:string,mediaDataArray:any)=>{
     })
     return mediaUploadResult
 }
+
+export const  deleteMediaToProject = async(projectId:string,mediaURL:any)=>{
+    let mediaDeleteResult
+    await axios.delete(`${ENV}/remove-media-to-project/${projectId}`,{data:mediaURL}).then((res:any)=>{
+        mediaDeleteResult = res.data
+        console.log("(INSERVICE) DELETE MEDIA RESPONSE",res)
+    }).catch((err:any)=>{
+        mediaDeleteResult = err
+        console.log("(INSERVICE) DELETE MEDIA ERROR",err)
+    })
+    return mediaDeleteResult
+}
+
+
+
 
 

@@ -50,6 +50,11 @@ function ProjectPage() {
   const myProfiledata = useSelector(
     (state: any) => state.authReducer.myUserProfile
   );
+
+  useEffect(()=>{
+    Object.keys(activeProject).length!==0?
+    window.document.title = activeProject?.projectName:window.document.title ="TMS"
+  },[activeProject])
   
 
   useEffect(() => {

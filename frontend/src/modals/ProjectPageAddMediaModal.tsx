@@ -80,34 +80,39 @@ function ProjectPageAddMediaModal(props: any) {
 }
 
   const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      await uploadToCloudinary().then(async(res:any)=>{
-        console.log("MEDIA UPLOAD RESULT : ",res)
-        await addMediaToProject(activeProject?._id,res).then((res:any)=>{
-          console.log("(INREACT) UPLOAD MEDIA RESULT: ", res);
-          if(res.addSuccess){
-            setLoading(false);
-            setFileList([]);
-            setAddMediaModal(false);
-            triggerRerender();
-          }
-          else{
-            setLoading(false);
-            setError("Something went wrong");
-          }
-  
+    if(fileList.length===0){
+      setError("Add atleast one media")
+    }
+    else{
+      setLoading(true);
+      try {
+        await uploadToCloudinary().then(async(res:any)=>{
+          console.log("MEDIA UPLOAD RESULT : ",res)
+          await addMediaToProject(activeProject?._id,res).then((res:any)=>{
+            console.log("(INREACT) UPLOAD MEDIA RESULT: ", res);
+            if(res.addSuccess){
+              setLoading(false);
+              setFileList([]);
+              setAddMediaModal(false);
+              triggerRerender();
+            }
+            else{
+              setLoading(false);
+              setError("Something went wrong");
+            }
+    
+          }).catch((err:any)=>{
+            console.log("(INREACT) UPLOAD MEDIA ERROR: ", err);
+    
+          })
         }).catch((err:any)=>{
-          console.log("(INREACT) UPLOAD MEDIA ERROR: ", err);
-  
+          console.log("MEDIA UPLOAD ERROR INCLOUDINARY : ",err)
         })
-      }).catch((err:any)=>{
-        console.log("MEDIA UPLOAD ERROR INCLOUDINARY : ",err)
-      })
-
-    } catch (err:any) {
-      setLoading(false);
-      setError(err?.message || "Something went wrong");
+  
+      } catch (err:any) {
+        setLoading(false);
+        setError(err?.message || "Something went wrong");
+      }
     }
   };
   
