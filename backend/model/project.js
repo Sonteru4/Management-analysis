@@ -40,7 +40,11 @@ attachedMediaURLSet:[
     mediaName:{type:String},
     mediaSize:{type:Number}
   }
-]
+],
+projectComments:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'Comment'
+  }]
   // Add any additional project-related fields here
 });
 

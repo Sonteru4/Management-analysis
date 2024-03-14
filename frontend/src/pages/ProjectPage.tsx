@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import ProjectPageProjectInfo from "../components/ProjectPageProjectInfo";
 import ProjectPageMyTasks from "../components/ProjectPageMyTasks";
 import ProjectPageProjectMembers from "../components/ProjectPageProjectMembers";
@@ -16,7 +16,7 @@ import AddNewMemberModal from "../modals/AddNewMemberModal";
 import DeleteProjectConfirmationModal from "../modals/DeleteProjectConfirmationModal";
 import ProjectPageAddMediaModal from "../modals/ProjectPageAddMediaModal";
 import ViewMediaModal from "../modals/ViewMediaModal";
-import { getProjectById } from "../services/projectServices";
+import { addCommentToProjectById, getProjectById } from "../services/projectServices";
 import * as projectActions from "../redux/actions/projectActions"
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDetailsFromToken } from "../services/authServices";
@@ -24,9 +24,16 @@ import { getUserById } from "../services/userServices";
 import * as authActions from "../redux/actions/authActions"
 import { useNavigate } from "react-router";
 import TopBar from "../components/TopBar";
+import ErrorBox from "../common/ErrorBox";
+import { Comment, Edit } from "@mui/icons-material";
+import { colors } from "../Constants";
+import NoDataMessage from "../common/NoDataMessage";
+import moment from "moment";
+import ProjectPageDiscussion from "../components/ProjectPageDiscussion";
 
 
 function ProjectPage() {
+  const commentsContainerRef = useRef<HTMLDivElement>(null);
   const [addTaskModal,setAddTaskModal]=useState<Boolean>(false)
   const [viewAllTaskModal,setViewAllTaskModal] = useState<Boolean>(false)
   const [userProfileModal,setUserProfileModal]=useState<Boolean>(false)
@@ -43,14 +50,20 @@ function ProjectPage() {
   const [myTasks,setMytasks] = useState<any>([])
   const [pendingTasks,setPendingTasks] = useState<any>([])
   const [completedTasks,setCompletedTasks] = useState<any>([])
-
-
-  const navigate = useNavigate()
+  const [postCommentStatus, setPostCommentStatus] = useState<string>("not-posted");
 
   const myProfiledata = useSelector(
     (state: any) => state.authReducer.myUserProfile
   );
 
+  
+  
+  const isCurrentUserInProject = activeProject?.projectMembers?.some((member:any) => member._id === myProfiledata?._id);
+  
+  const navigate = useNavigate()
+  
+  
+  
   useEffect(()=>{
     Object.keys(activeProject).length!==0?
     window.document.title = activeProject?.projectName:window.document.title ="TMS"
@@ -124,18 +137,6 @@ const getMyProfileData =async(myUserId:any)=>{
 
 }
 
-
-
-
-
-  
-
-
-
-
-
-
-
   return (
     <div className="flex flex-col md:flex-row h-[100vh] text-C11 relative">
       <TopBar
@@ -148,7 +149,7 @@ const getMyProfileData =async(myUserId:any)=>{
       />
       {
         activeProject?._id?
-      <div className=" bg-C55 py-10 px-5 sm:px-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
+      <div className=" py-10 px-5 sm:px-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
         {/* Project Info */}
         <ProjectPageProjectInfo
         completedTasks={completedTasks}
@@ -175,8 +176,11 @@ const getMyProfileData =async(myUserId:any)=>{
           />
 
         </div>
-        <div className="flex flex-row items-start gap-3 mt-10 ">
-        <div className="w-full lg:w-[60%] ">
+        {
+        isCurrentUserInProject&&
+        <div className=" flex flex-row justify-between pt-10  2xl:gap-[150px] xl:gap-[120px] gap-[50px] flex-wrap lg:flex-nowrap ">
+        
+     
           {/* Attached Media */}
           <ProjectPageAttachedMedia 
           myProfiledata={myProfiledata}
@@ -184,11 +188,19 @@ const getMyProfileData =async(myUserId:any)=>{
           setAddMediaModal={setAddMediaModal}
           setViewMediaModal={setViewMediaModal}
           />
+
+        {/* ------------------ */}
+        <ProjectPageDiscussion
+        myProfiledata={myProfiledata}
+        activeProject={activeProject} 
+        triggerRerender={triggerRerender}
+        />
+
+
+        {/* ------------------ */}
         </div>
-        <div className='hidden text-[#cfcfcf] flex-1 h-[400px] border-2 border-C44 rounded-[8px] bg-C44 justify-center items-center '>
-        No Media Selected
-        </div>
-        </div>
+        }
+
       </div>:
       <div className="flex items-center justify-center flex-1 w-full">
       <div className="flex justify-center mt-[100px] text-[16px] font-light ">

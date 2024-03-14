@@ -82,6 +82,19 @@ export const deleteMemberFromProject = async(projectId:string,userData:any)=>{
     return removeMemberResponse
 }
 
+
+export const addCommentToProjectById = async(projectId:string,commentData:any)=>{
+    let addCommentResult
+    await axios.post(`${ENV}/add-comment-to-project-by-id/${projectId}`,commentData).then((res:any)=>{
+        addCommentResult = res.data
+        console.log("(inservice) ADD COMMENT RESULT :",res.data)
+    }).catch((err:any)=>{
+        addCommentResult = err
+        console.log("(inservice) ADD COMMENT ERROR :",err)
+    })
+    return addCommentResult
+}
+
 export const  addMediaToProject = async(projectId:string,mediaDataArray:any)=>{
     let mediaUploadResult
     await axios.post(`${ENV}/add-media-to-project/${projectId}`,{mediaDataArray:mediaDataArray}).then((res:any)=>{

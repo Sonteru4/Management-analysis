@@ -46,9 +46,9 @@ export const changeTaskStatus = async(taskId:string,status:string)=>{
     return changeTaskStatusResult
 }
 
-export const addCommentById = async(taskId:string,commentData:any)=>{
+export const addCommentToTaskById = async(taskId:string,commentData:any)=>{
     let addCommentResult
-    await axios.post(`${ENV}/add-comment-by-id/${taskId}`,commentData).then((res:any)=>{
+    await axios.post(`${ENV}/add-comment-to-task-by-id/${taskId}`,commentData).then((res:any)=>{
         addCommentResult = res.data
         console.log("(inservice) ADD COMMENT RESULT :",res.data)
     }).catch((err:any)=>{

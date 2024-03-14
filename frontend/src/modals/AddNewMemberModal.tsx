@@ -12,6 +12,7 @@ function AddNewMemberModal(props: any) {
   const { setAddMemberModal ,triggerRerender,activeProject} = props;
   const [error, setError] = useState<any>();
   const [allUsers, setAllUsers] = useState<any>([]);
+  const [loading,setLoading] = useState<Boolean>(true)
   const [addNewMemberStatus,setAddNewMemberStatus] = useState<string>("not-added")
 
   const myProfiledata = useSelector(
@@ -37,6 +38,9 @@ function AddNewMemberModal(props: any) {
      await getAllUsers().then((res:any)=>{
         const tempARRAY= res.filter((user:any)=>(user._id!==myProfiledata?._id))
         console.log(" PPL IN MODAL ",tempARRAY);
+        if(tempARRAY.length>0){
+          setLoading(false)
+        }
         setAllUsers(tempARRAY)
       })
     }

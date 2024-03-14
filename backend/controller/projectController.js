@@ -5,7 +5,8 @@ const File = require('../model/file');
 const fs = require('fs').promises;
  // Assuming your file model is in the correct path
 
-const multer = require("multer")
+const multer = require("multer");
+const Comment = require("../model/comment");
 const upload = multer({ dest: 'uploads/' }); // Specify the destination folder for uploaded files
 
 // ----- GET REQUESTS -----
@@ -28,6 +29,7 @@ exports.get_project_by_id = async(req,res)=>{
         .populate("allTasks")
         .populate("projectManager")
         .populate("projectMembers")
+        .populate("projectComments")
 
     
         // Check if the project exists
@@ -424,6 +426,51 @@ exports.add_new_media_to_project = async(req,res)=>{
     res.status(500).json({ message: 'Internal Server Error',addSuccess:false });
   }
 
+}
+
+
+exports.add_comment_by_project_id= async(req,res)=>{
+  try {
+    const projectId = req.params.projectId;
+
+    const { senderName, messageContent, senderId,timeStamp } = req.body;
+
+    // Create a new comment
+    const newComment = new Comment({
+      senderName:senderName,
+      messageContent:messageContent,
+      senderId:senderId,
+      timeStamp: new Date()
+    });
+
+    await newComment.save()
+
+    // Implement the logic to add the comment to the task in the database
+    // Use the Task model and its findOneAndUpdate method
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      {
+        $push: {
+          projectComments: newComment._id,
+        },
+      },
+      { new: true } // This option ensures you get the updated document in the response
+    );
+
+    if (!updatedProject) {
+      // Handle the case where the task with the given ID is not found
+      return res.status(404).json({ error: "Project not found",addStatus:false });
+    }
+
+    // Respond with the updated task or any relevant information
+    res.status(200).json({ message: "Comment added successfully", project: updatedProject ,addStatus:true });
+  } catch (error) {
+    console.error(error);
+    // Handle any internal server error
+    res.status(500).json({ error: "Internal Server Error" ,addStatus:false  });
+  }
+
+  
 }
 
 exports.remove_media_from_project = async(req,res)=>{

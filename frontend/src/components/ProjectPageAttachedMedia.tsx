@@ -9,7 +9,7 @@ function ProjectPageAttachedMedia(props:any) {
   const isUserProjectMember = activeProject?.projectMembers.some((member:any) => member._id === myProfiledata?._id);
   return (
    <>
-     <div className='w-full ' >
+     <div className='w-full lg:w-1/2' >
         <div className='flex flex-row justify-between gap-2 md:justify-start'>
         <div className='flex flex-row items-center '>
         <AttachFile sx={{fontSize:25,color:colors.C11,rotate:"45deg"}}/>

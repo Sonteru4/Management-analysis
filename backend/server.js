@@ -26,37 +26,46 @@ connectToDatabase().then(()=>{
             app.get("/get-all-my-projects-by-user-id/:userId",userRouter) 
             app.get("/get-all-involved-projects-by-user-id/:userId",userRouter)
             app.get("/get-all-tasks-by-user-id/:userId",userRouter)
-            app.get("/get-all-completed-tasks-by-user-id/:userId",userRouter)
-            app.get("/get-all-pending-tasks-by-user-id/:userId",userRouter)
+
             app.post("/create-new-project-for-user-id/:userId",userRouter)
+
             app.put("/update-user-profile/:userId",userRouter)
+
             app.delete('/delete-user/:userId',userRouter)
             app.delete('/delete-all-users',userRouter)
 
-            // PROJECT REQUESTS
+            // PROJECT REQUESTS-------------------------------------------------
             app.get("/get-all-projects", projectRouter);
             app.get("/get-project-by-id/:projectId",projectRouter)
             app.get("/get-project-members-by-id/:projectId",projectRouter)
             app.get("/get-all-tasks-by-project-id/:projectId",projectRouter)
             app.get("/get-project-overall-performance-by-id/:projectId",projectRouter)
+            
+            app.put("/edit-project-by-id/:projectId",projectRouter)
+
             app.post("/add-new-member-by-project-id/:projectId",projectRouter)
             app.post("/add-new-task-by-project-id/:projectId",projectRouter)
-            app.put("/edit-project-by-id/:projectId",projectRouter)
-            app.delete("/remove-member-from-project-by-id/:projectId",projectRouter)
+            app.post("/add-media-to-project/:projectId",projectRouter)
+            app.post("/add-comment-to-project-by-id/:projectId",projectRouter)
+
             app.delete("/delete-project-by-id/:projectId",projectRouter)
             app.delete('/delete-all-projects',projectRouter)
-            app.post("/add-media-to-project/:projectId",projectRouter)
+            app.delete("/remove-member-from-project-by-id/:projectId",projectRouter)
 
 
-            // TASK REQUESTS
+            // TASK REQUESTS---------------------------------------------------------
             app.get("/get-all-tasks", taskRouter);
             app.get("/get-task-by-id/:taskId", taskRouter);
+
             app.put("/edit-task-by-id/:taskId",taskRouter);
             app.put("/change-task-status-by-id/:taskId",taskRouter)
-            app.post("/add-comment-by-id/:taskId",taskRouter)
+            
+            app.post("/add-media-to-task/:taskId",taskRouter)
+            app.post("/add-comment-to-task-by-id/:taskId",taskRouter)
+
             app.delete("/delete-task-by-id/:taskId",taskRouter)
             app.delete('/delete-all-tasks',taskRouter)
-            app.post("/add-media-to-task/:taskId",taskRouter)
+
 
 
 

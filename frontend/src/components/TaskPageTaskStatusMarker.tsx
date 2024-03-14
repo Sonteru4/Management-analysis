@@ -1,10 +1,9 @@
 import { Comment, Done, DonutLarge, Edit, Replay } from "@mui/icons-material";
 import React, { useEffect, useRef, useState } from "react";
 import { colors } from "../Constants";
-import { taskComments } from "../data/data";
 import ErrorBox from "../common/ErrorBox";
 import NoDataMessage from "../common/NoDataMessage";
-import { addCommentById } from "../services/taskServices";
+import {addCommentToTaskById } from "../services/taskServices";
 import moment from "moment";
 
 function TaskPageTaskStatusMarker(props: any) {
@@ -52,7 +51,7 @@ function TaskPageTaskStatusMarker(props: any) {
     setPostCommentStatus("post-loading");
     if (validateBeforeSubmit()) {
       console.log("Perform Comment Posting logic");
-      await addCommentById(activeTask?._id, taskCommentFormData)
+      await addCommentToTaskById(activeTask?._id, taskCommentFormData)
         .then((res: any) => {
           console.log("(INREACT) ADD COMMENT RESULT :", res);
           if (res.addStatus) {
@@ -170,6 +169,8 @@ function TaskPageTaskStatusMarker(props: any) {
           </div>
           {error ? <ErrorBox message={error} /> : null}
         </div>
+
+        
         {activeTask?.assignedTo._id === myProfiledata?._id ? (
           <div className="flex flex-col pb-5 mt-2 md:mt-4 md:pb-0">
             <div className=" text-C11 text-[12px] font-bold  w-fit py-1 flex flex-row gap-1 items-center ">
