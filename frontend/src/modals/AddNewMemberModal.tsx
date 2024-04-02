@@ -30,6 +30,7 @@ function AddNewMemberModal(props: any) {
 
   useEffect(()=>{
     if(allUsers.length===0){
+      setLoading(true)
       getUsers()
     }
   },[])
@@ -85,8 +86,6 @@ function AddNewMemberModal(props: any) {
         setAddNewMemberStatus("add-failure")
       })
 
-
-
       setAddMemberFormData(emptyState)
       // setAddNewTaskFormData(emptyState);
     } else {
@@ -112,6 +111,11 @@ function AddNewMemberModal(props: any) {
         {
           addNewMemberStatus==="not-added"?
         <div className="my-4 text-[14px] flex flex-row gap-2 ">
+          {
+          loading?
+          <div className="flex justify-center  mx-auto text-[16px] font-light ">
+          <div>Loading All Users...</div>
+          </div>:
           <div className="flex flex-col w-full gap-1 mt-2">
             <div className=" text-C11 text-[10px] font-bold  w-fit  select-none">
               Choose a member
@@ -133,6 +137,8 @@ function AddNewMemberModal(props: any) {
               ))}
             </select>
           </div>
+
+          }
         </div>:
         addNewMemberStatus==="add-loading"?
         <div className="flex justify-center text-[16px] font-light ">

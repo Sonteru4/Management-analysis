@@ -51,6 +51,10 @@ connectToDatabase().then(()=>{
             app.delete("/delete-project-by-id/:projectId",projectRouter)
             app.delete('/delete-all-projects',projectRouter)
             app.delete("/remove-member-from-project-by-id/:projectId",projectRouter)
+            app.delete("/remove-media-from-project/:projectId",projectRouter)
+
+
+            
 
 
             // TASK REQUESTS---------------------------------------------------------
@@ -64,6 +68,8 @@ connectToDatabase().then(()=>{
             app.post("/add-comment-to-task-by-id/:taskId",taskRouter)
 
             app.delete("/delete-task-by-id/:taskId",taskRouter)
+            app.delete("/remove-media-from-task/:tasktId",taskRouter)
+
             app.delete('/delete-all-tasks',taskRouter)
 
 

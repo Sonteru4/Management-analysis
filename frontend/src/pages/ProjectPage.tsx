@@ -30,6 +30,7 @@ import { colors } from "../Constants";
 import NoDataMessage from "../common/NoDataMessage";
 import moment from "moment";
 import ProjectPageDiscussion from "../components/ProjectPageDiscussion";
+import APIResponseStatus from "../common/APIResponseStatus";
 
 
 function ProjectPage() {
@@ -50,7 +51,8 @@ function ProjectPage() {
   const [myTasks,setMytasks] = useState<any>([])
   const [pendingTasks,setPendingTasks] = useState<any>([])
   const [completedTasks,setCompletedTasks] = useState<any>([])
-  const [postCommentStatus, setPostCommentStatus] = useState<string>("not-posted");
+  const [networkError,setNetworkError] = useState<Boolean>(false)
+  const [pageLoading, setPageLoading] = useState<any>("not-loaded")
 
   const myProfiledata = useSelector(
     (state: any) => state.authReducer.myUserProfile
@@ -92,10 +94,20 @@ function ProjectPage() {
   };
 
   const getProjectData=async(projectId:any)=>{
-    const tempOBJ = await getProjectById(projectId)
-    console.log("in PROJECTPAGE RETURNED PROJECT ",tempOBJ);
-    setActiveProject(tempOBJ)
-    // dispatch(projectActions.setActiveProjectAction(tempOBJ))
+    await getProjectById(projectId).then((res:any)=>{
+      console.log("in TASKPAGE RETURNED TASK ",res.code);
+      if(res.code==="ERR_NETWORK"){
+        setNetworkError(true)
+        console.log("NETWORK ERROR ")
+        setPageLoading("error")
+      }
+      else{
+        setPageLoading("loaded")
+        setActiveProject(res)
+      }
+    }).catch((err:any)=>{
+      console.log(err)
+    })
   }
 
   useEffect(()=>{
@@ -131,13 +143,24 @@ useEffect(() => {
 }, []);
 
 const getMyProfileData =async(myUserId:any)=>{
-  const tempOBJ = await getUserById(myUserId)
-  console.log("in DAHBOARD FUNCTION: ",tempOBJ);
-  dispatch(authActions.loginAction(tempOBJ))
+  await getUserById(myUserId).then((res:any)=>{
+    console.log("in DAHBOARD FUNCTION: ",res);
+    if(res.code==="ERR_NETWORK"){
+      setNetworkError(true)
+      console.log("NETWORK ERROR ") 
+    }else{
 
+      dispatch(authActions.loginAction(res))
+    }
+  }).catch((err:any)=>{
+    setNetworkError(true)
+    console.log("NETWORK ERROR ",err) 
+  })
 }
 
   return (
+    <>{
+      pageLoading==="loaded"?
     <div className="flex flex-col md:flex-row h-[100vh] text-C11 relative">
       <TopBar
         activePage="projectpage"
@@ -147,8 +170,6 @@ const getMyProfileData =async(myUserId:any)=>{
       setUserProfileModal={setUserProfileModal}
       activePage="project-page"
       />
-      {
-        activeProject?._id?
       <div className=" py-10 px-5 sm:px-10 flex-1 pt-20 max-h-[100vh] overflow-y-auto">
         {/* Project Info */}
         <ProjectPageProjectInfo
@@ -201,14 +222,7 @@ const getMyProfileData =async(myUserId:any)=>{
         </div>
         }
 
-      </div>:
-      <div className="flex items-center justify-center flex-1 w-full">
-      <div className="flex justify-center mt-[100px] text-[16px] font-light ">
-        <div>Accumulating Project Details...</div>
       </div>
-      </div>
-
-      }
 
     {/*--- Active Modals ----*/}
      { 
@@ -224,6 +238,7 @@ const getMyProfileData =async(myUserId:any)=>{
       // View all tasks of the project modal 
       viewAllTaskModal?
       <ViewAllTaskModal
+
       activeProject={activeProject} 
       setViewAllTaskModal = {setViewAllTaskModal} 
       triggerRerender={triggerRerender}
@@ -268,6 +283,9 @@ const getMyProfileData =async(myUserId:any)=>{
      {
       viewMediaModal.isOpen?
           <ViewMediaModal
+          type="project"
+          triggerRerender={triggerRerender}
+          activeProject={activeProject}
           mediaData={viewMediaModal.mediaData}
           setViewMediaModal={setViewMediaModal}
 
@@ -311,6 +329,20 @@ const getMyProfileData =async(myUserId:any)=>{
 
  
     </div>
+    :pageLoading==="not-loaded"?
+      <div className="flex items-center justify-center flex-1 w-full h-[100vh]">
+      <div className="flex justify-center  text-[16px] font-light ">
+       <div>Accumulating Project Details...</div>
+      </div>
+  </div>:
+  <div className="flex items-center justify-center flex-1 w-full h-[100vh]">
+  <APIResponseStatus status={false} message={`${networkError?"Network Error":"An Error Occured"}`}/>
+  </div>
+
+
+    }
+    
+    </>
   );
 }
 

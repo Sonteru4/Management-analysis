@@ -21,6 +21,7 @@ import * as authActions from "../redux/actions/authActions"
 import { getTaskById } from "../services/taskServices";
 import TopBar from "../components/TopBar";
 import ChangeStatusModal from "../modals/ChangeStatusModal";
+import APIResponseStatus from "../common/APIResponseStatus";
 
 
 function TaskPage() {
@@ -33,6 +34,8 @@ function TaskPage() {
   const [taskStatusModal,setTaskStatusModal] = useState<Boolean>(false)
   const [activeTask,setActiveTask]= useState<any>({})
   const [rerender, setRerender] = useState<Boolean>(false)
+  const [networkError,setNetworkError] = useState<Boolean>(false)
+  const [pageLoading, setPageLoading] = useState<any>("not-loaded")
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -54,9 +57,19 @@ function TaskPage() {
     }
   }, []);
   const getMyProfileData =async(myUserId:any)=>{
-    const tempOBJ = await getUserById(myUserId)
-    console.log("in DAHBOARD FUNCTION: ",tempOBJ);
-    dispatch(authActions.loginAction(tempOBJ))
+    await getUserById(myUserId).then((res:any)=>{
+      console.log("in DAHBOARD FUNCTION: ",res);
+      if(res.code==="ERR_NETWORK"){
+        setNetworkError(true)
+        console.log("NETWORK ERROR ") 
+      }else{
+
+        dispatch(authActions.loginAction(res))
+      }
+    }).catch((err:any)=>{
+      setNetworkError(true)
+      console.log("NETWORK ERROR ",err) 
+    })
 }
     
   const myProfiledata = useSelector(
@@ -78,9 +91,20 @@ function TaskPage() {
   }, [rerender]);
 
   const getTaskData=async(taskId:any)=>{
-    const tempOBJ = await getTaskById(taskId)
-    console.log("in TASKPAGE RETURNED TASK ",tempOBJ);
-    setActiveTask(tempOBJ)
+    await getTaskById(taskId).then((res:any)=>{
+      console.log("in TASKPAGE RETURNED TASK ",res.code);
+      if(res.code==="ERR_NETWORK"){
+        setNetworkError(true)
+        console.log("NETWORK ERROR ")
+        setPageLoading("error")
+      }
+      else{
+        setPageLoading("loaded")
+        setActiveTask(res)
+      }
+    }).catch((err:any)=>{
+      console.log(err)
+    })
   }
 
   const triggerRerender = () => {
@@ -90,6 +114,9 @@ function TaskPage() {
 
   return (
     <>
+    {
+      pageLoading==="loaded"?
+      <>
       <div className="flex flex-col md:flex-row h-[100vh] text-C11 relative">
       <TopBar
         activePage="projectpage"
@@ -99,8 +126,7 @@ function TaskPage() {
       activePage="task-page"
       setUserProfileModal={setUserProfileModal}
       />
-      {
-        activeTask?._id?
+    
         <div className="py-10 px-5 sm:px-10 flex-col md:flex-row flex flex-1 pt-20 max-h-[100vh] overflow-y-auto  gap-2 ">
           {/* Task Info */}
           <div className="flex flex-col w-full md:max-w-[50%] lg:max-w-[60%] h-fit">
@@ -133,15 +159,7 @@ function TaskPage() {
           </div>:null
         }
 
-        </div>:
-        <div className="flex items-center justify-center flex-1 w-full">
-            <div className="flex justify-center mt-[100px] text-[16px] font-light ">
-             <div>Accumulating Task Details...</div>
-            </div>
         </div>
-
-      }
-
         {/*--- Active modals--- */}
         {
           // User Profile Modal
@@ -163,6 +181,9 @@ function TaskPage() {
         {
           viewMediaModal.isOpen?
           <ViewMediaModal
+          type="task"
+          activeTask={activeTask}
+          triggerRerender={triggerRerender}
           mediaData={viewMediaModal.mediaData}
           setViewMediaModal={setViewMediaModal}
 
@@ -200,6 +221,18 @@ function TaskPage() {
       }
 
       </div>
+
+      </>
+      :pageLoading==="not-loaded"?
+      <div className="flex items-center justify-center flex-1 w-full h-[100vh]">
+      <div className="flex justify-center  text-[16px] font-light ">
+       <div>Accumulating Task Details...</div>
+      </div>
+  </div>:
+  <div className="flex items-center justify-center flex-1 w-full h-[100vh]">
+  <APIResponseStatus status={false} message={`${networkError?"Network Error":"An Error Occured"}`}/>
+  </div>
+    }
     </>
   );
 }

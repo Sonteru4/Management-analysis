@@ -251,14 +251,14 @@ exports.remove_media_from_task = async(req,res)=>{
   // this should remove the media that particular task  has from its database as well as from cloudinary
   try {
     const taskId = req.params.taskId;
-    const mediaURLToRemove = req.data; // Assuming you send the media URL as a parameter
+    const mediaURLToRemove = req.body.mediaURL; // Assuming you send the media URL as a parameter
   
     console.log("MEDIA URL TO REMOVE  :",mediaURLToRemove)
   
     // Check if the task exists
     const task = await Task.findById(taskId);
     if (!task) {
-      return res.status(404).json({ error: 'Task not found', status: false });
+      return res.status(404).json({ error: 'Task not found', deleteStatus: false });
     }
   
     // Find the index of the media item to remove
@@ -268,18 +268,18 @@ exports.remove_media_from_task = async(req,res)=>{
     if (mediaIndex !== -1) {
       task.attachedMediaURLSet.splice(mediaIndex, 1);
     } else {
-      return res.status(404).json({ error: 'Media not found in task', status: false });
+      return res.status(404).json({ error: 'Media not found in task',  deleteStatus: false });
     }
   
     // Save the updated task
     await task.save();
   
     // Respond with success or any relevant information
-    res.status(200).json({ message: 'Media removed from task successfully', status: true });
+    res.status(200).json({ message: 'Media removed from task successfully',  deleteStatus: true });
   } catch (error) {
     console.error(error);
     // Handle any internal server error
-    res.status(500).json({ error: 'Internal Server Error', status: false });
+    res.status(500).json({ error: 'Internal Server Error',  deleteStatus: false });
   }
 }
   

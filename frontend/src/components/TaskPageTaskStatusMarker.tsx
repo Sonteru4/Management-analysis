@@ -106,7 +106,7 @@ function TaskPageTaskStatusMarker(props: any) {
                     </div>
                     <div className="flex items-center justify-end ">
                       {/* <Person sx={{ fontSize: 10, color: colors.C22 }} /> */}
-                      <div className="break-words text-C11">
+                      <div className="break-words text-C11 bg-gray-200 px-[4px] rounded-[2px]">
                         {node?.messageContent}
                       </div>
                     </div>
@@ -125,7 +125,7 @@ function TaskPageTaskStatusMarker(props: any) {
                     </div>
                     <div className="flex items-center ">
                       {/* <Person sx={{ fontSize: 10, color: colors.C22 }} /> */}
-                      <div className="break-words text-C11">
+                      <div className="break-words text-C11 bg-gray-200 px-[4px] rounded-[2px]">
                         {node?.messageContent}
                       </div>
                     </div>
@@ -183,7 +183,7 @@ function TaskPageTaskStatusMarker(props: any) {
             >
               <span>{`${
                 activeTask?.taskStatus === "In Progress"
-                  ? "Mark As Completed"
+                  ? "Mark as Complete"
                   : "Mark as In Progress"
               }`}</span>
               {activeTask?.taskStatus === "In Progress" ? <Done /> : <Replay />}

@@ -476,13 +476,14 @@ exports.add_comment_by_project_id= async(req,res)=>{
 exports.remove_media_from_project = async(req,res)=>{
 // this should remove the media that particular project  has from its database as well as from cloudinary
 try {
+  console.log(req)
   const projectId = req.params.projectId;
-  const mediaURLToRemove = req.data; // Assuming you send the media URL as a parameter
+  const mediaURLToRemove = req.body.mediaURL; // Assuming you send the media URL as a parameter
 
   console.log("MEDIA URL TO REMOVE  :",mediaURLToRemove)
 
   // Check if the task exists
-  const project = await Task.findById(projectId);
+  const project = await Project.findById(projectId);
   if (!project) {
     return res.status(404).json({ error: 'Project not found', deleteStatus: false });
   }

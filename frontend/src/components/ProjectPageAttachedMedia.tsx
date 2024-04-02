@@ -32,7 +32,7 @@ function ProjectPageAttachedMedia(props:any) {
                     <Tooltip title="View" placement='top' arrow key={node.mediaURL}>
                       <div 
                       onClick={()=>setViewMediaModal({[`isOpen`]:true,[`mediaData`]:node})}
-                      className='flex flex-row p-2 pr-4 md:justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11' 
+                      className='flex flex-row p-2 pr-4 md:justify-center items-center  bg-C44 gap-2 hover:bg-[#ededed] cursor-pointer border-b-2 border-transparent hover:border-C11 rounded-[2px]' 
                       >
                           <div className='hidden md:flex'>
                               {node.mediaType===".txt"?

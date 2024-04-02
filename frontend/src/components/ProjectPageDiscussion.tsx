@@ -88,7 +88,7 @@ function ProjectPageDiscussion(props:any) {
 
 
   return (
-    <div className="flex flex-col  w-full lg:w-1/2 ">
+    <div className="flex flex-col w-full lg:w-1/2 ">
     <div className="">
       <div className="text-C11 text-[12px] font-semibold p-1 flex flex-row gap-2 items-center">
         <Comment sx={{ fontSize: 20, color: colors.C11 }} />
@@ -131,7 +131,7 @@ function ProjectPageDiscussion(props:any) {
                 </div>
                 <div className="flex items-center ">
                   {/* <Person sx={{ fontSize: 10, color: colors.C22 }} /> */}
-                  <div className="break-words text-C11">
+                  <div className="break-words text-C11 bg-gray-200 px-[4px] rounded-[2px]">
                     {node?.messageContent}
                   </div>
                 </div>

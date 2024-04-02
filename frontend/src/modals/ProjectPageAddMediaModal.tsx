@@ -139,7 +139,8 @@ function ProjectPageAddMediaModal(props: any) {
           {
             !loading?
           <button
-            className="bg-C44 flex flex-col gap-2 items-center text-inactiveC11 transition-colors duration-[0.5s] justify-center border-inactiveC11 border-2 hover:bg-C44 rounded-[8px]  hover:text-gray-400 font-bold text-[12px] py-2 px-5 cursor-pointer w-full min-h-[100px]"
+          disabled={loading?true:false}
+            className={`${loading?"cursor-not-allowed":"cursor-pointer"} bg-C44 flex flex-col gap-2 items-center text-inactiveC11 transition-colors duration-[0.5s] justify-center border-inactiveC11 border-2 hover:bg-C44 rounded-[8px]  hover:text-gray-400 font-bold text-[12px] py-2 px-5 cursor-pointer w-full min-h-[100px]`}
             onClick={() => {
               fileInputRef.current.click();
             }} // Trigger file input click on button click
@@ -191,16 +192,18 @@ function ProjectPageAddMediaModal(props: any) {
 
         <div className="flex justify-end gap-4 mt-2">
           <button
-            className={` hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
+            disabled={loading?true:false}
+            className={`${loading?"cursor-not-allowed":"cursor-pointer"} hover:bg-[#012b3927] rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}
             onClick={handleModalClose}
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className={`bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}
+            disabled={loading?true:false}
+            className={`${loading?"cursor-not-allowed":"cursor-pointer"} bg-[#012b39f2] hover:bg-[#012B39] rounded-[8px] text-white font-bold text-[12px] py-2 px-5`}
           >
-            Save
+            Upload
           </button>
         </div>
       </div>

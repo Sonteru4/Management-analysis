@@ -64,7 +64,9 @@ function DeleteTaskConfirmationModal(props:any) {
           deleteTaskStatus==="not-deleted"?
           <>
         <button className={` bg-inactiveC11 rounded-[8px] text-C11 font-bold text-[12px] py-2 px-5`}  onClick={handleModalClose}>Not Sure</button>
-        <button className={`hover:bg-inactiveRed rounded-[8px] text-highPriority font-bold text-[12px] py-2 px-5`} onClick={handleDelete}>Delete</button>
+        <button
+         className={`hover:bg-inactiveRed rounded-[8px] text-highPriority font-bold text-[12px] py-2 px-5`} 
+         onClick={handleDelete}>Delete</button>
           </>:
            deleteTaskStatus==="delete-loading"?
            <div className="flex justify-center text-[16px] font-light mx-auto ">

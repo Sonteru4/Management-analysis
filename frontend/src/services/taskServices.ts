@@ -8,6 +8,7 @@ export const getTaskById =async(taskId:any)=>{
         taskData = res.data
     }).catch((err:any)=>{
         console.log("(inservice)ERROR TO GET TASK BY ID : ",err)
+        taskData=err
     })
     return taskData
 }
@@ -71,9 +72,9 @@ export const  addMediaToTask = async(taskId:string,mediaDataArray:any)=>{
     return mediaUploadResult
 }
 
-export const  deleteMediaToTask = async(projectId:string,mediaURL:any)=>{
+export const  deleteMediaFromTask = async(taskId:string,mediaURL:any)=>{
     let mediaDeleteResult
-    await axios.delete(`${ENV}/remove-media-from-task/${projectId}`,{data:mediaURL}).then((res:any)=>{
+    await axios.delete(`${ENV}/remove-media-from-task/${taskId}`,{data:{mediaURL}}).then((res:any)=>{
         mediaDeleteResult = res.data
         console.log("(INSERVICE) DELETE MEDIA RESPONSE",res)
     }).catch((err:any)=>{

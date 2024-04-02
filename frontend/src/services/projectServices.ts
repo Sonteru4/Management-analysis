@@ -18,6 +18,7 @@ export const getProjectById = async(projectId:any)=>{
         console.log("(inservice) GET PROJECT BY ID RESULT: ",res.data)
         projectData = res.data
     }).catch((err:any)=>{
+        projectData=err
         console.log("ERROR TO GET PROJECT BY ID : ",err)
     })
     return projectData
@@ -107,9 +108,10 @@ export const  addMediaToProject = async(projectId:string,mediaDataArray:any)=>{
     return mediaUploadResult
 }
 
-export const  deleteMediaToProject = async(projectId:string,mediaURL:any)=>{
+export const  deleteMediaFromProject = async(projectId:string,mediaURL:any)=>{
     let mediaDeleteResult
-    await axios.delete(`${ENV}/remove-media-to-project/${projectId}`,{data:mediaURL}).then((res:any)=>{
+    console.log("DELETE MEDIA PROJECT ID and URL : ",projectId,"  ",mediaURL)
+    await axios.delete(`${ENV}/remove-media-from-project/${projectId}`,{data:{mediaURL}}).then((res:any)=>{
         mediaDeleteResult = res.data
         console.log("(INSERVICE) DELETE MEDIA RESPONSE",res)
     }).catch((err:any)=>{

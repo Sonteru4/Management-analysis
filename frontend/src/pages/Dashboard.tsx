@@ -25,19 +25,19 @@
   import { getUserDetailsFromToken } from "../services/authServices";
   import { useNavigate } from "react-router";
 import TopBar from "../components/TopBar";
+import APIResponseStatus from "../common/APIResponseStatus";
 
   function Dashboard() {
     document.title = "TMS • Dashboard";
-    const [createNewProjectModal, setCreateNewProjectModal] =
-      useState<Boolean>(false);
-    const [overallPerformaceModal, setOverallPerformanceModal] =
-      useState<Boolean>(false);
+    const [createNewProjectModal, setCreateNewProjectModal] =useState<Boolean>(false);
+    const [overallPerformaceModal, setOverallPerformanceModal] =useState<Boolean>(false);
     const [userProfileModal, setUserProfileModal] = useState<Boolean>(false);
     const [logoutModal, setLogoutModal] = useState<Boolean>(false);
     const [rerender, setRerender] = useState(false);
-
     const [pendingTasks,setPendingTasks]= useState<any>([])
     const [completedTasks,setCompletedTasks]= useState<any>([])
+    const [networkError,setNetworkError] = useState<Boolean>(false)
+    const [pageLoading, setPageLoading] = useState<any>("not-loaded")
 
     const myProfiledata = useSelector(
       (state: any) => state.authReducer.myUserProfile
@@ -59,9 +59,20 @@ import TopBar from "../components/TopBar";
     }, [rerender]);
     
     const getMyProfileData =async(myUserId:any)=>{
-      const tempOBJ = await getUserById(myUserId)
-      console.log("in DAHBOARD FUNCTION: ",tempOBJ);
-      dispatch(authActions.loginAction(tempOBJ))
+      await getUserById(myUserId).then((res:any)=>{
+        console.log("in TASKPAGE RETURNED TASK ",res.code);
+        if(res.code==="ERR_NETWORK"){
+          setNetworkError(true)
+          console.log("NETWORK ERROR ")
+          setPageLoading("error")
+        }
+        else{
+          setPageLoading("loaded")
+          dispatch(authActions.loginAction(res))
+        }
+      }).catch((err:any)=>{
+        console.log(err)
+      })
   }
 
   useEffect(()=>{
@@ -88,7 +99,7 @@ import TopBar from "../components/TopBar";
 
     return (
       <>
-        {myProfiledata ? (
+        {pageLoading==="loaded" ? 
           <>
             <div className="flex flex-col md:flex-row h-[100vh] text-C11 relative">
               <TopBar
@@ -180,14 +191,16 @@ import TopBar from "../components/TopBar";
               ) : null}
             </div>
           </>
-        ) :
+         :pageLoading==="not-loaded"?
         <div className="w-[100vw] h-[100vh] flex justify-center items-center">
-
         <div className="flex justify-center text-[16px] font-light ">
               <div>Setting Up Dashboard...</div>
             </div>
-        </div> 
-        }
+        </div>:
+          <div className="flex items-center justify-center flex-1 w-full h-[100vh]">
+          <APIResponseStatus status={false} message={`${networkError?"Network Error":"An Error Occured"}`}/>
+          </div> 
+         }
       </>
     );
   }
