@@ -20,3 +20,26 @@ The Team Management System is a web-based application designed to streamline tea
 5. Collaborate using discussion boards.
 6. Monitor project progress on the analytics dashboard.
 
+## Screenshots
+
+!Dashboard
+!Task Management
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/my-feature`.
+3. Commit your changes: `git commit -m "Add my feature"`.
+4. Push to the branch: `git push origin feature/my-feature`.
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+Feel free to customize this template according to your project's specifics. Good luck with your team management system! 😊
+
