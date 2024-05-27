@@ -11,3 +11,12 @@ The Team Management System is a web-based application designed to streamline tea
 - **Analytics Dashboard**: Visualize project progress and team performance.
 
 
+## Usage
+
+1. Register an account or log in.
+2. Create a new project.
+3. Add team members to the project.
+4. Assign tasks and set deadlines.
+5. Collaborate using discussion boards.
+6. Monitor project progress on the analytics dashboard.
+
