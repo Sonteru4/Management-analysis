@@ -1,0 +1,44 @@
+To display the tasks associated with the current user in the "My Tasks" section of your project page, you need to follow these steps:
+
+Identify the Current User:
+
+Ensure that you have access to the current user's information (probably stored in the Redux state or obtained from your authentication system).
+Filter Tasks by User:
+
+In your component that renders "My Tasks," filter the tasks based on the current user. You can filter tasks from the project's allTasks array, which might include all tasks for the project.
+javascript
+Copy code
+// Assuming you have access to the current user's information
+const currentUserTasks = activeProject.allTasks.filter((task) => task.assignedUserId === currentUser._id);
+Here, assignedUserId is the field in your task schema that represents the user to whom the task is assigned.
+
+Display Completed and Pending Tasks:
+
+You can further filter currentUserTasks into completed and pending tasks based on the taskStatus property.
+javascript
+Copy code
+const completedTasks = currentUserTasks.filter((task) => task.taskStatus === 'Completed');
+const pendingTasks = currentUserTasks.filter((task) => task.taskStatus !== 'Completed');
+Render the Tasks:
+
+Render the completed and pending tasks in your component.
+javascript
+Copy code
+<div>
+  <h2>Completed Tasks</h2>
+  <ul>
+    {completedTasks.map((task) => (
+      <li key={task._id}>{task.taskTitle}</li>
+    ))}
+  </ul>
+
+  <h2>Pending Tasks</h2>
+  <ul>
+    {pendingTasks.map((task) => (
+      <li key={task._id}>{task.taskTitle}</li>
+    ))}
+  </ul>
+</div>
+Adjust the code based on your actual data structure and UI components.
+
+Ensure that your task schema includes the assignedUserId and taskStatus fields (or equivalent fields) to facilitate filtering. Adjust the code as needed based on your specific implementation.

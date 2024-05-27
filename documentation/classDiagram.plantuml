@@ -1,0 +1,69 @@
+@startuml TeamManagementSoftware
+
+class ProjectManagementSystem {
+  + authenticateUser(username: String, password: String): User
+}
+
+class User {
+  - userId: String
+  - username: String
+  - password: String
+  - firstName: String
+  - lastName: String
+  - role: UserRole
+  - projects: Set<Project>
+  - tasks: Set<Task>
+  + login(): 
+  - loginStatus:boolean
+  + createProject(projectDetails: ProjectDetails): Project
+  + addTaskToProject(project: Project, taskDetails: TaskDetails): Task
+  + updateTaskStatus(task: Task, newStatus: String): void
+}
+
+class ProjectDetails {
+  - projectId: String
+  - projectName: String
+  - projectDescription: String
+  - createdtDate: Date
+  - endDate: Date
+  - projectMembers:User[]
+}
+
+class Project {
+  - projectId: String
+  - projectName: String
+  - projectDescription: String
+  - createdDate: Date
+  - projectManager: User
+  - tasks: Set<Task>
+  - endDate: Date
+  + addTask(taskDetails: TaskDetails): Task
+  + deleteTask(taskId:Task)
+  + updateTaskDetails(taskDetails:TaskDetails)
+}
+
+class TaskDetails {
+  - taskId: String
+  - taskName: String
+  - taskDescription: String
+  - assignedUser: User
+  - assignedDate: Date 
+  - deadLine:Date 
+}
+
+class Task {
+  - taskId: String
+  - taskName: String
+  - taskStatus : TaskStatusEnum
+  - taskDescription: String
+  - assignedUser: User
+  - startDate: Date
+  - endDate: Date
+  + updateTaskStatus(newStatus: String): void
+}
+
+ProjectManagementSystem --|> User : +authenticateUser(username: String, password: String): User
+User --|> Project : +createProject(projectDetails: ProjectDetails): Project
+User --|> Task : +addTask(taskDetails: TaskDetails): Task
+
+@enduml

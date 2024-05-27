@@ -1,0 +1,54 @@
+Login Page
+In the login page username or email and password is taken and logged into to the user dashboard. 
+
+Register Page
+In the register page FirstName,LastName,Username,Gender,DateofBirth,Email,Password, and confirm Pasword are taken and a user is registered.
+
+Dashboard Page:
+the dashboard will have the following :
+Name of the logged in User
+Overall Performance of the user 
+The Pending tasks for that particular user 
+the completed Tasks of that particular user
+All My projects of that user(the projects in which the user is the project manager)
+the ability to add a new project or start a new project.
+All Involved Projects (the projects in which the user is part ofand not the project mananger)
+Userprofile : This page can be accessed from the Dashboard by clicking on "My Profile" button.
+API Endpoint: POST /projects/create
+API Endpoint: PUT /user/update-profile/:userId
+
+
+Project Page:
+it shows the project name ,project description,project manager,startdate,projectStatus,View all tasks,Add a new task to project,
+all tasks of that particular user in that project ,All project members list,Attached media list for the project ,overall performace of the project
+add new task
+API Endpoint: POST /tasks/create-task-in-project/:projectId
+add member to project
+API Endpoint: POST /projects/add-member/:projectId
+remove member from project
+API Endpoint: DELETE /projects/remove-member/:projectId/:userId
+edit project  details
+API Endpoint:PUT /projects/edit-details/:projectId
+delete project
+API Endpoint: DELETE /projects/remove-project/:projectId
+
+
+task page :
+it shows the task title ,task description,task details,edit task option to change ll this properties,comment section for the task
+inputbox to add new comment ,button to mark this task as completed or change the task status,
+attached media list 
+API Endpoint: PUT /tasks/edit/:taskId
+API Endpoint: POST /tasks/add-comment/:taskId
+API Endpoint: PUT /tasks/mark-completed/:taskId
+
+
+https://ilyasschadli-dev.medium.com/how-to-upload-files-to-cloudinary-with-nodejs-mongodb-9683ec205fe3
+
+To upload files to Cloudinary with NodeJS & MongoDB you need to install cloudinary package
+
+
+
+
+varunn-varun@123
+vishnuk - vishnu@123
+georgem-george@123
